@@ -1,6 +1,6 @@
 # LittleSun-Project 🌻
 
-# Team: Milana Charlotte & Faheer 
+# Team: Milana, Charlotte & Faheer 
 
 # For the Little Sun project in Zambia, we need to build a web based application that would allow the organization to organize work in their centers. We will come up with a solution that allows managers to create work schedules and plan shifts for workers in a user friendly way.
 
