@@ -14,8 +14,12 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
 
-
+.login-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-screen-image{
