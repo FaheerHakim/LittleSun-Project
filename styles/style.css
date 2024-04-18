@@ -1,6 +1,7 @@
 body{
     margin: 0;
     height: 100vh;
+    font-family: 'Mulish', sans-serif;
 }
 
 .login-screen{
@@ -24,4 +25,36 @@ body{
 
 .login-screen-image{
     width: 70%;
+}
+
+form{
+    display: grid;
+}
+
+select{
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+input{
+    padding: 14px 9px; 
+    margin: 10px 0;
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    width: -webkit-fill-available;
+    background-color: #F8F8F8;
+}
+
+button{
+    padding: 14px 9px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #0067FF;
+    color: white;
+    cursor: pointer;
 }
