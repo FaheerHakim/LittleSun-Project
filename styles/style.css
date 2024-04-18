@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+    height: 100vh;
+}
+
+.login-screen{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+}
+
+.login-left{
+    background-color: #F4F9FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.login-screen-image{
+    width: 70%;
+}
