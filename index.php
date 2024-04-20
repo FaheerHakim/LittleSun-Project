@@ -1,3 +1,10 @@
+<?php 
+require_once __DIR__ . "/classes/Db.php"; // Include the Db class file
+
+$db = new Db(); // Instantiate the Db class
+$conn = $db->connect(); // Connect to the database
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,20 +1,17 @@
 <?php
 class Db {
-    private static $conn;
+    private $conn;
 
-    public static function connect(){
+    public function connect() {
+        $this->conn = null;
+
         try {
-            if(self::$conn == null){ 
-                self::$conn = new PDO("mysql:host=localhost;dbname=your_database_name", "your_username", "your_password");
-                self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo "Connected to database"; // Optional, for debugging
-            }
-            return self::$conn;
+            $this->conn = new PDO("mysql:host=localhost;dbname=little_sun", "root", "root");
+            echo "Connected to database";
         } catch(PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-            exit(); // Terminate script execution
+            echo 'Connection Error: ' . $e->getMessage();
         }
+
+        return $this->conn;
     }
 }
-
-
