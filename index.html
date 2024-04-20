@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little sun</title>
+    <title>Little sun login</title>
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,15 +16,8 @@
             <img class="login-screen-image" src="images/startpagina.png" alt="login">
         </div>
         <div class="login-right">
-            <div class="login-form
-            ">
+            <div class="login-form">
                 <h1>Login to your account</h1>
-                <select name="user-type" id="user-type">
-                    <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
-                    <option value="employee">Employee</option>
-                </select>
-
                 <form action="login.php" method="post">
                     <label for="email">Email</label>
                     <input type="email" name="email" placeholder="Email" required>
