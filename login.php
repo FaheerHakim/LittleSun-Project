@@ -1,28 +1,24 @@
 <?php
-	function canLogin($pEmail, $pPassword){
-		if($pEmail === "milana_is@hotmail.com" && $pPassword === "123"){
-			return true;
-		}	
-		else{
-			return false;
-		}
-	}
+session_start();
+require_once __DIR__ . "/classes/User.php";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-	if(!empty($_POST)){
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-		//var_dump($password);
-		if(canLogin($email, $password)){
-			$salt = "kjhfndjlksj!"; //random keys 
-			$cookieValue = $email . "," . md5($email.$salt); // maak de cookie uniek zodat een hacker het niet kan bereiken 
-			setcookie('loggedin', $cookieValue, time()+60*60*24*30); //maand //console - application - cookies - expires
-			header('Location: dashboard.php');
-		} else{
-			$error = true;
-		}
-	}
-?><!DOCTYPE html>
+    $user = new User();
+    $loggedInUser = $user->login($email, $password);
+
+    if ($loggedInUser) {
+        $_SESSION['user'] = $loggedInUser;
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        echo "Invalid email or password";
+    }
+}
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
