@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button type="submit" class="update-button">Save</button>
         
-        <button type="button" class="go-back-button" onclick="location.href='dashboard.php'">back</button>
+        <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
     </form>
 </body>
 </html>

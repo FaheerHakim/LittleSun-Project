@@ -179,10 +179,58 @@ function displayDashboard($user) {
             <div class="details">
                 <div class="recentLocations">
                     <div class="cardHeader">
-                        <h2>Recent Locations</h2>
-                        <a href="#" class="btn">Add Location</a>
+                        <h2> Locations</h2>
+                        <div class="edit-locations-style">
+                            <a href="add_location.php" class="btn">Add Location</a>
+                            <a href="edit_location.php" class="btn">Edit Location</a>
+                        </div>
                     </div>
+                    <table>
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
+                            </td>
+                            <td>
+                                <h4>Italy</h4>
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
+                            </td>
+                            <td>
+                                <h4>The Netherlands</h4>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
+                            </td>
+                            <td>
+                                <h4>Syria</h4>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
+                            </td>
+                            <td>
+                                <h4>Belgium</h4>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="60px">
+                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
+                            </td>
+                            <td>
+                                <h4>Belgium</h4>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <!--  New Managers  -->

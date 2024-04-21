@@ -123,54 +123,19 @@ form {
 </head>
 <body>
 
-<h1>Add Manager</h1>
+<h1>Add location</h1>
 
 <form action="add_manager.php" method="post" enctype="multipart/form-data">
     <div class="profile-picture" title="Profile Picture"></div>
     
     <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="first-name">First Name</label>
-        <input type="text" id="first-name" name="first_name" required>
-    </div>
-
-    <div class="form-group">
-        <label for="last-name">Last Name</label>
-        <input type="text" id="last-name" name="last_name" required>
-    </div>
-
-    
-    
-    <div class="form-group">
         <label for="location">Location</label>
-        <select id="location" name="location" required>
-            <option value="">Select location</option>
-            <option value="Duitsland">Duitsland</option>
-            <option value="Zambia">Zambia</option>
-            <option value="Kinshasa">Kinshasa</option>
-            <option value="België">België</option>
-            <option value="Portugal">Portugal</option>
-        </select>
+        <input type="location" id="location" name="location" >
     </div>
-    
-    <div class="form-group">
-        <label for="profile-picture">Upload Profile Picture</label>
-        <input type="file" id="profile-picture" name="profile_picture" accept="image/*">
-    </div>
-
-    <button type="submit" class="add-button">Add Manager</button>
-
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+    <button type="submit" class="add-button">Add location</button>
 </form>
+    
+    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 </html>
