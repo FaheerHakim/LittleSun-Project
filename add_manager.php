@@ -169,7 +169,7 @@ form {
 
     <button type="submit" class="add-button">Add Manager</button>
 
-    <button type="button" class="go-back-button" onclick=location: dashboard.php>Go Back</button>
+    <<a href="dashboard.php">Edit manager profile button type="button" class="go-back-button" onclick=location: dashboard.php>Go Back</a>
 </form>
 
 </body>

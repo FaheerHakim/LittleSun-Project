@@ -1,25 +1,11 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verzamelen van formuliergegevens
-    $first_name = htmlspecialchars($_POST["first_name"]);
-    $last_name = htmlspecialchars($_POST["last_name"]);
-    $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+  
     $password = !empty($_POST["password"]) ? password_hash($_POST["password"], PASSWORD_DEFAULT) : null; // alleen als wachtwoord wordt gewijzigd
-    $location = htmlspecialchars($_POST["location"]);
+    $Selectmanager = htmlspecialchars($_POST["Selectmanager"]);
 
-    // Profielafbeelding uploaden
-    $profile_picture = $_FILES["profile_picture"];
-    $upload_dir = "uploads/";
-    $upload_file = $upload_dir . basename($profile_picture["name"]);
 
-    if ($profile_picture["tmp_name"]) {
-        move_uploaded_file($profile_picture["tmp_name"], $upload_file);
-    }
-
-    // Database-update-logica hier, gebruik bijv. een unieke ID om de gebruiker te identificeren
-    // Bijvoorbeeld: UPDATE users SET ... WHERE user_id = ?
-
-    echo "Profiel bijgewerkt.";
 }
 ?>
 
@@ -68,18 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         width: 98%;
     }
 
-    .profile-picture {
-        display: block;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        border: 2px solid #3498db;
-        background-color: white;
-        background-size: cover;
-        background-position: center;
-        margin: 0 auto;
-    }
-
     .update-button {
         padding: 10px;
         background-color: #3498db; 
@@ -110,52 +84,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <h1>Edit manager profile</h1>
+    <h1>Reset manager password</h1>
     <form action="edit_profile.php" method="post" enctype="multipart/form-data">
-        <div class="profile-picture" title="Profielafbeelding"></div>
+      
         
-        <input type="hidden" name="user_id" value="<!-- plaats hier de user ID -->">
-        
-        <div class="form-group">
-            <label voor="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+    
 
         <div class="form-group">
-            <label voor="password">Password</label>
-            <input type="password" id="password" name="password">
-        </div>
-
-        <div class ="form-group">
-            <label voor="first-name">First name</label>
-            <input type="text" id="first-name" name="first_name" required>
-        </div>
-
-        <div class="form-group">
-            <label voor="last-name">Last name</label>
-            <input type="text" id="last-name" name="last_name" required>
-        </div>
-
-        <div class="form-group">
-            <label voor="location">Locatie</label>
+            <label voor="location">Select manager</label>
             <select id="location" name="location" required>
-                <option value="">Select location</option>
-                <option value="Duitsland">Duitsland</option>
-                <option value="Zambia">Zambia</option>
-                <option value="Kinshasa">Kinshasa</option>
-                <option value="België">België</option>
-                <option value="Portugal">Portugal</option>
+                <option value="">Select manager</option>
+                <option value="Charlotte">Charlotte</option>
+                <option value="Milana">Milana</option>
+                <option value="Dante">Dante</option>
+                <option value="Jonas">Jonas</option>
+               
             </select>
         </div>
-        
-        <div class="form-group">
-            <label voor="profile-picture">Upload profile picture</label>
-            <input type="file" id="profile-picture" name="profile_picture" accept="image/*">
-        </div>
 
-        <button type="submit" class="update-button">Save</button>
+        <div class="form-group">
+            <label voor="password">Reset Password</label>
+            <input type="password" id="password" name="password">
+        </div>
         
-        <button type="button" class="go-back-button" onclick="location.href='dashboard.php'">back</button>
+    
+
+        <button type="submit" class="update-button">Reset password</button>
+        
+        <button type="button" class="go-back-button" onclick="location.href='dashboard.php'">Go back</button>
     </form>
 </body>
 </html>
