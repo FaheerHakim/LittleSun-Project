@@ -1,10 +1,14 @@
 <?php
+session_start();
+require_once __DIR__ . "/classes/Manager.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
-    $first_name = htmlspecialchars($_POST["first_name"]);
-    $last_name = htmlspecialchars($_POST["last_name"]);
+
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Secure password hashing
+    $first_name = htmlspecialchars($_POST["first_name"]);
+    $last_name = htmlspecialchars($_POST["last_name"]);
     $location = htmlspecialchars($_POST["location"]);
 
     // Handle profile picture upload
@@ -17,7 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert data into a database or process it further
     // Database insertion logic (e.g., MySQL) could go here
+
+    $manager = new Manager();
+    $add_manager = $manager->add_manager($email, $password, $first_name, $last_name, $location);
 }
+
 ?>
 
 <!DOCTYPE html>
