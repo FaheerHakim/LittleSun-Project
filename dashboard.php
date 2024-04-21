@@ -51,7 +51,7 @@ function displayDashboard($user) {
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="dashboard.php">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon>
                         </span>
@@ -60,11 +60,19 @@ function displayDashboard($user) {
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="add_manager.php">
                         <span class="icon">
                             <ion-icon name="people-outline"></ion-icon>
                         </span>
-                        <span class="title">Managers</span>
+                        <span class="title">Add managers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="edit_manager.php">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Edit managers</span>
                     </a>
                 </li>
                 <li>
