@@ -39,5 +39,7 @@ function displayDashboard($user) {
     <?php displayDashboard($user); ?>
     <br>
     <a href="logout.php">Logout</a>
+    <a href="add_manager.php">Add manager</a>
+    <a href="edit_manager.php">Edit manager profile</a>
 </body>
 </html>
