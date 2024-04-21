@@ -1,16 +1,35 @@
 <?php
 session_start();
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data
-
-    $location = htmlspecialchars($_POST["location"]);
-
- 
+// Initialize locations array if not set
+if (!isset($_SESSION['locations'])) {
+    $_SESSION['locations'] = [];
 }
 
+// Check if deleting a location
+if (isset($_POST['delete_location'])) {
+    $location_to_delete = $_POST['delete_location'];
+    // Remove the location from the array
+    $_SESSION['locations'] = array_filter(
+        $_SESSION['locations'],
+        function($location) use ($location_to_delete) {
+            return $location !== $location_to_delete; // Keep only locations that don't match the one to delete
+        }
+    );
+}
+
+// Check if adding a new location
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["location"])) {
+    $new_location = htmlspecialchars($_POST["location"]);
+    if ($new_location) {
+        $_SESSION['locations'][] = $new_location;
+    }
+}
+
+// Get the current locations
+$existing_locations = $_SESSION['locations'];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +127,9 @@ form {
     background-color: #c0392b;
 }
 
-    </style>
+
+
+ </style>
 
 
 </head>
@@ -116,54 +137,36 @@ form {
 
 <h1>Add location</h1>
 
-<form action="add_location.php" method="post" enctype="multipart/form-data">
-    <div class="profile-picture" title="Profile Picture"></div>
-    
+<form action="" method="post">
     <div class="form-group">
-        <label for="location">Location</label>
-        <input type="location" id="location" name="location" >
-        <button type="submit" onclick="addLocation(this)" class="add-button">Add location</button>
-
-    </div>
-  
-
-    
-    <div class="form-group">
-        <label for="location">Existing location</label>
-        <div class="form-group-content">
-            <input type="text" name="location" id="location" value="Mechelen">
-            <button type="submit" class="add-button">Edit location</button>
-            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
-        </div>
-        <div class="form-group-content">
-            <input type="text" name="location" id="location" value="Antwerpen">
-            <button type="submit" class="add-button">Edit location</button>
-            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
-        </div>
+        <label for="location">New Location</label>
+        <input type="text" id="location" name="location">
+        <button type="submit" class="add-button">Add location</button>
     </div>
 
+    <div>
+        <h2>Existing Locations</h2>
+        <?php
+        // Display existing locations in the list
+        foreach ($existing_locations as $loc) {
+            echo "<div class='form-group-content'>
+                    <input type='text' name='existing_location' value='$loc'>
+                    <button type='submit' class='add-button'>Edit location</button>
+                    <button type='button' class='delete-button' onclick='deleteLocation(this)'>Delete location</button>
+                </div>";
+        }
+        ?>
+    </div>
 </form>
-    
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+
+<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
 
-</body>
 <script>
-
-function addLocation(button) {
-    // Get the parent div of the button
-    var parentDiv = button.parentNode;
-
-    // Remove the parent div
-    parentDiv.parentNode.appendChild(parentDiv);
-}
-    
 function deleteLocation(button) {
-    // Get the parent div of the button
     var parentDiv = button.parentNode;
-
-    // Remove the parent div
     parentDiv.parentNode.removeChild(parentDiv);
 }
 </script>
+</body>
 </html>
