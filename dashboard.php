@@ -26,270 +26,127 @@ function displayDashboard($user) {
     }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun | Home</title>
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Optional for icons -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+ 
+        .sidebar {
+            height: 100vh;
+            width: 200px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 40px;
+            color: white;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 40px;
+            color: white;
+            text-decoration: none;
+        }
+
+       
+
+        .sidebar a:hover {
+            background-color: #555;
+        }
     
-    <link rel="stylesheet" href="styles/home.css">
+        .main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        .info-square {
+            display: inline-block;
+            width: 200px;
+            height: 150px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 150px; /* Center text vertically */
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+
+    
+
+        .btn {
+            padding: 10px 40px; /* Padding for buttons */
+            margin-left: 240px;
+            background-color: #3498db; /* Blue background */
+            color: white; /* White text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            text-decoration: none; /* Remove underline from links */
+            font-size: 16px; /* Font size */
+            transition: background-color 0.3s; /* Smooth transition on hover */
+            cursor: pointer; /* Change cursor on hover */
+        }
+
+        /* Hover effect for buttons */
+        .btn:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+
+    </style>
 </head>
-
 <body>
-    <!--  Navigatie  -->
-    <div class="container">
-        <div class="navigation">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                        </span>
-                        <span class="title">Little Sun</span>
-                    </a>
-                </li>
 
-                <li>
-                    <a href="dashboard.php">
-                        <span class="icon">
-                            <ion-icon name="home-outline"></ion-icon>
-                        </span>
-                        <span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span>
-                    </a>
-                </li>
+<div class="sidebar">
+    <a href="#"><i id="title"></i> Little Sun</a>
+    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Admin</a>
+    <a href="add_manager.php"><i class="fas fa-user-plus"></i> Add Managers</a>
+    <a href="edit_manager.php"><i class="fas fa-key"></i> Reset Passwords</a>
+    <a href="#"><i class="fas fa-users"></i> Employees</a>
+    <a href="#"><i class="fas fa-envelope"></i> Messages</a>
+    <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
 
-                <li>
-                    <a href="add_manager.php">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Add managers</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="edit_manager.php">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Edit managers</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Employees</span>
-                    </a>
-                </li>
+<span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span>
+<?php displayDashboard($user); ?>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
-                        </span>
-                        <span class="title">Messages</span>
-                    </a>
-                </li>
+<div class="main">
+    <h1>Admin Dashboard</h1>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Password</span>
-                    </a>
-                </li>
+    <div class="info-square">Total Users</div>
+    <div class="info-square">New Messages</div>
+    <div class="info-square">Active Managers</div>
+    <div class="info-square">Pending Tasks</div>
+    <div class="info-square">Requests</div>
+    
+    
+    
+</div>
 
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
-                        </span>
-                        <a href="logout.php">Logout</a>
-                    </a>
-                </li>
-            </ul>
-        </div>
+         
 
-        <!--  Main  -->
-        <div class="main">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
+            
 
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
 
-                <div class="user">
-                    <img src="images/profile.jpg" alt="">
-                </div>
-            </div>
-
-            <!--  Cards  -->
-            <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers">0000</div>
-                        <div class="cardName">Total Managers</div>
-                    </div>
-
-                    <div class="iconBx">
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <div class="numbers">1111</div>
-                        <div class="cardName">Total Employees</div>
-                    </div>
-
-                    <div class="iconBx">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">2222</div>
-                        <div class="cardName">Sales</div>
-                    </div>
-
-                    <div class="iconBx">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">3333</div>
-                        <div class="cardName">Earning</div>
-                    </div>
-
-                    <div class="iconBx">
-                    </div>
-                </div>
-            </div>
-            <?php displayDashboard($user); ?>
-
-            <!--  Locations  -->
-            <div class="details">
-                <div class="recentLocations">
-                    <div class="cardHeader">
+   
                         <h2> Locations</h2>
                         <div class="edit-locations-style">
-                            <a href="add_location.php" class="btn">Add Location</a>
-                            <a href="edit_location.php" class="btn">Edit Location</a>
+                            <a href="add_location.php" class="btn">Location</a>
                         </div>
                     </div>
-                    <table>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Italy</h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>The Netherlands</h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Syria</h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Belgium</h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Belgium</h4>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!--  New Managers  -->
-                <div class="recentManagers">
-                    <div class="cardHeader">
-                        <h2>Recent Managers</h2>
-                    </div>
-
-                    <table>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Sarah <br> <span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Lara <br> <span>The Netherlands</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Faheer <br> <span>Syria</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Charlotte <br> <span>Belgium</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="images/profile.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Milana <br> <span>Belgium</span></h4>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+                    
+                    
 
 </body>
-
 </html>
+
