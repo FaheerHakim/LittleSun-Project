@@ -136,12 +136,12 @@ form {
         <div class="form-group-content">
             <input type="text" name="location" id="location" value="Mechelen">
             <button type="submit" class="add-button">Edit location</button>
-            <button  class="delete-button">Delete location</button>
+            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
         </div>
         <div class="form-group-content">
             <input type="text" name="location" id="location" value="Antwerpen">
             <button type="submit" class="add-button">Edit location</button>
-            <button  class="delete-button">Delete location</button>
+            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
         </div>
     </div>
 </form>
@@ -149,4 +149,13 @@ form {
     <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
+<script>
+function deleteLocation(button) {
+    // Get the parent div of the button
+    var parentDiv = button.parentNode;
+
+    // Remove the parent div
+    parentDiv.parentNode.removeChild(parentDiv);
+}
+</script>
 </html>
