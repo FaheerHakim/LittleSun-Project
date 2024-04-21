@@ -63,7 +63,7 @@ form {
     border: 1px solid #ccc;
     border-radius: 5px;
     color: black;
-    width: 100%;
+    width: 98%;
 }
 
 .profile-picture {
