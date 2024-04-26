@@ -22,26 +22,43 @@ function displayNewLocation(locationName) {
     newLocationContainer.appendChild(editButton);
     newLocationContainer.appendChild(deleteButton);
 }
-function deleteLocation(button) {
-    var locationId = button.getAttribute("data-location-id");
-    var confirmation = confirm("Are you sure you want to delete this location?");
-    if (confirmation) {
-        // Send AJAX request to delete location
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Remove the deleted location from the UI
-                    var locationDiv = button.parentElement;
-                    locationDiv.parentNode.removeChild(locationDiv);
-                    alert("Location deleted successfully.");
-                } else {
-                    alert("Error deleting location.");
-                }
-            }
-        };
-        xhr.open("POST", "add_location.php");
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send("delete_location=" + locationId);
+function validateAndSubmit(event) {
+    var locationInput = document.getElementById("new_location");
+    if (locationInput.value.trim() === "") {
+        alert("Location name is required.");
+        event.preventDefault(); // Prevent form submission
     }
+}
+document.addEventListener("DOMContentLoaded", function() {
+    // Add event listeners to delete buttons
+    var deleteButtons = document.querySelectorAll(".delete-button");
+    deleteButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            var locationId = this.getAttribute('data-location-id');
+            if (confirm("Are you sure you want to delete this location?")) {
+                deleteLocation(locationId);
+            }
+        });
+    });
+});
+
+function deleteLocation(locationId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "delete_location.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Location deleted successfully, remove it from the DOM
+                var locationElement = document.getElementById("location" + locationId);
+                if (locationElement) {
+                    locationElement.remove();
+                }
+                alert(xhr.responseText);
+            } else {
+                alert("Error: " + xhr.statusText);
+            }
+        }
+    };
+    xhr.send("location_id=" + encodeURIComponent(locationId));
 }

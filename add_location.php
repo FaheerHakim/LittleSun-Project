@@ -37,14 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $locationId = $locationHandler->addLocation($locationName);
   
           // Update user's location
-          $locationHandler->updateLocation($_SESSION['user']['id'], $locationId);
-          
+          $locationHandler->updateLocation($_SESSION['user']['location_id'], $locationId);
+          header("Location: " . $_SERVER['REQUEST_URI']);
+
           echo "Location added successfully.";
       } else {
           echo "Location name is required.";
       }
-  } else {
-      echo "Invalid request.";
   }
 ?><!DOCTYPE html>
 <html lang="en">
@@ -64,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      <div class="form-group-add">
          <label for="location">Location</label>
          <input type="text" id="new_location" name="new_location" autocomplete="off">
-         <button type="submit" class="add-button">Add location</button>
+         <button type="submit" onclick="validateAndSubmit(event)" class="add-button">Add location</button>
     </div>
 
     
@@ -75,11 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $existingLocations = getExistingLocations();
         foreach ($existingLocations as $index => $location) {
             ?>
-            <div class="form-group-content">
-                <input type="text" name="existing_location<?php echo $index + 1; ?>" value="<?php echo $location; ?>" readonly>
-                <button type="button" class="edit-button">Edit location</button>
-                <button type="button" onclick="deleteLocation(this)" data-location-id="1" class="delete-button">Delete location</button>
-            </div>
+     <div class="form-group-content" id="location<?php echo $locationId; ?>">
+    <input type="text" name="existing_location<?php echo $index + 1; ?>" value="<?php echo $location; ?>" readonly>
+    <button type="button" class="edit-button">Edit location</button>
+    <button type="button" class="delete-button" data-location-id="<?php echo $locationId; ?>">Delete location</button>
+</div>
             <?php
         }
         ?>

@@ -21,5 +21,7 @@ class Location {
         $stmt->execute([$locationId, $userId]);
         return $stmt->rowCount();
     }
+
 }
+
 ?>
