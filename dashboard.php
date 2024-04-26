@@ -111,6 +111,8 @@ function displayDashboard($user) {
     <a href="#"><i id="title"></i> Little Sun</a>
     <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Admin</a>
     <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
+    <a href="#"><i class="fas fa-tachometer-alt"></i><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></a>
+    <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
     <a href="add_manager.php"><i class="fas fa-user-plus"></i> Add Managers</a>
 <?php endif; ?>
     <a href="edit_manager.php"><i class="fas fa-key"></i> Reset Passwords</a>
@@ -119,11 +121,11 @@ function displayDashboard($user) {
     <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
-<span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span>
-<?php displayDashboard($user); ?>
+
+<!--<?php displayDashboard($user); ?> -->
 
 <div class="main">
-    <h1>Admin Dashboard</h1>
+    <h1><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></h1>
 
     <div class="info-square">Total Users</div>
     <div class="info-square">New Messages</div>
@@ -142,8 +144,12 @@ function displayDashboard($user) {
 
    
                         <h2> Locations</h2>
+                    
                         <div class="edit-locations-style">
+                            <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
                             <a href="add_location.php" class="btn">Location</a>
+                            <?php endif; ?>
+                           
                         </div>
                     </div>
                     

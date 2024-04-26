@@ -50,8 +50,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Add location</title>
-    <link rel="stylesheet" href="styles/location.css">
-    <script src="script/location.js"></script>
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    /* Adjusted gradient for a longer transition to white */
+    background: linear-gradient(to bottom, #3498db 10%, white 90%);
+    color: white;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    min-height: 85vh; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black;
+    margin: 4px;
+}
+
+
+
+.go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #3498db; /* Blue button for 'Go Back' */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.go-back-button:hover {
+    background-color: #2980b9;
+}
+
+.add-button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #3498db;/* Red button */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: blue;
+}
+
+
+.delete-button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #e74c3c; /* Red button */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+    </style>
+
+
 </head>
 <body>
 
@@ -60,35 +152,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form action="add_location.php" method="post" enctype="multipart/form-data">
     <div class="profile-picture" title="Profile Picture"></div>
     
-     <div class="form-group-add">
-         <label for="location">Location</label>
-         <input type="text" id="new_location" name="new_location" autocomplete="off">
-         <button type="submit" onclick="validateAndSubmit(event)" class="add-button">Add location</button>
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="location" id="location" name="location" >
+        <button type="submit" onclick="addLocation(this)" class="add-button">Add location</button>
+
     </div>
+  
 
     
     <div class="form-group">
         <label for="location">Existing location</label>
-        <?php
-        // Display existing locations
-        $existingLocations = getExistingLocations();
-        foreach ($existingLocations as $index => $location) {
-            ?>
-     <div class="form-group-content" id="location<?php echo $locationId; ?>">
-    <input type="text" name="existing_location<?php echo $index + 1; ?>" value="<?php echo $location; ?>" readonly>
-    <button type="button" class="edit-button">Edit location</button>
-    <button type="button" class="delete-button" data-location-id="<?php echo $locationId; ?>">Delete location</button>
-</div>
-            <?php
-        }
-        ?>
-        <div class="form-group-content" id="newLocationContainer"></div> <!-- Container for new location -->
+        <div class="form-group-content">
+            <input type="text" name="location" id="location" value="Mechelen">
+            <button type="submit" class="add-button">Edit location</button>
+            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
+        </div>
+        <div class="form-group-content">
+            <input type="text" name="location" id="location" value="Antwerpen">
+            <button type="submit" class="add-button">Edit location</button>
+            <button onclick="deleteLocation(this)" class="delete-button">Delete location</button>
+        </div>
     </div>
-
 </form>
-    
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+
+<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
 
 </body>
+<script>
+
+function addLocation(button) {
+    // Get the parent div of the button
+    var parentDiv = button.parentNode;
+
+    // Remove the parent div
+    parentDiv.parentNode.appendChild(parentDiv);
+}
+    
+function deleteLocation(button) {
+    // Get the parent div of the button
+    var parentDiv = button.parentNode;
+
+    // Remove the parent div
+    parentDiv.parentNode.removeChild(parentDiv);
+}
+</script>
 </html>

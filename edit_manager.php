@@ -108,8 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         
     
-
-        <button type="submit" class="update-button">Reset password</button>
+        <a href="dashboard.php" class="update-button">Reset password</a>
         
         <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
     </form>
