@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <button type="submit" class="add-button">Add Manager</button>
 
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+    <a href="manager.php" class="go-back-button" type="button">Go Back</a>
 </form>
 
 </body>
