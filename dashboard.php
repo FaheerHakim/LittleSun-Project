@@ -25,10 +25,7 @@ function displayDashboard($user) {
             break;
     }
 }
-?>
-
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -136,24 +133,14 @@ function displayDashboard($user) {
     
     
 </div>
+    <h2> Locations</h2>
 
-         
-
-            
-
-
-   
-                        <h2> Locations</h2>
-                    
-                        <div class="edit-locations-style">
-                            <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
-                            <a href="add_location.php" class="btn">Location</a>
-                            <?php endif; ?>
-                           
-                        </div>
-                    </div>
-                    
-                    
-
+    <div class="edit-locations-style">
+        <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
+        <a href="add_location.php" class="btn">Location</a>
+        <?php endif; ?>
+        
+    </div>
+</div>
 </body>
 </html>
