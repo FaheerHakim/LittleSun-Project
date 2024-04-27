@@ -5,7 +5,7 @@
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
-        <a href="dashboard.php">Hub Locations</a>
+        <a href="location.php">Hub Locations</a>
         <a href="manager.php"> Hub Managers</a>
         <a>Task types</a>
         <a href="logout.php">Logout</a>
