@@ -21,7 +21,7 @@ class Location {
         $stmt->execute([$locationId, $userId]);
         return $stmt->rowCount();
     }
-
+    
     public function getExistingLocations() {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT city FROM locations");
@@ -29,6 +29,18 @@ class Location {
         $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $cityNames = array_column($locations, 'city');
         return $cityNames;
+    }
+
+    public function getLocationIdByName($locationName) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT location_id FROM locations WHERE city = ?");
+        $stmt->execute([$locationName]);
+        $location = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($location) {
+            return $location['location_id'];
+        } else {
+            return null;
+        }
     }
 }
 ?>

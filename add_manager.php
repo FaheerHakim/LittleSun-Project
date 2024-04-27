@@ -1,31 +1,47 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
-require_once __DIR__ . "/classes/Manager.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data
+    // Check if all required fields are filled
+    if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['location'])) {
+        // Sanitize input data
+        $email = $_POST['email'];
+        $password = $_POST['password']; // You may want to hash the password for security
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $location_name = $_POST['location']; // Assuming location name is provided from the form
 
-    $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Secure password hashing
-    $first_name = htmlspecialchars($_POST["first_name"]);
-    $last_name = htmlspecialchars($_POST["last_name"]);
-    $location = htmlspecialchars($_POST["location"]);
+        // Database connection
+        require_once __DIR__ . "/classes/User.php"; // Assuming the User class exists
+        require_once __DIR__ . "/classes/Location.php"; // Assuming the Location class exists
+        $userHandler = new User();
+        $locationHandler = new Location();
 
-    // Handle profile picture upload
-    $profile_picture = $_FILES["profile_picture"];
-    $upload_dir = "uploads/";
-    $upload_file = $upload_dir . basename($profile_picture["name"]);
+        // Get the location_id based on the location name
+        $location_id = $locationHandler->getLocationIdByName($location_name);
 
-    // Move uploaded file to the desired directory
-    move_uploaded_file($profile_picture["tmp_name"], $upload_file);
+        if ($location_id) {
+            // Add the manager to the database
+            $result = $userHandler->addManager($email, $password, $first_name, $last_name, $location_id);
 
-    // Insert data into a database or process it further
-    // Database insertion logic (e.g., MySQL) could go here
-
-    $manager = new Manager();
-    $add_manager = $manager->add_manager($email, $password, $first_name, $last_name, $location);
+            if ($result) {
+                // Manager added successfully
+                echo "Manager added successfully.";
+            } else {
+                // Error adding manager
+                echo "Error adding manager.";
+            }
+        } else {
+            // Location not found
+            echo "Location not found.";
+        }
+    } else {
+        // Required fields are missing
+        echo "All fields are required.";
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h1>Add Manager</h1>
 
-<form action="add_manager.php" method="post" enctype="multipart/form-data">
-    <div class="profile-picture" title="Profile Picture"></div>
-    
+<form action="add_manager.php" method="post" enctype="multipart/form-data">    
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
@@ -61,33 +75,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="last-name">Last Name</label>
         <input type="text" id="last-name" name="last_name" required>
     </div>
-
-    
     
     <div class="form-group">
-    <label for="location">Location</label>
-    <select id="location" name="location" required>
-        <option value="">Select location</option>
-        <?php
-        require_once __DIR__ . "/classes/Location.php";
-        $locationHandler = new Location();
-        $existingLocations = $locationHandler->getExistingLocations();
+        <label for="location">Location</label>
+        <select id="location" name="location" required>
+            <option value="">Select location</option>
+            <?php
+            // Include Location class and get existing locations
+            require_once __DIR__ . "/classes/Location.php";
+            $locationHandler = new Location();
+            $existingLocations = $locationHandler->getExistingLocations();
 
-        foreach ($existingLocations as $location) {
-            echo "<option value=\"$location\">$location</option>";
-        }
-        ?>
-    </select>
-</div>
-    
-    <div class="form-group">
-        <label for="profile-picture">Upload Profile Picture</label>
-        <input type="file" id="profile-picture" name="profile_picture" accept="image/*">
+            // Loop through existing locations to populate options
+            foreach ($existingLocations as $location) {
+                echo "<option value=\"$location\">$location</option>";
+            }
+            ?>
+        </select>
     </div>
 
     <button type="submit" class="add-button">Add Manager</button>
 
-    <a href="manager.php" class="go-back-button" type="button">Go Back</a>
+    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 </form>
 
 </body>
