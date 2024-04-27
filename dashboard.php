@@ -157,4 +157,3 @@ function displayDashboard($user) {
 
 </body>
 </html>
-
