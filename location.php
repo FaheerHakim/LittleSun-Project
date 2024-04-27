@@ -12,7 +12,7 @@ $user = $_SESSION['user'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Location</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
@@ -24,8 +24,8 @@ $user = $_SESSION['user'];
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
-        <a >Hub Locations</a>
-        <a>Hub Managers</a>
+        <a href="location.php">Hub Locations</a>
+        <a href="manager.php"> Hub Managers</a>
         <a>Task types</a>
         <a href="logout.php">Logout</a>
     </div>
@@ -36,8 +36,8 @@ $user = $_SESSION['user'];
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
-        <a>Hub Locations</a>
-        <a>Hub Managers</a>
+        <a href="location.php">Hub Locations</a>
+        <a href="manager.php">Hub Managers</a>
         <a>Task types</a>
         <a>Work schedule</a>
         <a>Reports</a>
@@ -62,9 +62,9 @@ $user = $_SESSION['user'];
 <!-- dashboard -->    
 
 <div class="main">
-    <h1><span class="title"> Hub managers</span></h1>
-    <div onclick="location.href='add_manager.php';" class="info-square">Add manager</div>
-    <div onclick="location.href='edit_manager.php';" class="info-square">Existing managers</div>
+    <h1><span class="title"> Hub locations </span></h1>
+    <div onclick="location.href='add_location.php';" class="info-square">Add location</div>
+    <div onclick="location.href='edit_location.php';" class="info-square">Existing locations</div>
 </div>
 </body>
 </html>

@@ -24,7 +24,7 @@ $user = $_SESSION['user'];
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
-        <a >Hub Locations</a>
+        <a href="dashboard.php">Hub Locations</a>
         <a href="manager.php"> Hub Managers</a>
         <a>Task types</a>
         <a href="logout.php">Logout</a>
@@ -36,8 +36,8 @@ $user = $_SESSION['user'];
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
-        <a>Hub Locations</a>
-        <a>Hub Managers</a>
+        <a href="location.php">Hub Locations</a>
+        <a href="manager.php">Hub Managers</a>
         <a>Task types</a>
         <a>Work schedule</a>
         <a>Reports</a>
