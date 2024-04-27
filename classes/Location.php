@@ -22,6 +22,13 @@ class Location {
         return $stmt->rowCount();
     }
 
+    public function getExistingLocations() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT city FROM locations");
+        $stmt->execute();
+        $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $cityNames = array_column($locations, 'city');
+        return $cityNames;
+    }
 }
-
 ?>

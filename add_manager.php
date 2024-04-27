@@ -65,16 +65,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     
     <div class="form-group">
-        <label for="location">Location</label>
-        <select id="location" name="location" required>
-            <option value="">Select location</option>
-            <option value="Duitsland">Duitsland</option>
-            <option value="Zambia">Zambia</option>
-            <option value="Kinshasa">Kinshasa</option>
-            <option value="België">België</option>
-            <option value="Portugal">Portugal</option>
-        </select>
-    </div>
+    <label for="location">Location</label>
+    <select id="location" name="location" required>
+        <option value="">Select location</option>
+        <?php
+        require_once __DIR__ . "/classes/Location.php";
+        $locationHandler = new Location();
+        $existingLocations = $locationHandler->getExistingLocations();
+
+        foreach ($existingLocations as $location) {
+            echo "<option value=\"$location\">$location</option>";
+        }
+        ?>
+    </select>
+</div>
     
     <div class="form-group">
         <label for="profile-picture">Upload Profile Picture</label>
