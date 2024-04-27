@@ -64,7 +64,7 @@ $user = $_SESSION['user'];
 <div class="main">
     <h1><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></h1>
     <div onclick="location.href='add_manager.php';" class="info-square">Add manager</div>
-    <div onclick="location.href='edit_manager.php';" class="info-square">Exisiting managers</div>
+    <div onclick="location.href='edit_manager.php';" class="info-square">Existing managers</div>
 </div>
 </body>
 </html>

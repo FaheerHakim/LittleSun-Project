@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    /* Adjusted gradient for a longer transition to white */
+    background: linear-gradient(to bottom, #3498db 10%, white 90%);
+    color: white;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    min-height: 85vh; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black;
+    width: 98%;
+}
+
+.profile-picture {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Circular shape */
+    border: 2px solid #3498db;
+    background-color: white;
+    background-size: cover; /* Cover to maintain aspect ratio */
+    background-position: center;
+    margin: 0 auto; /* Center it horizontally */
+}
+
+.add-button {
+    padding: 10px;
+    background-color: #e74c3c; /* Red button */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: #c0392b;
+}
+
+.go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #3498db; /* Blue button for 'Go Back' */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.go-back-button:hover {
+    background-color: #2980b9;
+}
+
+.update-button {
+    padding: 10px;
+    background-color: #3498db; 
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.update-button:hover {
+    background-color: #2980b9;
+}
