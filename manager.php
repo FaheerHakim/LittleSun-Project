@@ -25,7 +25,7 @@ $user = $_SESSION['user'];
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
         <a >Hub Locations</a>
-        <a href="manager.php"> Hub Managers</a>
+        <a>Hub Managers</a>
         <a>Task types</a>
         <a href="logout.php">Logout</a>
     </div>
@@ -63,9 +63,8 @@ $user = $_SESSION['user'];
 
 <div class="main">
     <h1><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></h1>
-    <div class="info-square">Total hours worked</div>
-    <div class="info-square">Upcoming tasks</div>
-    <div class="info-square">Time-off requests</div>
+    <div onclick="location.href='add_manager.php';" class="info-square">Add manager</div>
+    <div onclick="location.href='edit_manager.php';" class="info-square">Exisiting managers</div>
 </div>
 </body>
 </html>
