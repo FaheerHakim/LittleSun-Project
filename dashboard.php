@@ -108,10 +108,9 @@ function displayDashboard($user) {
     <a href="#"><i id="title"></i> Little Sun</a>
     <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Admin</a>
     <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
-    <a href="#"><i class="fas fa-tachometer-alt"></i><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></a>
-    <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
-    <a href="add_manager.php"><i class="fas fa-user-plus"></i> Add Managers</a>
-<?php endif; ?>
+        <a href="#"><i class="fas fa-tachometer-alt"></i><span class="title"> Dashboard <?php echo $user['typeUser'] ;?></span></a>
+        <a href="add_manager.php"><i class="fas fa-user-plus"></i> Add Managers</a>
+    <?php endif; ?>
     <a href="edit_manager.php"><i class="fas fa-key"></i> Reset Passwords</a>
     <a href="#"><i class="fas fa-users"></i> Employees</a>
     <a href="#"><i class="fas fa-envelope"></i> Messages</a>
@@ -129,9 +128,6 @@ function displayDashboard($user) {
     <div class="info-square">Active Managers</div>
     <div class="info-square">Pending Tasks</div>
     <div class="info-square">Requests</div>
-    
-    
-    
 </div>
     <h2> Locations</h2>
 
@@ -141,6 +137,5 @@ function displayDashboard($user) {
         <?php endif; ?>
         
     </div>
-</div>
 </body>
 </html>
