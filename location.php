@@ -24,8 +24,7 @@ $user = $_SESSION['user'];
 
 <div class="main">
     <h1><span class="title"> Hub locations </span></h1>
-    <div onclick="location.href='add_location.php';" class="info-square">Add location</div>
-    <div onclick="location.href='edit_location.php';" class="info-square">Existing locations</div>
+    <div onclick="location.href='add_location.php';" class="info-square">Add & edit location</div>
 </div>
 </body>
 </html>
