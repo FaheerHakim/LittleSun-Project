@@ -2,8 +2,30 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
+require_once __DIR__ . "/classes/TaskType.php";
 
-?><!DOCTYPE html>
+// Add task type
+if (isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
+    // Validate input
+    $typeName = $_POST['add_task_type']; // You may want to perform further validation
+    // Add task type
+    $taskTypeHandler = new TaskType();
+    $taskTypeHandler->addTaskType($typeName);
+}
+
+// Delete task type
+if (isset($_POST['delete_task_type'])) {
+    $typeId = $_POST['delete_task_type'];
+    // Delete task type
+    $taskTypeHandler = new TaskType();
+    $taskTypeHandler->deleteTaskType($typeId);
+}
+
+// Get existing task types
+$taskTypeHandler = new TaskType();
+$taskTypes = $taskTypeHandler->getTaskTypes();
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,20 +42,28 @@ session_start();
     
      <div class="form-group-add">
          <label for="task_types">Task types</label>
-         <input type="text" id="new_task_types" name="new_task_types" autocomplete="off">
-         <button type="submit" onclick="validateAndSubmit(event)" class="add-button">Add task types</button>
+         <input type="text" id="add_task_type" name="add_task_type" autocomplete="off">
+         <button type="submit" class="add-button">Add task types</button>
     </div>
-
-    
-    <div class="form-group">
-        <label for="task_types">Existing task types</label>
-     <div class="form-group-content" id="task_types">
-    <button type="button" class="delete-button">delete task types</button>
+<div class="form-group">
+    <label for="task_types">Existing task types</label>
+    <div class="form-group-content" id="task_types">
+        <ul>
+            <?php foreach ($taskTypes as $taskType): ?>
+                <li>
+                    <?php echo $taskType['taskTypeName']; ?>
+                    <form action="add_task_types.php" method="post" style="display: inline;">
+                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['taskTypeName']; ?>">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 </div>
 </form>
-    
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
-
+  
+<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 </html>
