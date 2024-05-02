@@ -24,7 +24,7 @@ $user = $_SESSION['user'];
 
 <div class="main">
     <h1><span class="title"> Task types</span></h1>
-    <div onclick="location.href='add_task_types.php';" class="info-square">Add task types</div>
+    <div onclick="location.href='add_task_types.php';" class="info-square">Add & edit task types</div>
 </div>
 </body>
 </html>

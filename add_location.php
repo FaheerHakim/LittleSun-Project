@@ -80,7 +80,7 @@ $existingLocations = $locationHandler->getExistingLocations();
 </div>
 </form>
 </div>   
-<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<a href="location.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 </html>
