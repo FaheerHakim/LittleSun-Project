@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Add location</title>
     <link rel="stylesheet" href="styles/location.css">
-    <script src="script/location.js"></script>
+    <script src="script/location.js" defer></script>
 </head>
 <body>
 

@@ -5,6 +5,8 @@ session_start();
 require_once __DIR__ . "/classes/TaskType.php";
 
 // Add task type
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 if (isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
     // Validate input
     $typeName = $_POST['add_task_type']; // You may want to perform further validation
@@ -20,7 +22,7 @@ if (isset($_POST['delete_task_type'])) {
     $taskTypeHandler = new TaskType();
     $taskTypeHandler->deleteTaskType($typeId);
 }
-
+}
 
 // Get existing task types
 $taskTypeHandler = new TaskType();
@@ -32,7 +34,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     <meta charset="UTF-8">
     <title>Add task types</title>
     <link rel="stylesheet" href="styles/task_types.css">
-    <script src="script/task_types.js"></script>
+    <script src="script/task_type.js" defer></script>
 </head>
 <body>
 
@@ -53,9 +55,9 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
             <?php foreach ($taskTypes as $taskType): ?>
                 <li>
                     <?php echo $taskType['taskTypeName']; ?>
-                    <form action="add_task_types.php" method="post" style="display: inline;">
+                    <form id="delete_form_<?php echo $taskType['taskTypeID']; ?>" action="add_task_types.php" method="post" style="display: inline;">
                         <input type="hidden" name="delete_task_type" value="<?php echo $taskType['taskTypeID']; ?>">
-                        <button type="submit" class="delete-button">Delete</button>
+                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['taskTypeID']; ?>)">Delete</button>
                     </form>
                 </li>
             <?php endforeach; ?>
@@ -63,7 +65,6 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     </div>
 </div>
 </form>
-  
 <a href="task_types.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
