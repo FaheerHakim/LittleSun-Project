@@ -21,6 +21,7 @@ if (isset($_POST['delete_task_type'])) {
     $taskTypeHandler->deleteTaskType($typeId);
 }
 
+
 // Get existing task types
 $taskTypeHandler = new TaskType();
 $taskTypes = $taskTypeHandler->getTaskTypes();
@@ -53,7 +54,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
                 <li>
                     <?php echo $taskType['taskTypeName']; ?>
                     <form action="add_task_types.php" method="post" style="display: inline;">
-                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['taskTypeName']; ?>">
+                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['taskTypeID']; ?>">
                         <button type="submit" class="delete-button">Delete</button>
                     </form>
                 </li>
@@ -63,7 +64,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 </div>
 </form>
   
-<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<a href="task_types.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 </html>
