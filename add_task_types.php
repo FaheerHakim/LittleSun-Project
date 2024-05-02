@@ -40,6 +40,8 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 
 <h1>Add a task type</h1>
 
+
+<div class="form-container">
 <form action="add_task_types.php" method="post" enctype="multipart/form-data">
     <div class="profile-picture" title="Profile Picture"></div>
     
@@ -48,6 +50,8 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
          <input type="text" id="add_task_type" name="add_task_type" autocomplete="off">
          <button type="submit" class="add-button">Add task types</button>
     </div>
+</form>
+
 <div class="form-group">
     <label for="task_types">Existing task types</label>
     <div class="form-group-content" id="task_types">
@@ -65,6 +69,8 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     </div>
 </div>
 </form>
+</div>
+
 <a href="task_types.php" class="go-back-button" type="button">Go Back</a>
 
 </body>

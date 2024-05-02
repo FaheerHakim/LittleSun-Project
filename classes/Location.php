@@ -14,7 +14,7 @@ class Location {
         $stmt->execute([$locationName]);
         return $conn->lastInsertId();
     }
-    
+
     public function updateLocation($userId, $locationId) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("UPDATE users SET location_id = ? WHERE id = ?");
@@ -41,6 +41,13 @@ class Location {
         } else {
             return null;
         }
+    }
+
+    public function deleteLocation($locationId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("DELETE FROM locations WHERE location_id = ?");
+        $stmt->execute([$locationId]);
+        return $stmt->rowCount() > 0;
     }
 }
 ?>

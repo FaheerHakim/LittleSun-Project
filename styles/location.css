@@ -11,7 +11,7 @@ h1 {
     text-align: center;
 }
 
-form {
+.form-container {
     background-color: white;
     color: black;
     padding: 20px;
