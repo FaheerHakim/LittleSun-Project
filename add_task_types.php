@@ -58,10 +58,10 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
         <ul>
             <?php foreach ($taskTypes as $taskType): ?>
                 <li>
-                    <?php echo $taskType['taskTypeName']; ?>
-                    <form id="delete_form_<?php echo $taskType['taskTypeID']; ?>" action="add_task_types.php" method="post" style="display: inline;">
-                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['taskTypeID']; ?>">
-                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['taskTypeID']; ?>)">Delete</button>
+                    <?php echo $taskType['task_type_name']; ?>
+                    <form id="delete_form_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: inline;">
+                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
+                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['task_type_id']; ?>)">Delete</button>
                     </form>
                 </li>
             <?php endforeach; ?>

@@ -21,7 +21,7 @@ class User {
     }
     public function addManager($email, $password, $first_name, $last_name, $location_id) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, typeUser, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
+        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
         $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
         return $result;
     }

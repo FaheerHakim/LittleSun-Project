@@ -10,14 +10,14 @@ class TaskType {
 
     public function addTaskType($typeName) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO taskTypes (taskTypeName) VALUES (?)");
+        $stmt = $conn->prepare("INSERT INTO taskTypes (task_type_name) VALUES (?)");
         $stmt->execute([$typeName]);
         return $conn->lastInsertId();
     }
 
     public function deleteTaskType($typeId) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("DELETE FROM taskTypes WHERE taskTypeID = ?");
+        $stmt = $conn->prepare("DELETE FROM taskTypes WHERE task_type_id = ?");
         $stmt->execute([$typeId]);
         return $stmt->rowCount() > 0;
     }

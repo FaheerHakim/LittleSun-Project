@@ -1,7 +1,7 @@
 <!-- navigation -->    
 
     <!-- Admin navigation -->
-    <?php if($user['typeUser'] != 'manager' && $user['typeUser'] != 'employee'): ?>
+    <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
@@ -13,7 +13,7 @@
     <?php endif; ?>
 
     <!-- Managers navigation -->
-    <?php if($user['typeUser'] != 'admin' && $user['typeUser'] != 'employee'): ?>
+    <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
@@ -27,7 +27,7 @@
     </div>
     <?php endif; ?>
 
-    <?php if($user['typeUser'] != 'admin' && $user['typeUser'] != 'manager'): ?>
+    <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
     <!-- Employees navigation -->
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>

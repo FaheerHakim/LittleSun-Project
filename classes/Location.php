@@ -17,7 +17,7 @@ class Location {
 
     public function updateLocation($userId, $locationId) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("UPDATE users SET location_id = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET location_id = ? WHERE user_id = ?");
         $stmt->execute([$locationId, $userId]);
         return $stmt->rowCount();
     }
