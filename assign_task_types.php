@@ -36,11 +36,12 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 <head>
     <meta charset="UTF-8">
     <title>Assign Task Types</title>
+    <script src="script/assign_task_type.js" defer></script>
 </head>
 <body>
 <h1>Assign Task Types to Users</h1>
     
-    <form action="assign_task_types.php" method="post">
+    <form action="assign_task_types.php" method="post" onsubmit="return confirmAssignment()">
         <label for="user">Select User:</label>
         <select name="user_id" id="user">
             <?php foreach ($employeeUsers as $user): ?>

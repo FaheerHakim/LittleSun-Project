@@ -6,6 +6,13 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+// Check if user is a admin
+if ($_SESSION['user']['type_user'] !== 'admin') {
+    // Redirect or display an error message
+    echo "You do not have permission to add or edit task types.";
+    exit;
+}
+
 $user = $_SESSION['user'];
 
 ?><!DOCTYPE html>
