@@ -1,17 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
+include 'logged_in.php';
 
-// Check if user is a admin
-if ($_SESSION['user']['type_user'] !== 'admin') {
-    // Redirect or display an error message
-    echo "You do not have permission to add or edit task types.";
-    exit;
-}
+include 'permission_admin.php';
 
 $user = $_SESSION['user'];
 

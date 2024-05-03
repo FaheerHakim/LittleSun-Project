@@ -3,6 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
+include 'logged_in.php';
+
+include 'permission_admin.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if all required fields are filled
     if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['location'])) {

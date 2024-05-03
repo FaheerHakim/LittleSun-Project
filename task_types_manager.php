@@ -1,17 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
+include 'logged_in.php';
 
-// Check if user is a manager
-if ($_SESSION['user']['type_user'] !== 'manager') {
-    // Redirect or display an error message
-    echo "You do not have permission to assign task types.";
-    exit;
-}
+include 'permission_manager.php';
 
 $user = $_SESSION['user'];
 

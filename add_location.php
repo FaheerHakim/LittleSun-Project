@@ -4,6 +4,10 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/Location.php";
 
+include 'logged_in.php';
+
+include 'permission_admin.php';
+
 // Add location
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !empty($_POST['new_location'])) {
     // Validate input

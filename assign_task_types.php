@@ -9,13 +9,9 @@ require_once __DIR__ . "/classes/TaskType.php";
 $userHandler = new User();
 $taskTypeHandler = new TaskType();
 
-// Check if user is a manager
-if ($_SESSION['user']['type_user'] !== 'manager') {
-    // Redirect or display an error message
-    echo "You do not have permission to assign task types.";
-    exit;
-}
+include 'logged_in.php';
 
+include 'permission_manager.php';
 
 // Add task type to user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id'])) {

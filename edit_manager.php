@@ -1,4 +1,8 @@
 <?php
+include 'logged_in.php';
+
+include 'permission_admin.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verzamelen van formuliergegevens
   

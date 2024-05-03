@@ -4,6 +4,10 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/TaskType.php";
 
+include 'logged_in.php';
+
+include 'permission_admin.php';
+
 // Add task type
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
