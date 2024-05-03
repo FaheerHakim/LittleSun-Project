@@ -43,5 +43,11 @@ class User {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getEmployeeUsers() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM users WHERE type_user = 'employee'");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 // Remove the closing PHP tag

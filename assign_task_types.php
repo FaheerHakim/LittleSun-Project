@@ -9,6 +9,14 @@ require_once __DIR__ . "/classes/TaskType.php";
 $userHandler = new User();
 $taskTypeHandler = new TaskType();
 
+// Check if user is a manager
+if ($_SESSION['user']['type_user'] !== 'manager') {
+    // Redirect or display an error message
+    echo "You do not have permission to assign task types.";
+    exit;
+}
+
+
 // Add task type to user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id'])) {
     $userId = $_POST['user_id'];
@@ -19,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
 }
 
 // Get users and task types
-$users = $userHandler->getUsers(); // Assuming you have a method to get users
+$employeeUsers = $userHandler->getEmployeeUsers();
 $taskTypes = $taskTypeHandler->getTaskTypes();
 
 
@@ -35,7 +43,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     <form action="assign_task_types.php" method="post">
         <label for="user">Select User:</label>
         <select name="user_id" id="user">
-            <?php foreach ($users as $user): ?>
+            <?php foreach ($employeeUsers as $user): ?>
                 <option value="<?php echo $user['user_id']; ?>"><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></option>
             <?php endforeach; ?>
         </select>
