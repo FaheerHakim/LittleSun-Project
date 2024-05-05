@@ -11,6 +11,7 @@ include 'permission_manager.php';
 
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
+$task = $user->getAssignedTaskTypes($userId);
 
 
 ?><!DOCTYPE html>
