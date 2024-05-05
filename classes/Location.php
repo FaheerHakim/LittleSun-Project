@@ -14,13 +14,6 @@ class Location {
         $stmt->execute([$locationName]);
         return $conn->lastInsertId();
     }
-
-    public function updateLocation($userId, $locationId) {
-        $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("UPDATE users SET location_id = ? WHERE user_id = ?");
-        $stmt->execute([$locationId, $userId]);
-        return $stmt->rowCount();
-    }
     
     public function getExistingLocations() {
         $conn = $this->db->getConnection();

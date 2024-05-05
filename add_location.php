@@ -41,20 +41,7 @@ $existingLocations = $locationHandler->getExistingLocations();
     <meta charset="UTF-8">
     <title>Add location</title>
     <link rel="stylesheet" href="styles/location.css">
-
-    <script>
-         function confirmDelete(event, locationId) {
-        event.stopPropagation();
-        var form = document.getElementById('delete_location_' + locationId);
-        if (form) {
-            if (confirm("Are you sure you want to delete this location?")) {
-                form.submit();
-            }
-        } else {
-            console.error("Form with ID delete_location_" + locationId + " not found.");
-        }
-    }
-    </script>
+    <script src="script/location.js"></script>
 </head>
 <body>
 
@@ -74,8 +61,9 @@ $existingLocations = $locationHandler->getExistingLocations();
     <label for="location">Existing location</label>
     <?php foreach ($existingLocations as $location): ?>
         <div class="form-group-content">
-            <input type="text" name="existing_location[]" value="<?php echo $location; ?>" readonly>
-            <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">Delete location</button>
+        <input type="text" id="locationInput" name="existing_location[]" value="<?php echo $location; ?>">            
+        <button type="button" class="edit-button" >Edit location</button>
+        <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">Delete location</button>
             <form id="delete_location_<?php echo $locationHandler->getLocationIdByName($location); ?>" action="add_location.php" method="post" style="display: none;">
                 <input type="hidden" name="delete_location" value="<?php echo $locationHandler->getLocationIdByName($location); ?>">
             </form>
