@@ -35,9 +35,11 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
 <head>
     <meta charset="UTF-8">
     <title>Manage Time Off Requests</title>
+    <link rel="stylesheet" href="styles/manage_time_off.css">
 </head>
 <body>
 <h1>Manage Time Off Requests</h1>
+
 <div class="container">
 
 <a href="time_off_request_manager.php" class="go-back" type="button">Go Back</a>
@@ -76,74 +78,5 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
 </div>
 <!-- Add additional HTML or JavaScript as needed -->
 </body>
-<style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            padding: 20px;
-            background-color: #34495e;
-            color: white;
-            margin: 0;
-        }
-        .container {
-            padding: 20px;
-            margin: auto;
-            width: 80%;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            text-align: left;
-            padding: 12px;
-        }
-        th {
-            background-color: #34495e;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #e1e1e1;
-        }
-        select, button {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: #ffffff;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        
-        .go-back {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .go-back:hover {
-            background-color: #2980b9;
-        }
-    </style>
+
 </html>

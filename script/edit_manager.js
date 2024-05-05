@@ -4,15 +4,11 @@ function searchUsers() {
     var userBoxes = document.querySelectorAll('.user-box');
 
     userBoxes.forEach(function(box) {
-        var userName = box.querySelector('.user-box p').textContent.toLowerCase();
+        var userName = box.querySelector('.user-info h2').textContent.toLowerCase();
         if (userName.includes(filter)) {
             box.style.display = 'block';
         } else {
             box.style.display = 'none';
         }
     });
-}
-
-function confirmAssignment() {
-    return confirm("Are you sure you want to assign this task type to the selected user?");
 }

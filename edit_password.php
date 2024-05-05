@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Password</title>
+    <link rel="stylesheet" href="styles/edit_password.css">
     <!-- Include CSS and JS as needed -->
 </head>
 <body>
@@ -53,63 +54,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
 </body>
-<style>
-    /* styles.css */
 
-/* Base styles for the form */
-form {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-/* Styling the label and input elements */
-label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-/* Styling the submit button */
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* Styles for success and error messages */
-.success-message {
-    color: green;
-    font-size: 16px;
-    text-align: center;
-}
-
-.error-message {
-    color: red;
-    font-size: 16px;
-    text-align: center;
-}
-
-</style>
 </html>
