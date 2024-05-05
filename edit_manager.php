@@ -1,18 +1,14 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+
 include 'logged_in.php';
 
 include 'permission_admin.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verzamelen van formuliergegevens
-  
-    $password = !empty($_POST["password"]) ? password_hash($_POST["password"], PASSWORD_DEFAULT) : null; // alleen als wachtwoord wordt gewijzigd
-    $Selectmanager = htmlspecialchars($_POST["Selectmanager"]);
 
-
-}
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Milana">Milana</option>
                 <option value="Dante">Dante</option>
                 <option value="Jonas">Jonas</option>
-               
             </select>
         </div>
 
