@@ -11,7 +11,6 @@ include 'permission_manager.php';
 
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
-$task = $user->getAssignedTaskTypes($userId);
 
 
 ?><!DOCTYPE html>
@@ -33,11 +32,17 @@ $task = $user->getAssignedTaskTypes($userId);
         <div class="user-box">
             <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
             <div class="user-info">
-            <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-           </div>
-        
-    </div>
-    <?php endforeach; ?>
+                <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
+                <!-- Display assigned tasks -->
+                <ul>
+                <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
+                    <?php foreach ($assignedTaskTypes as $task): ?>
+                        <li><?= htmlspecialchars($task['task_type_name']) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <?php endforeach; ?>
     </div>
 
     <a href="user.php" class="go-back-button" type="button">Go Back</a>
