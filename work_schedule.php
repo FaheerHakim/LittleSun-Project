@@ -3,6 +3,8 @@ session_start();
 
 include 'logged_in.php';
 
+include 'permission_employee.php';
+
 $user = $_SESSION['user'];
 
 ?><!DOCTYPE html>
@@ -20,10 +22,7 @@ $user = $_SESSION['user'];
 <!-- dashboard -->    
 
 <div class="main">
-    <h1><span class="title"> Dashboard <?php echo $user['type_user'] ;?></span></h1>
-    <div class="info-square">Total hours worked</div>
-    <div onclick="location.href='upcoming_tasks.php';" class="info-square">Upcoming tasks</div>
-    <div class="info-square">Time-off requests</div>
+    <h1><span class="title"> Work schedule</span></h1>
 </div>
 </body>
 </html>

@@ -34,7 +34,7 @@
         <a href="time_off_request_employee.php">Time-off requests</a>
         <a>Sick leave</a>
         <a>Clock in/out</a>
-        <a>Work schedule</a>
+        <a href="work_schedule.php">Work schedule</a>
         <a href="logout.php">Logout</a>
     </div>
     <?php endif; ?>

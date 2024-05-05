@@ -32,7 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
     <link rel="stylesheet" href="styles/request_time_off.css">
 </head>
 <body>
+<a href="time_off_request_employee.php" class="go-back-button" type="button">Go Back</a>
+
+<div class="container">
 <div class="form-container">
+    
     <h1>Request Time Off</h1>
     
     <form action="request_time_off.php" method="post">
@@ -45,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
             <button type="submit">Submit Request</button>
         </form>
         </div>
+</div>
 </body>
 
 </html>
