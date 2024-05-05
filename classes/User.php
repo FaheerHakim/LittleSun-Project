@@ -81,6 +81,17 @@ class User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
         
+    public function removeTaskTypeAssignment($userId, $taskTypeId) {
+        try {
+            $conn = $this->db->getConnection();
+            $stmt = $conn->prepare("DELETE FROM user_task_types WHERE user_id = ? AND task_type_id = ?");
+            $stmt->execute([$userId, $taskTypeId]);
+            return true; // Assignment removed successfully
+        } catch (PDOException $e) {
+            // Handle the error (e.g., log it, display a message, etc.)
+            return false; // Failed to remove assignment
+        }
+    }
 }
     
 

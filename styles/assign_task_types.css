@@ -9,7 +9,6 @@ body {
 
 .assign-task-container {
     padding: 20px;
-    text-align: center;
     background-color: #f9f9f9; /* Light background for the container */
 }
 
@@ -84,6 +83,15 @@ select {
     transition: box-shadow 0.3s; /* For hover effect */
 }
 
+label{
+    font-weight: bold;
+}
+
+.user-box p{
+    font-weight: bold;
+    font-size: 18px;
+}
+
 .user-box:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
 }
@@ -110,4 +118,30 @@ select {
 }
 .go-back-button:hover {
     background-color: #2980b9;
+}
+
+ul{
+    padding:0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+li{
+    list-style-type: none;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 250px;
+    background-color: #ffffff;
+    transition: box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sub-container{
+    display: flex;
 }
