@@ -22,6 +22,14 @@ class User {
         $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
         return $result;
     }
+
+    public function addEmployee($email, $password, $first_name, $last_name, $location_id) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'employee', ?)");
+        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
+        return $result;
+    }
+
     public function assignTaskType($userId, $taskTypeId) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("INSERT INTO user_task_types (user_id, task_type_id) VALUES (?, ?)");

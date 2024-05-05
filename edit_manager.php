@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -35,9 +36,9 @@ include 'permission_admin.php';
         </div>
         
     
-        <a href="manager.php" class="update-button">Reset password</a>
+        <a href="user.php" class="update-button">Reset password</a>
         
-        <a href="manager.php" class="go-back-button" type="button">Go Back</a>
+        <a href="user.php" class="go-back-button" type="button">Go Back</a>
     </form>
 </body>
 </html>
