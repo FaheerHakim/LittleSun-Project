@@ -9,6 +9,8 @@ include 'logged_in.php';
 
 include 'permission_manager.php';
 
+$user = new User(); // Instantiate the User class
+
 // Instantiate TimeOff class
 $timeOffHandler = new TimeOff();
 
@@ -49,7 +51,12 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
     </tr>
     <?php foreach ($timeOffRequests as $request): ?>
         <tr>
-            <td><?php echo $request['user_id']; ?></td>
+            <td>
+                <?php
+                $userDetails = $user->getUserById($request['user_id']);
+                echo htmlspecialchars($userDetails['first_name'] . ' ' . $userDetails['last_name']);
+                ?>            
+            </td>
             <td><?php echo $request['start_date']; ?></td>
             <td><?php echo $request['end_date']; ?></td>
             <td><?php echo $request['status']; ?></td>

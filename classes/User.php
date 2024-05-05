@@ -65,16 +65,23 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-        // Your existing methods
-    
-        public function updateUserPassword($userId, $newPassword) {
-            $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT); // Hash the password
-            $conn = $this->db->getConnection();
-            $stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
-            $stmt->execute([$hashedPassword, $userId]);
-            return $stmt->rowCount() > 0;
-        }
+
+    public function updateUserPassword($userId, $newPassword) {
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT); // Hash the password
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
+        $stmt->execute([$hashedPassword, $userId]);
+        return $stmt->rowCount() > 0;
     }
+    
+    public function getUserById($userId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+        
+}
     
 
 // Remove the closing PHP tag
