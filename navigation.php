@@ -1,7 +1,7 @@
 <!-- navigation -->    
 
-    <!-- Admin navigation -->
-    <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>
+    <!-- Admin navigation (niet manager en niet employee) -->
+    <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
@@ -12,11 +12,12 @@
     </div>
     <?php endif; ?>
 
-    <!-- Managers navigation -->
+    <!-- Managers navigation (niet admin en niet employee)-->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
+        <a href="add_employee.php">Employees</a>
         <a href="task_types_manager.php">Task types</a>
         <a>Work schedule</a>
         <a>Reports</a>
@@ -26,7 +27,7 @@
     <?php endif; ?>
 
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
-    <!-- Employees navigation -->
+    <!-- Employees navigation (niet admin en niet manager) -->
     <div class="sidebar">
         <a href="#"><i id="title"></i> Little Sun</a>
         <a href="dashboard.php">Dashboard</a>
