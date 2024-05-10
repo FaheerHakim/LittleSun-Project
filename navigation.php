@@ -19,7 +19,7 @@
         <a href="dashboard.php">Dashboard</a>
         <a href="user.php">Employees</a>
         <a href="task_types_manager.php">Task types</a>
-        <a>Work schedule</a>
+        <a href="work_schedule_manager.php">Work schedule</a>
         <a>Reports</a>
         <a href="time_off_request_manager.php">Time-off requests</a>
         <a href="logout.php">Logout</a>

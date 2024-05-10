@@ -9,12 +9,8 @@ require_once __DIR__ . "/classes/TaskType.php";
 $userHandler = new User();
 $taskTypeHandler = new TaskType();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user'])) {
-    // Redirect the user to the login page if not logged in
-    header("Location: login.php");
-    exit();
-}
+require_once 'logged_in.php';
+require_once 'permission_employee.php';
 
 // Get the logged-in user's ID
 $loggedInUserId = $_SESSION['user']['user_id'];
