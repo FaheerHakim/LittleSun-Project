@@ -29,13 +29,24 @@ class TimeOff {
         return $stmt->rowCount() > 0;
     }
     
+    
     public function declineTimeOffRequest($requestId) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("UPDATE time_off_requests SET status = 'declined' WHERE time_off_request_id = ?");
         $stmt->execute([$requestId]);
         return $stmt->rowCount() > 0;
     }
-    
-    
+    public function hasApprovedTimeOff($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM time_off_requests WHERE user_id = ? AND start_date <= ? AND end_date >= ? AND status = 'approved'");
+        $stmt->execute([$userId, $date, $date]);
+        return $stmt->fetchColumn() > 0;
+    }
+    public function getApprovedTimeOffDetails($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT start_date, end_date FROM time_off_requests WHERE user_id = ? AND start_date <= ? AND end_date >= ? AND status = 'approved'");
+        $stmt->execute([$userId, $date, $date]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

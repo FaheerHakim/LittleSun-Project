@@ -57,7 +57,6 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
                 <?php
                 $userDetails = $user->getUserById($request['user_id']);
                 echo htmlspecialchars($userDetails['first_name'] . ' ' . $userDetails['last_name']);
-                var_dump($userDetails);
                 ?>            
             </td>
             <td><?php echo $request['start_date']; ?></td>

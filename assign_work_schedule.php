@@ -4,10 +4,12 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/Schedule.php"; // Update to use Schedule class
 require_once __DIR__ . "/classes/User.php";
+require_once __DIR__ . "/classes/TimeOff.php"; // Include the TimeOff class
 
 // Fetch existing users and locations from the database
 $scheduleHandler = new Schedule();
 $userHandler = new User();
+$timeOffHandler = new TimeOff(); // Instantiate the TimeOff class
 
 include 'logged_in.php';
 include 'permission_manager.php';
@@ -21,15 +23,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
     $endTime = $_POST['end_time'];
     $date = $_POST['date'];
     
-    // Assign task schedule to user
-    $success = $scheduleHandler->assignTaskSchedule($userId, $locationId, $taskTypeId, $startTime, $endTime, $date);
-
-    if ($success) {
-        // Task schedule assigned successfully
-        // You can redirect the user or display a success message
-    } else {
-        // There was an error assigning the task schedule
-        // You can display an error message or handle the situation accordingly
+    // Check if the user has approved time off for the selected date
+    if ($timeOffHandler->hasApprovedTimeOff($userId, $date)) {
+        // Fetch time off details for the user
+        $timeOffDetails = $timeOffHandler->getApprovedTimeOffDetails($userId, $date);
+        
+        // Check if time off details are not empty
+        if (!empty($timeOffDetails)) {
+            // Extract begin date and end date from the time off details
+            $beginDate = $timeOffDetails['start_date'];
+            $endDate = $timeOffDetails['end_date'];
+            
+            // Display error message with begin date and end date
+            echo "<script>alert('This person has an approved time off from $beginDate to $endDate. Select another time slot');</script>";
+        } else {
+            // Define error message
+            $errorMessage = "Time off details not found.";
+        }
+    }
+    
+    // Display form if no error message is set
+    if (!isset($errorMessage)) {
+        // Rest of your code for displaying the form
     }
 }
 
@@ -64,30 +79,36 @@ $locations = $scheduleHandler->getLocations();
                 });
                 // Display the form if there are available task types, otherwise display a message
                 if (!empty($availableTaskTypes)): ?>
-                    <form action="assign_work_schedule.php" method="post" onsubmit="return confirmAssignment()">
-                        <label for="task_type_id">Assigned task types:</label>
-                        <select name="task_type_id" id="task_type_id">
-                            <?php foreach ($availableTaskTypes as $taskType): ?>
-                                <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <label for="location_id">Location:</label>
-                        <select name="location_id" id="location_id">
-                            <?php foreach ($locations as $location): ?>
-                                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <label for="date">Date:</label>
-                        <input type="date" id="date" name="date" required><br>
-                        <label for="start_time">Start Time:</label>
-                        <input type="time" id="start_time" name="start_time" required><br>
-                        <label for="end_time">End Time:</label>
-                        <input type="time" id="end_time" name="end_time" required><br>
-                        <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                        <button class="assign-button" type="submit">Assign Work Schedule</button>
-                    </form>
+                    <?php if (isset($errorMessage)): ?>
+                        <p><?php echo $errorMessage; ?></p>
+                        <button onclick="location.href='overview_work_schedule.php'">Overview work schedule</button>
+                    <?php else: ?>
+                        <form action="assign_work_schedule.php" method="post" onsubmit="return confirmAssignment()">
+                            <label for="task_type_id">Assigned task types:</label>
+                            <select name="task_type_id" id="task_type_id">
+                                <?php foreach ($availableTaskTypes as $taskType): ?>
+                                    <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <label for="location_id">Location:</label>
+                            <select name="location_id" id="location_id">
+                                <?php foreach ($locations as $location): ?>
+                                    <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <label for="date">Date:</label>
+                            <input type="date" id="date" name="date" required><br>
+                            <label for="start_time">Start Time:</label>
+                            <input type="time" id="start_time" name="start_time" required><br>
+                            <label for="end_time">End Time:</label>
+                            <input type="time" id="end_time" name="end_time" required><br>
+                            <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                            <button class="assign-button" type="submit">Assign Work Schedule</button>
+                        </form>
+                    <?php endif; ?>
                 <?php else: ?>
                     <p>All task types have been assigned a work schedule for this user.</p>
+                    <button onclick="location.href='overview_work_schedule.php'">Overview work schedule</button>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
