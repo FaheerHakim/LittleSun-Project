@@ -38,5 +38,13 @@ class Schedule {
         $stmt = $conn->query("SELECT * FROM locations");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function hasWorkSchedule($userId, $taskTypeId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM work_schedule WHERE user_id = ? AND task_type_id = ?");
+        $stmt->execute([$userId, $taskTypeId]);
+        $count = $stmt->fetchColumn();
+        return $count > 0;
+    }
 }
 ?>

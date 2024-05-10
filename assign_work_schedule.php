@@ -3,12 +3,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/Schedule.php"; // Update to use Schedule class
+require_once __DIR__ . "/classes/User.php";
 
 // Fetch existing users and locations from the database
 $scheduleHandler = new Schedule();
+$userHandler = new User();
 
 include 'logged_in.php';
-
 include 'permission_manager.php';
 
 // Add task schedule for user
@@ -32,9 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
     }
 }
 
-// Get users and task types
+// Get users and locations
 $employeeUsers = $scheduleHandler->getEmployeeUsers();
-$taskTypes = $scheduleHandler->getTaskTypes();
 $locations = $scheduleHandler->getLocations();
 
 ?><!DOCTYPE html>
@@ -42,40 +42,53 @@ $locations = $scheduleHandler->getLocations();
 <head>
     <meta charset="UTF-8">
     <title>Assign Work Schedule</title>
-    <link rel="stylesheet" href="styles/assign_work_schedule.css">
-    <script src="script/assign_work_schedule.js" defer></script>
+    <link rel="stylesheet" href="styles/assign_task_types.css">
+    <script src="script/assign_task_type.js" defer></script>
 </head>
 <body>
 <div class="assign-schedule-container">
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+    <a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
     <h1>Assign Work Schedule to Users</h1>
     <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
     <div class="sub-container">
         <?php foreach ($employeeUsers as $user): ?>
             <div class="user-box">
                 <p>User: <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></p>
-                <form action="assign_work_schedule.php" method="post" onsubmit="return confirmAssignment()">
-                    <label for="location_id">Location:</label>
-                    <select name="location_id" id="location_id">
-                        <?php foreach ($locations as $location): ?>
-                            <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <label for="task_type_id">Task Type:</label>
-                    <select name="task_type_id" id="task_type_id">
-                        <?php foreach ($taskTypes as $taskType): ?>
-                            <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <label for="start_time">Start Time:</label>
-                    <input type="time" id="start_time" name="start_time" required><br>
-                    <label for="end_time">End Time:</label>
-                    <input type="time" id="end_time" name="end_time" required><br>
-                    <label for="date">Date:</label>
-                    <input type="date" id="date" name="date" required><br>
-                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                    <button class="assign-button" type="submit">Assign Work Schedule</button>
-                </form>
+                
+                <?php
+                // Get assigned task types for the user
+                $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);
+                // Filter out assigned task types that already have a work schedule
+                $availableTaskTypes = array_filter($assignedTaskTypes, function ($taskType) use ($user, $scheduleHandler) {
+                    return !$scheduleHandler->hasWorkSchedule($user['user_id'], $taskType['task_type_id']);
+                });
+                // Display the form if there are available task types, otherwise display a message
+                if (!empty($availableTaskTypes)): ?>
+                    <form action="assign_work_schedule.php" method="post" onsubmit="return confirmAssignment()">
+                        <label for="task_type_id">Assigned task types:</label>
+                        <select name="task_type_id" id="task_type_id">
+                            <?php foreach ($availableTaskTypes as $taskType): ?>
+                                <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="location_id">Location:</label>
+                        <select name="location_id" id="location_id">
+                            <?php foreach ($locations as $location): ?>
+                                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required><br>
+                        <label for="start_time">Start Time:</label>
+                        <input type="time" id="start_time" name="start_time" required><br>
+                        <label for="end_time">End Time:</label>
+                        <input type="time" id="end_time" name="end_time" required><br>
+                        <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                        <button class="assign-button" type="submit">Assign Work Schedule</button>
+                    </form>
+                <?php else: ?>
+                    <p>All task types have been assigned a work schedule for this user.</p>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>
