@@ -64,3 +64,34 @@ body {
 .btn:hover {
     background-color: #2980b9; /* Darker blue on hover */
 }
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer-display {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.timer-buttons {
+    display: flex;
+    gap: 10px; /* Spacing between buttons */
+}
+
+.timer-buttons button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.timer-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

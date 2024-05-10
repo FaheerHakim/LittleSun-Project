@@ -33,7 +33,7 @@
         <a href="dashboard.php">Dashboard</a>
         <a href="time_off_request_employee.php">Time-off requests</a>
         <a>Sick leave</a>
-        <a>Clock in/out</a>
+        <a href="clock_in_out.php">Clock in/out</a>
         <a href="work_schedule.php">Work schedule</a>
         <a href="logout.php">Logout</a>
     </div>
