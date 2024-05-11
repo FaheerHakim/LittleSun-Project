@@ -51,6 +51,8 @@ $nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
 </head>
 <body>
 <div class="container">
+<a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
+
       <!-- Navigation to switch between views -->
       <div class="view-navigation">
         <a href="schedule_overview.php">Daily</a>

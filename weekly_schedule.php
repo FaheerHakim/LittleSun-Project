@@ -57,6 +57,8 @@ $workScheduleThisWeek = $scheduleHandler->getWorkScheduleForPeriod($startDateOfW
 </head>
 <body>
 <div class="container">
+<a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
+
     <div class="view-navigation">
     <a href="schedule_overview.php">Daily</a>
         <a href="weekly_schedule.php">Weekly</a>

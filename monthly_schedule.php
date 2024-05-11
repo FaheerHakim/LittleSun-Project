@@ -57,6 +57,8 @@ $workScheduleThisMonth = $scheduleHandler->getWorkScheduleForPeriod($startDateOf
     <link rel="stylesheet" href="styles/overview_work_schedule.css">
 </head>
 <body>
+<a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
+
 <div class="container">
     <div class="view-navigation">
         <a href="schedule_overview.php">Daily</a>
