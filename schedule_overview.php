@@ -51,6 +51,12 @@ $nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
 </head>
 <body>
 <div class="container">
+      <!-- Navigation to switch between views -->
+      <div class="view-navigation">
+        <a href="overview_work_schedule.php?view=daily">Daily</a>
+        <a href="weekly_schedule.php">Weekly</a>
+        <a href="overview_work_schedule.php?view=monthly">Monthly</a>
+    </div>
     <h1>Work Schedule for <?php echo date("l, F j, Y", strtotime($currentDate)); ?></h1>
 
     <div class="navigation">
@@ -66,8 +72,8 @@ $nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
                 <?php foreach ($workSchedule as $schedule): ?>
                     <div class="schedule-item">
                         <h3>User: <?php echo $userHandler->getUserNameById($schedule['user_id']); ?></h3>
-                        <p>Task Type: <?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id']); ?></p>
-                        <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id']); ?></p>
+                        <p>Task Type: <?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></p>
+                    <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></p>
                         <p>Start Time: <?php echo $schedule['start_time']; ?></p>
                         <p>End Time: <?php echo $schedule['end_time']; ?></p>
                     </div>
