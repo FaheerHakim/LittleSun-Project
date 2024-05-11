@@ -40,11 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
             // Define error message
             $errorMessage = "Time off details not found.";
         }
-    }
-    
-    // Display form if no error message is set
-    if (!isset($errorMessage)) {
-        // Rest of your code for displaying the form
+    } else {
+        // Assign task schedule to user
+        $success = $scheduleHandler->assignTaskSchedule($userId, $locationId, $taskTypeId, $startTime, $endTime, $date);
+
+        if ($success) {
+            // Task schedule assigned successfully
+            // You can redirect the user or display a success message
+        } else {
+            // There was an error assigning the task schedule
+            // You can display an error message or handle the situation accordingly
+        }
     }
 }
 

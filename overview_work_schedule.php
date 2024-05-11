@@ -52,7 +52,7 @@ $workScheduleThisMonth = $scheduleHandler->getWorkScheduleForPeriod($startDateOf
         <div class="work-schedule">
             <?php foreach ($workScheduleToday as $schedule): ?>
                 <div class="schedule-item">
-                    <p>User: <?php echo $userHandler->getUserNameById($schedule['user_id']); ?></p>
+                    <h3>User: <?php echo $userHandler->getUserNameById($schedule['user_id']); ?></p></h3>
                     <p>Task Type: <?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></p>
                     <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></p>
                     <p>Start Time: <?php echo $schedule['start_time']; ?></p>
