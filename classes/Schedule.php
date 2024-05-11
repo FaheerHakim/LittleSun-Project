@@ -46,5 +46,18 @@ class Schedule {
         $count = $stmt->fetchColumn();
         return $count > 0;
     }
+    public function getWorkScheduleForDate($date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE date = ?");
+        $stmt->execute([$date]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getWorkScheduleForPeriod($startDate, $endDate) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE date BETWEEN ? AND ?");
+        $stmt->execute([$startDate, $endDate]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

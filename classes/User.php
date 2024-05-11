@@ -92,6 +92,10 @@ class User {
             return false; // Failed to remove assignment
         }
     }
+    public function getUserNameById($userId) {
+        $userDetails = $this->getUserById($userId);
+        return $userDetails['first_name'] . ' ' . $userDetails['last_name'];
+    }
 }
     
 

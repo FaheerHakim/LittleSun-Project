@@ -28,6 +28,12 @@ class TaskType {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getTaskTypeNameById($typeId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM task_types WHERE task_type_id = ?");
+        $stmt->execute([$typeId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

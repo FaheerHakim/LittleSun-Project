@@ -42,5 +42,11 @@ class Location {
         $stmt->execute([$locationId]);
         return $stmt->rowCount() > 0;
     }
+    public function getLocationNameById($locationId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM locations WHERE location_id = ?");
+        $stmt->execute([$locationId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>
