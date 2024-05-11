@@ -54,7 +54,6 @@ $workScheduleThisWeek = $scheduleHandler->getWorkScheduleForPeriod($startDateOfW
 <head>
     <meta charset="UTF-8">
     <title>Overview Work Schedule</title>
-    <link rel="stylesheet" href="styles/overview_work_schedule.css">
 </head>
 <body>
 <div class="container">
@@ -66,12 +65,8 @@ $workScheduleThisWeek = $scheduleHandler->getWorkScheduleForPeriod($startDateOfW
 <h1>Work Schedule for Week <?php echo date("M d", strtotime($startDateOfWeek)); ?> - <?php echo date("M d, Y", strtotime($endDateOfWeek)); ?></h1>
 
     <div class="navigation">
-        <?php if (strtotime($startDateOfWeek) > strtotime(date("Y-m-d", strtotime('monday this week')))): ?>
             <a href="?start_date=<?php echo date("Y-m-d", strtotime($startDateOfWeek . " -1 week")); ?>&end_date=<?php echo date("Y-m-d", strtotime($endDateOfWeek . " -1 week")); ?>">Previous Week</a>
-        <?php endif; ?>
-        <?php if (strtotime($endDateOfWeek) < strtotime(date("Y-m-d", strtotime('sunday this week')))): ?>
             <a href="?start_date=<?php echo date("Y-m-d", strtotime($startDateOfWeek . " +1 week")); ?>&end_date=<?php echo date("Y-m-d", strtotime($endDateOfWeek . " +1 week")); ?>">Next Week</a>
-        <?php endif; ?>
     </div>
 
     <div class="section">
