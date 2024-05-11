@@ -57,10 +57,10 @@ $workScheduleThisWeek = $scheduleHandler->getWorkScheduleForPeriod($startDateOfW
 </head>
 <body>
 <div class="container">
-<div class="view-navigation">
-        <a href="overview_work_schedule.php?view=daily">Daily</a>
+    <div class="view-navigation">
+    <a href="schedule_overview.php">Daily</a>
         <a href="weekly_schedule.php">Weekly</a>
-        <a href="overview_work_schedule.php?view=monthly">Monthly</a>
+        <a href="monthly_schedule.php">Monthly</a>
     </div>
 <h1>Work Schedule for Week <?php echo date("M d", strtotime($startDateOfWeek)); ?> - <?php echo date("M d, Y", strtotime($endDateOfWeek)); ?></h1>
 
@@ -78,7 +78,7 @@ $workScheduleThisWeek = $scheduleHandler->getWorkScheduleForPeriod($startDateOfW
                     <div class="schedule-item">
                         <h3>User: <?php echo $userHandler->getUserNameById($schedule['user_id']); ?></h3>
                         <p>Task Type: <?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></p>
-                    <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></p>
+                        <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></p>
                         <p>Start Time: <?php echo $schedule['start_time']; ?></p>
                         <p>End Time: <?php echo $schedule['end_time']; ?></p>
                     </div>

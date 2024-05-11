@@ -53,9 +53,9 @@ $nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
 <div class="container">
       <!-- Navigation to switch between views -->
       <div class="view-navigation">
-        <a href="overview_work_schedule.php?view=daily">Daily</a>
+        <a href="schedule_overview.php">Daily</a>
         <a href="weekly_schedule.php">Weekly</a>
-        <a href="overview_work_schedule.php?view=monthly">Monthly</a>
+        <a href="monthly_schedule.php">Monthly</a>
     </div>
     <h1>Work Schedule for <?php echo date("l, F j, Y", strtotime($currentDate)); ?></h1>
 
