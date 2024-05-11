@@ -92,6 +92,14 @@ class User {
             return false; // Failed to remove assignment
         }
     }
+
+    public function recordTime($user_id, $start_time, $end_time, $elapsed_time) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("INSERT INTO time_records (user_id, start_time, end_time, elapsed_time) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$user_id, $start_time, $end_time, $elapsed_time]);
+        return $stmt->rowCount() > 0; // Return true if successful
+    }
+    
 }
     
 
