@@ -93,12 +93,63 @@ class User {
         }
     }
 
-    public function recordTime($user_id, $start_time, $end_time, $elapsed_time) {
+    public function clockIn($userId) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO time_records (user_id, start_time, end_time, elapsed_time) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$user_id, $start_time, $end_time, $elapsed_time]);
-        return $stmt->rowCount() > 0; // Return true if successful
+        $statement = $conn->prepare("INSERT INTO work_hours (user_id, start_time) VALUES (?, NOW())");
+        $statement->execute([$userId]);
+        
+        // Return the ID of the inserted record
+        return $conn->lastInsertId();
     }
+    
+    public function clockOut($userId) {
+        $conn = $this->db->getConnection();
+        $statement = $conn->prepare("UPDATE work_hours SET end_time = NOW() WHERE user_id = ? AND end_time IS NULL");
+        $statement->execute([$userId]); // Pass $userId directly without wrapping it in an array
+    }
+    
+   
+
+    public function calculateOvertime($userId) {
+        $conn = $this->db->getConnection();
+        $statement = $conn->prepare("SELECT SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) AS total_worked FROM work_hours WHERE user_id = ?");
+        $statement->execute([$userId]);
+        $totalWorkedSeconds = $statement->fetchColumn();
+    
+        // Convert total worked time to minutes
+        $totalWorkedMinutes = $totalWorkedSeconds / 60;
+    
+        // Assuming planned working time is 30 seconds
+        $plannedSeconds = 30;
+        
+        // Convert planned time to minutes
+        $plannedMinutes = $plannedSeconds / 60;
+    
+        $overtimeMinutes = $totalWorkedMinutes - $plannedMinutes;
+    
+        // Round up to the nearest minute
+        $overtimeMinutes = ceil($overtimeMinutes);
+    
+        // Update the overtime_minutes column in the database
+        $updateStatement = $conn->prepare("UPDATE work_hours SET overtime_minutes = ? WHERE user_id = ?");
+        $updateStatement->execute([$overtimeMinutes, $userId]);
+    
+        return max(0, $overtimeMinutes); // Overtime cannot be negative
+    }
+    
+    
+
+    public function getStartTime($userId) {
+        $conn = $this->db->getConnection();
+        $statement = $conn->prepare("SELECT start_time FROM work_hours WHERE user_id = ?");
+        $statement->execute([$userId]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        // Assuming $result['start_time'] is in 'Y-m-d H:i:s' format
+        return $result['start_time'];
+    }
+
+
     
 }
     
