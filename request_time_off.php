@@ -17,12 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
     $userId = $_SESSION['user']['user_id'];
     $startDate = $_POST['start_date'];
     $endDate = $_POST['end_date'];
+    $reason = $_POST['reason']; // Add this line to get the reason
     
     // Request time off
-    $timeOffHandler->requestTimeOff($userId, $startDate, $endDate);
+    $timeOffHandler->requestTimeOff($userId, $startDate, $endDate, $reason); // Pass the reason to the requestTimeOff method
     // Optionally, provide feedback to the user
-    echo "Time off requested successfully.";
+    echo "<script>alert('Time off requested successfully.');</script>";
 }
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -30,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
     <meta charset="UTF-8">
     <title>Request Time Off</title>
     <link rel="stylesheet" href="styles/request_time_off.css">
+    <script src="script/request_time_off.js" defer></script>
 </head>
 <body>
 <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
@@ -45,6 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
 
             <label for="end_date">End Date:</label>
             <input type="date" name="end_date" id="end_date">
+
+            <label for="reason">Reason:</label>
+            <select name="reason" id="reason" required>
+                <option value="Vacation">Vacation</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Personal Time">Personal Time</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="additional_notes">Additional Notes:</label>
+            <textarea name="additional_notes" id="additional_notes" rows="4" cols="50"></textarea>
 
             <button type="submit">Submit Request</button>
         </form>

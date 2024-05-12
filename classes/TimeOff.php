@@ -8,10 +8,10 @@ class TimeOff {
         $this->db = new Db();
     }
 
-    public function requestTimeOff($userId, $startDate, $endDate) {
+    public function requestTimeOff($userId, $startDate, $endDate, $reason) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO time_off_requests (user_id, start_date, end_date, status) VALUES (?, ?, ?, 'pending')");
-        $stmt->execute([$userId, $startDate, $endDate]);
+        $stmt = $conn->prepare("INSERT INTO time_off_requests (user_id, start_date, end_date, reason, status) VALUES (?, ?, ?, ?, 'pending')");
+        $stmt->execute([$userId, $startDate, $endDate, $reason]); // Pass the reason to the execute method
         return $conn->lastInsertId();
     }
 
