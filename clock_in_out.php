@@ -1,37 +1,48 @@
 <?php
-// Include database connection and User class
+// clock_in_out.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 session_start();
 
-include 'logged_in.php'; // Check if user is logged in
-include 'permission_employee.php'; 
-include 'classes/User.php';
+include 'logged_in.php';
 
-$user = new User();
+include 'permission_employee.php';
+// Include necessary classes and files
+require_once __DIR__ . "/classes/WorkHours.php"; // Include the WorkHours class
 
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-    $userId = 1; // Assuming user ID is 1
+// Create an instance of the WorkHours class
+$workHoursHandler = new WorkHours();
 
-    switch ($action) {
-        case 'clockIn':
-            $user->clockIn($userId);
-            echo "Clocked in successfully!";
-            break;
-        
-        case 'clockOut':
-            $user->clockOut($userId);
-            echo "Clocked out successfully!";
-            break;
-        
-        default:
-            echo "Invalid action!";
-            break;
+// Get the user ID from the session (assuming the user is logged in)
+$user = $_SESSION['user'];
+$userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key of the user array
+
+// Check if the clock-in button is clicked
+if (isset($_POST['clock_in'])) {
+    // Check if the user has already clocked in for the day
+    if ($workHoursHandler->hasClockedInToday($userId)) {
+        echo "You have already clocked in for today.";
+    } else {
+        // Clock in the user for the day
+        $currentTime = date("Y-m-d H:i:s");
+        $workHoursHandler->clockIn($userId, $currentTime);
+        echo "You have successfully clocked in for today.";
     }
 }
 
-
+// Check if the clock-out button is clicked
+if (isset($_POST['clock_out'])) {
+    // Check if the user has already clocked out for the day
+    if ($workHoursHandler->hasClockedOutToday($userId)) {
+        echo "You have already clocked out for today.";
+    } else {
+        // Clock out the user for the day
+        $currentTime = date("Y-m-d H:i:s");
+        $workHoursHandler->clockOut($userId, $currentTime);
+        echo "You have successfully clocked out for today.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,9 +53,11 @@ if (isset($_POST['action'])) {
    
 </head>
 <body>
-    <button id="clockInBtn">Clock In</button>
-    <button id="clockOutBtn">Clock Out</button>
+<form action="clock_in_out.php" method="post">
+    <button type="submit" name="clock_in">Clock In</button>
+    <button type="submit" name="clock_out">Clock Out</button>
     <p id="currentTime">current Time</p>
+</form>
 
 </body>
 </html>
