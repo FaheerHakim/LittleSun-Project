@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Function to update the current time and date
     function updateCurrentTimeAndDate() {
         var currentDate = new Date();
         var currentTimeElement = document.getElementById("currentTime");
@@ -9,9 +10,13 @@ $(document).ready(function() {
         }
     }
 
-    // Call the function to update the current time and date
+    // Call the function to update the current time and date initially
     updateCurrentTimeAndDate();
 
+    // Update the current time and date every second
+    setInterval(updateCurrentTimeAndDate, 1000);
+
+    // AJAX request for clocking in
     $("#clockInBtn").click(function() {
         $.ajax({
             url: "clock_in_out.php",
@@ -23,6 +28,7 @@ $(document).ready(function() {
         });       
     });
 
+    // AJAX request for clocking out
     $("#clockOutBtn").click(function() {
         $.ajax({
             url: "clock_in_out.php",
