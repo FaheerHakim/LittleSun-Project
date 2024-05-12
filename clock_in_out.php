@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 session_start();
 
 include 'logged_in.php';
-
 include 'permission_employee.php';
+
 // Include necessary classes and files
 require_once __DIR__ . "/classes/WorkHours.php"; // Include the WorkHours class
 
@@ -20,28 +20,18 @@ $userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key o
 
 // Check if the clock-in button is clicked
 if (isset($_POST['clock_in'])) {
-    // Check if the user has already clocked in for the day
-    if ($workHoursHandler->hasClockedInToday($userId)) {
-        echo "You have already clocked in for today.";
-    } else {
-        // Clock in the user for the day
-        $currentTime = date("Y-m-d H:i:s");
-        $workHoursHandler->clockIn($userId, $currentTime);
-        echo "You have successfully clocked in for today.";
-    }
+    // Clock in the user for the day
+    $currentTime = date("Y-m-d H:i:s");
+    $workHoursHandler->clockIn($userId, $currentTime);
+    echo "You have successfully clocked in for today.";
 }
 
 // Check if the clock-out button is clicked
 if (isset($_POST['clock_out'])) {
-    // Check if the user has already clocked out for the day
-    if ($workHoursHandler->hasClockedOutToday($userId)) {
-        echo "You have already clocked out for today.";
-    } else {
-        // Clock out the user for the day
-        $currentTime = date("Y-m-d H:i:s");
-        $workHoursHandler->clockOut($userId, $currentTime);
-        echo "You have successfully clocked out for today.";
-    }
+    // Clock out the user for the day
+    $currentTime = date("Y-m-d H:i:s");
+    $workHoursHandler->clockOut($userId, $currentTime);
+    echo "You have successfully clocked out for today.";
 }
 ?>
 <!DOCTYPE html>
@@ -50,7 +40,6 @@ if (isset($_POST['clock_out'])) {
     <title>Clock In/Out</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script/clock_in_out.js"></script>
-   
 </head>
 <body>
 <form action="clock_in_out.php" method="post">
@@ -58,6 +47,5 @@ if (isset($_POST['clock_out'])) {
     <button type="submit" name="clock_out">Clock Out</button>
     <p id="currentTime">current Time</p>
 </form>
-
 </body>
 </html>
