@@ -73,12 +73,19 @@ $locations = $scheduleHandler->getLocations();
     <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
     <div class="sub-container">
         <?php foreach ($employeeUsers as $user): ?>
+            <?php
+    // Get assigned task types for the user
+    $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);
+    // Filter out users who do not have any assigned task types
+    if (empty($assignedTaskTypes)) {
+        continue; // Skip this user and proceed to the next iteration
+    }
+    ?>
             <div class="user-box">
                 <p>User: <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></p>
                 
                 <?php
                 // Get assigned task types for the user
-                $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);
                 // Filter out assigned task types that already have a work schedule
                 $availableTaskTypes = array_filter($assignedTaskTypes, function ($taskType) use ($user, $scheduleHandler) {
                     return !$scheduleHandler->hasWorkSchedule($user['user_id'], $taskType['task_type_id']);
