@@ -69,21 +69,24 @@ body {
     width: 120px; /* Adjust the width to your desired size */
     height: auto; /* Maintain aspect ratio */
 }
-
 .user-profile {
     position: fixed;
     top: 20px;
     right: 20px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: center; /* Align items horizontally */
 }
 
 .user-profile img {
-    width: 80px; /* Adjust as needed */
-    height: 80px; /* Adjust as needed */
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
     border-radius: 50%; /* Make it circular */
-    margin-bottom: 10px; /* Add some space between the picture and the name */
+    margin-right: 10px; /* Add some space between the picture and the name */
+}
+
+.user-profile .user-details {
+    display: flex;
+    flex-direction: column;
 }
 
 .user-profile span {
@@ -92,10 +95,12 @@ body {
 }
 
 .user-profile span.name {
-    text-align: center; /* Center the name */
     margin-bottom: 5px; /* Add some space between the name and the type of user */
+    font-size: 14px; 
 }
 
 .user-profile span.user-type {
     font-size: 14px; /* Adjust font size */
+    font-size: 12px;
 }
+

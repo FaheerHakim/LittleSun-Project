@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $location_name = $_POST['location']; // Assuming location name is provided from the form
+        $profile_picture = $_FILES ['profile_picture'];
 
         // Database connection
         require_once __DIR__ . "/classes/User.php"; // Assuming the User class exists
@@ -30,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($location_id) {
             // Add the manager to the database
-            $result = $userHandler->addEmployee($email, $password, $first_name, $last_name, $location_id);
+            $result = $userHandler->addEmployee($email, $password, $first_name, $last_name, $location_id, $profile_picture);
 
             if ($result) {
                 // Manager added successfully
@@ -98,6 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             ?>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label for="profile-picture">Profile Picture</label>
+        <input type="file" id="profile-picture" name="profile_picture" accept="image/*">
     </div>
 
     <button type="submit" class="add-button">Add Employee</button>
