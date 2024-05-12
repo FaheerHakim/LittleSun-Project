@@ -55,7 +55,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 </head>
 <body>
 <div class="assign-task-container">
-        <a href="task_types_manager.php" class="go-back-button" type="button">Go Back</a>
+        <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
         <h1>Assign Task Types to Users</h1>
         <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
         <div class="sub-container">

@@ -42,7 +42,7 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
 
 <div class="container">
 
-<a href="time_off_request_manager.php" class="go-back" type="button">Go Back</a>
+<a href="dashboard.php" class="go-back" type="button">Go Back</a>
 <table>
     <tr>
         <th>User</th>
