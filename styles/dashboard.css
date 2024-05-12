@@ -10,7 +10,7 @@ body {
     width: 200px;
     position: fixed;
     background-color: #414E66;
-    padding-top: 40px;
+    padding-top: 10px;
     color: white;
 }
 
@@ -65,10 +65,7 @@ body {
     background-color: #2980b9; /* Darker blue on hover */
 }
 
-#title img {
-    width: 120px; /* Adjust the width to your desired size */
-    height: auto; /* Maintain aspect ratio */
-}
+
 .user-profile {
     position: fixed;
     top: 20px;

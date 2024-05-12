@@ -11,7 +11,7 @@
     <!-- Admin navigation (niet manager en niet employee) -->
     <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
     <div class="sidebar">
-        <a href="#"><i id="title"><img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo"></i></a>
+    <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
         <a href="location.php">Hub Locations</a>
         <a href="manager.php"> Hub Managers</a>
@@ -23,7 +23,7 @@
     <!-- Managers navigation (niet admin en niet employee)-->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
     <div class="sidebar">
-        <a href="#"><i id="title"><img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo"></i></a>
+  <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
         <a href="user.php">Employees</a>
         <a href="task_types_manager.php">Task types</a>
@@ -37,7 +37,7 @@
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
     <!-- Employees navigation (niet admin en niet manager) -->
     <div class="sidebar">
-    <a href="#"><i id="title"><img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo"></i></a>
+    <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
         <a href="time_off_request_employee.php">Time-off requests</a>
         <a>Sick leave</a>
