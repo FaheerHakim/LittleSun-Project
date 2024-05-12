@@ -32,6 +32,7 @@ $user = $_SESSION['user'];
 
      <!-- Managers navigation -->
      <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
+        <div onclick="location.href='total_hours_worked_manager.php';" class="info-square">Total hours worked</div>
         <div onclick="location.href='assign_task_types.php';" class="info-square">Assign task types</div>
         <div onclick="location.href='manage_time_off.php';" class="info-square">Manage time off</div>
 
@@ -40,7 +41,7 @@ $user = $_SESSION['user'];
      <!-- employees navigation -->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
 
-    <div class="info-square">Total hours worked</div>
+    <div onclick="location.href='total_hours_worked.php';" class="info-square">Total hours worked</div>
     <div onclick="location.href='upcoming_tasks.php';" class="info-square">Upcoming tasks</div>
     <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
     <?php endif; ?>

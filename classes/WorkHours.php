@@ -1,5 +1,4 @@
 <?php
-// WorkHours.php
 
 require_once __DIR__ . "/Db.php";
 
@@ -37,12 +36,23 @@ class WorkHours {
         $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND DATE(start_time) = DATE(?)");
         $stmt->execute([$endTime, $userId, $endTime]);
     }
-    public function getClockInTime($userId, $date) {
+    public function getAllWorkHours() {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("SELECT start_time FROM work_hours WHERE user_id = ? AND DATE(start_time) = ?");
-        $stmt->execute([$userId, $date]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['start_time'] : null;
+        $stmt = $conn->prepare("SELECT user_id, start_time, end_time FROM work_hours");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getWorkHoursForUser($userId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT start_time, end_time FROM work_hours WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getAllUserIds() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT user_id FROM work_hours");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
 ?>
