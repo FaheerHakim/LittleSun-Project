@@ -59,5 +59,15 @@ class Schedule {
         $stmt->execute([$startDate, $endDate]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getPlannedWorkingHours($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT TIMESTAMPDIFF(HOUR, start_time, end_time) AS planned_hours 
+                                FROM work_schedule 
+                                WHERE user_id = ? AND DATE(date) = ?");
+        $stmt->execute([$userId, $date]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['planned_hours'] : null;
+    }
 }
 ?>

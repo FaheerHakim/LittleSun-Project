@@ -37,5 +37,12 @@ class WorkHours {
         $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND DATE(start_time) = DATE(?)");
         $stmt->execute([$endTime, $userId, $endTime]);
     }
+    public function getClockInTime($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT start_time FROM work_hours WHERE user_id = ? AND DATE(start_time) = ?");
+        $stmt->execute([$userId, $date]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['start_time'] : null;
+    }
 }
 ?>

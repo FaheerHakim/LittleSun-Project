@@ -1,5 +1,4 @@
 <?php
-// clock_in_out.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -8,7 +7,6 @@ session_start();
 include 'logged_in.php';
 include 'permission_employee.php';
 
-// Include necessary classes and files
 require_once __DIR__ . "/classes/WorkHours.php"; // Include the WorkHours class
 
 // Create an instance of the WorkHours class

@@ -69,7 +69,7 @@ $workScheduleThisMonth = $scheduleHandler->getWorkScheduleForPeriod($startDateOf
 
     <div class="navigation">
     <a href="?start_date=<?php echo date("Y-m-01", strtotime($startDateOfMonth . " -1 month")); ?>&end_date=<?php echo date("Y-m-t", strtotime($startDateOfMonth . " -1 day")); ?>">Previous Month</a>
-    <a href="?start_date=<?php echo date("Y-m-01", strtotime($endDateOfMonth . " +1 day")); ?>&end_date=<?php echo date("Y-m-t", strtotime($endDateOfMonth . " +1 month -1 day")); ?>">Next Month</a>
+    <a href="?start_date=<?php echo date("Y-m-01", strtotime("first day of next month", strtotime($startDateOfMonth))); ?>&end_date=<?php echo date("Y-m-t", strtotime("last day of next month", strtotime($startDateOfMonth))); ?>">Next Month</a>
 </div>
 
     <div class="section">
