@@ -16,17 +16,48 @@ class User {
         return $user;
     }
 
-    public function addManager($email, $password, $first_name, $last_name, $location_id) {
+    
+    public function addManager($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
-        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
+        
+        // Handle file upload
+        if ($file["error"] == 0) {
+            $target_dir = "images/";
+            $target_file = $target_dir . basename($file["name"]);
+            if (!move_uploaded_file($file["tmp_name"], $target_file)) {
+                // Error uploading file
+                return false;
+            }
+        } else {
+            // Error uploading file
+            return false;
+        }
+
+        // Insert manager with profile picture into database
+        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'manager', ?, ?)");
+        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
         return $result;
     }
 
-    public function addEmployee($email, $password, $first_name, $last_name, $location_id) {
+    public function addEmployee($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'employee', ?)");
-        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
+        
+        // Handle file upload
+        if ($file["error"] == 0) {
+            $target_dir = "images/";
+            $target_file = $target_dir . basename($file["name"]);
+            if (!move_uploaded_file($file["tmp_name"], $target_file)) {
+                // Error uploading file
+                return false;
+            }
+        } else {
+            // Error uploading file
+            return false;
+        }
+
+        // Insert employee with profile picture into database
+        $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'employee', ?, ?)");
+        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
         return $result;
     }
 
