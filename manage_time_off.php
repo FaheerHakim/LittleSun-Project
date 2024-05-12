@@ -48,6 +48,8 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
         <th>User</th>
         <th>Start Date</th>
         <th>End Date</th>
+        <th>Reason</th>
+        <th>Additional Notes</th>
         <th>Status</th>
         <th>Action</th>
     </tr>
@@ -61,11 +63,14 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
             </td>
             <td><?php echo $request['start_date']; ?></td>
             <td><?php echo $request['end_date']; ?></td>
+            <td><?php echo $request['reason']; ?></td>
+            <td><?php echo $request['additional_notes']; ?></td>
             <td><?php echo $request['status']; ?></td>
             <td>
                 <form action="manage_time_off.php" method="post">
                     <input type="hidden" name="request_id" value="<?php echo $request['time_off_request_id']; ?>">
                     <select name="action">
+                        <option value="" disabled selected>Select an action</option>
                         <option value="approve">Approve</option>
                         <option value="decline">Decline</option>
                     </select>

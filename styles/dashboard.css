@@ -81,7 +81,7 @@ body {
     margin-right: 10px; /* Add some space between the picture and the name */
 }
 
-.user-profile .user-details {
+.user-profile, .user-details {
     display: flex;
     flex-direction: column;
 }

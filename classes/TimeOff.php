@@ -8,10 +8,10 @@ class TimeOff {
         $this->db = new Db();
     }
 
-    public function requestTimeOff($userId, $startDate, $endDate, $reason) {
+    public function requestTimeOff($userId, $startDate, $endDate, $reason, $additionalNotes) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO time_off_requests (user_id, start_date, end_date, reason, status) VALUES (?, ?, ?, ?, 'pending')");
-        $stmt->execute([$userId, $startDate, $endDate, $reason]); // Pass the reason to the execute method
+        $stmt = $conn->prepare("INSERT INTO time_off_requests (user_id, start_date, end_date, reason, additional_notes, status) VALUES (?, ?, ?, ?, ?, 'pending')");
+        $stmt->execute([$userId, $startDate, $endDate, $reason, $additionalNotes]);
         return $conn->lastInsertId();
     }
 
@@ -44,7 +44,7 @@ class TimeOff {
     }
     public function getApprovedTimeOffDetails($userId, $date) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("SELECT start_date, end_date FROM time_off_requests WHERE user_id = ? AND start_date <= ? AND end_date >= ? AND status = 'approved'");
+        $stmt = $conn->prepare("SELECT start_date, end_date, reason, additional_notes FROM time_off_requests WHERE user_id = ? AND start_date <= ? AND end_date >= ? AND status = 'approved'");
         $stmt->execute([$userId, $date, $date]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
