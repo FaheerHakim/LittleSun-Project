@@ -21,7 +21,7 @@ $user = $_SESSION['user'];
 <!-- dashboard -->    
 
 <div class="main">
-    <h1><span class="title"> Dashboard <?php echo $user['type_user'] ;?></span></h1>
+    <h1><span class="title"> Dashboard </span></h1>
     
     
     <div class="info-square">Total hours worked</div>
