@@ -54,12 +54,12 @@ $workScheduleThisMonth = $scheduleHandler->getWorkScheduleForPeriod($startDateOf
 <head>
     <meta charset="UTF-8">
     <title>Overview Work Schedule</title>
-    <link rel="stylesheet" href="styles/overview_work_schedule.css">
+    <link rel="stylesheet" href="styles/manage_time_off.css">
 </head>
 <body>
-<a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
-
-<div class="container">
+    
+    <div class="container">
+    <a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
     <div class="view-navigation">
         <a href="schedule_overview.php">Daily</a>
         <a href="weekly_schedule.php">Weekly</a>
@@ -71,21 +71,31 @@ $workScheduleThisMonth = $scheduleHandler->getWorkScheduleForPeriod($startDateOf
     <a href="?start_date=<?php echo date("Y-m-01", strtotime($startDateOfMonth . " -1 month")); ?>&end_date=<?php echo date("Y-m-t", strtotime($startDateOfMonth . " -1 day")); ?>">Previous Month</a>
     <a href="?start_date=<?php echo date("Y-m-01", strtotime("first day of next month", strtotime($startDateOfMonth))); ?>&end_date=<?php echo date("Y-m-t", strtotime("last day of next month", strtotime($startDateOfMonth))); ?>">Next Month</a>
 </div>
-
     <div class="section">
         <div class="work-schedule">
             <?php if (empty($workScheduleThisMonth)): ?>
                 <p>No work schedule available for this month.</p>
             <?php else: ?>
-                <?php foreach ($workScheduleThisMonth as $schedule): ?>
-                    <div class="schedule-item">
-                        <h3>User: <?php echo $userHandler->getUserNameById($schedule['user_id']); ?></h3>
-                        <p>Task Type: <?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></p>
-                        <p>Location: <?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></p>
-                        <p>Start Time: <?php echo $schedule['start_time']; ?></p>
-                        <p>End Time: <?php echo $schedule['end_time']; ?></p>
-                    </div>
-                <?php endforeach; ?>
+                <table>
+                    <tr>
+                        <th>User</th>
+                        <th>Task Type</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                    <?php foreach ($workScheduleThisMonth as $schedule): ?>
+                        <tr>
+                            <td><?php echo $userHandler->getUserNameById($schedule['user_id']); ?></td>
+                            <td><?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></td>
+                            <td><?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></td>
+                            <td><?php echo date("Y-m-d", strtotime($schedule['date'])); ?></td>
+                            <td><?php echo $schedule['start_time']; ?></td>
+                            <td><?php echo $schedule['end_time']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
             <?php endif; ?>
         </div>
     </div>

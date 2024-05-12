@@ -42,7 +42,7 @@ select, button {
     border: 1px solid #ccc;
     background-color: #ffffff;
 }
-button {
+button, .go-back-button {
     background-color: #3498db;
     color: white;
     border: none;
@@ -65,4 +65,27 @@ button:hover {
 }
 .go-back:hover {
     background-color: #2980b9;
+}
+
+.navigation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.navigation a{
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.view-navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    gap: 20px;
+    color: black;
+    font-weight: bold;
 }
