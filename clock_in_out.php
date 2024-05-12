@@ -36,10 +36,12 @@ if (isset($_POST['clock_out'])) {
 <html>
 <head>
     <title>Clock In/Out</title>
+    <link rel="stylesheet" href="styles/clock_in_out.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script/clock_in_out.js"></script>
 </head>
 <body>
+<a href="dashboard.php" id="goback-button">Go Back</a>
 <form action="clock_in_out.php" method="post">
     <button type="submit" name="clock_in">Clock In</button>
     <button type="submit" name="clock_out">Clock Out</button>
