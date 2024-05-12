@@ -33,9 +33,24 @@ class WorkHours {
 
     public function clockOut($userId, $endTime) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND DATE(start_time) = DATE(?)");
-        $stmt->execute([$endTime, $userId, $endTime]);
+        $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND end_time IS NULL");
+        $stmt->execute([$endTime, $userId]);
     }
+
+    public function getClockInTimes($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT start_time FROM work_hours WHERE user_id = ? AND DATE(start_time) = ?");
+        $stmt->execute([$userId, $date]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+    
+    public function getClockOutTimes($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT end_time FROM work_hours WHERE user_id = ? AND DATE(end_time) = ?");
+        $stmt->execute([$userId, $date]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
     public function getAllWorkHours() {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT user_id, start_time, end_time FROM work_hours");

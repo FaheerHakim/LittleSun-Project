@@ -41,7 +41,7 @@ $user = $_SESSION['user'];
      <!-- employees navigation -->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
 
-    <div onclick="location.href='total_hours_worked.php';" class="info-square">Total hours worked</div>
+    <div onclick="location.href='total_worked_hours.php';" class="info-square">Total hours worked</div>
     <div onclick="location.href='upcoming_tasks.php';" class="info-square">Upcoming tasks</div>
     <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
     <?php endif; ?>
