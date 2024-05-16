@@ -9,7 +9,7 @@ body {
     height: 100vh;
     width: 200px;
     position: fixed;
-    background-color: #414E66;
+    background-color: black;
     padding-top: 10px;
     color: white;
 }
@@ -21,10 +21,9 @@ body {
     text-decoration: none;
 }
 
-
-
 .sidebar a:hover {
-    background-color: #ccc;
+    background-color: #FFDD00;
+    color: black;
 }
 
 .main {
@@ -36,15 +35,16 @@ body {
     display: inline-block;
     width: 200px;
     height: 150px;
-    background-color: #3498db;
-    color: white;
+    background-color: #FFDD00;
     text-align: center;
     line-height: 150px; /* Center text vertically */
     border-radius: 10px;
     margin: 10px;
 }
 
-
+.info-square:hover{
+    background-color: #ffe958;
+}
 
 
 .btn {
@@ -78,12 +78,14 @@ body {
     width: 50px; /* Adjust as needed */
     height: 50px; /* Adjust as needed */
     border-radius: 50%; /* Make it circular */
-    margin-right: 10px; /* Add some space between the picture and the name */
+    margin-bottom: 20px;
 }
 
 .user-profile, .user-details {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .user-profile span {
@@ -101,3 +103,6 @@ body {
     font-size: 12px;
 }
 
+.title{
+    margin: 10px;
+}

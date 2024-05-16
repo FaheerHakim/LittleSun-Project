@@ -11,10 +11,11 @@ body{
 }
 
 .login-left{
+    background-image: url('../images/image.jpeg');
     background-color: #F4F9FF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .login-right{
@@ -48,13 +49,20 @@ input{
     background-color: #F8F8F8;
 }
 
+input:active, input:focus{
+    border: 1px solid 'black';
+}
+
 button{
     padding: 14px 9px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
     width: 100%;
-    background-color: #0067FF;
-    color: white;
+    background-color: #FFDD00;
     cursor: pointer;
+}
+
+button:hover{
+    background-color: #ffe958;
 }

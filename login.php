@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="login-screen">
         <div class="login-left">
-            <img class="login-screen-image" src="images/startpagina.png" alt="login">
+           
         </div>
         <div class="login-right">
             <div class="login-form">
