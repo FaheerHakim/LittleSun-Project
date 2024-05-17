@@ -17,6 +17,9 @@ if (isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
     // Add task type
     $taskTypeHandler = new TaskType();
     $taskTypeHandler->addTaskType($typeName);
+
+    header("Location: add_task_types.php");
+    exit();
 }
 
 // Delete task type
@@ -36,13 +39,15 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add task types</title>
+    <title>Task types</title>
     <link rel="stylesheet" href="styles/task_types.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="script/task_type.js" defer></script>
+
 </head>
 <body>
 
-<h1>Add a task type</h1>
+<h1>Task types</h1>
 
 
 <div class="form-container">
@@ -50,12 +55,14 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     <div class="profile-picture" title="Profile Picture"></div>
     
      <div class="form-group-add">
-         <label for="task_types">Task types</label>
+         <label for="task_types">Add a new task type</label>
          <input type="text" id="add_task_type" name="add_task_type" autocomplete="off">
-         <button type="submit" class="add-button">Add task types</button>
+         <button type="submit" class="add-button">
+            <i class="fa-solid fa-plus"></i>
+         </button>
     </div>
 </form>
-
+<div class="line"></div>
 <div class="form-group">
     <label for="task_types">Existing task types</label>
     <div class="form-group-content" id="task_types">
@@ -65,7 +72,9 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
                     <?php echo $taskType['task_type_name']; ?>
                     <form id="delete_form_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: inline;">
                         <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
-                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['task_type_id']; ?>)">Delete</button>
+                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['task_type_id']; ?>)">   
+                        <i class="fas fa-trash-alt"></i>
+                        </button>
                     </form>
                 </li>
             <?php endforeach; ?>
@@ -75,7 +84,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 </form>
 </div>
 
-<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<a href="dashboard.php" class="go-back-button" type="button">Go back</a>
 
 </body>
 </html>

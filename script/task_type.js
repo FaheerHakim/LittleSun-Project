@@ -3,3 +3,4 @@ function confirmDelete(taskTypeId) {
         document.getElementById("delete_form_" + taskTypeId).submit();
     }
 }
+

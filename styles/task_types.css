@@ -2,8 +2,7 @@ body {
     font-family: Arial, sans-serif;
     padding: 20px;
     margin: 0;
-    /* Adjusted gradient for a longer transition to white */
-    background: linear-gradient(to bottom, #3498db 10%, white 90%);
+    background-color: black;
     color: white;
 }
 
@@ -18,9 +17,17 @@ h1 {
     margin-top: 20px;
     border-radius: 10px;
     min-height: 85vh; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 15px;
 }
 
@@ -29,61 +36,106 @@ h1 {
     margin-bottom: 5px;
 }
 
-.form-group input,
-.form-group select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: black;
-    margin: 4px;
-}
-
-
-
 .go-back-button {
     position: absolute;
     top: 10px;
     left: 10px;
     padding: 10px;
-    background-color: #3498db; /* Blue button for 'Go Back' */
+    background-color: #FFDD00; 
     border: none;
-    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin: 16px;
 }
 
 .go-back-button:hover {
-    background-color: #2980b9;
+    background-color: #ffe958;
+}
+
+a {
+    text-decoration: none;
 }
 
 .add-button {
     padding: 10px;
-    margin: 10px;
-    background-color: #3498db;/* Red button */
+    background-color: #65b665;/* Red button */
     border: none;
     color: white;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
+    margin: 6px;
+    width: 40px;
+    height: 40px;
 }
 
 .add-button:hover {
-    background-color: blue;
+    background-color: #7bc77b;
 }
 
 
 .delete-button {
     padding: 10px;
     margin: 10px;
-    background-color: #e74c3c; /* Red button */
     border: none;
-    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    background-color: white;
+}
+.fas.fa-trash-alt{
+    color: red;
 }
 
-.delete-button:hover {
-    background-color: #c0392b;
+.fas.fa-trash-alt:hover{
+    color: rgb(176, 3, 3);
+}
+
+.form-group-add{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 300px;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.line {
+    width: 70%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 10px 0;
+}
+
+input{
+    padding: 14px 9px; 
+    margin: 10px 0;
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    width: -webkit-fill-available;
+    background-color: #F8F8F8;
+}
+
+ul{
+    list-style-type: none;
+    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0;
+}
+
+li{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 6px;
+    width:200px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
