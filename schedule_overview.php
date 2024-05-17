@@ -19,27 +19,80 @@ $userHandler = new User();
 $locationHandler = new Location();
 $taskTypeHandler = new TaskType();
 
-// Set the default date to today
+// Determine the view type (daily, weekly, monthly)
+$viewType = isset($_GET['view']) ? $_GET['view'] : 'monthly';
 $currentDate = date("Y-m-d");
 
-// Check if a different date is selected
-if (isset($_GET['date'])) {
-    // Validate the date format
-    $selectedDate = $_GET['date'];
-    if (strtotime($selectedDate) !== false) {
-        $currentDate = $selectedDate;
-    } else {
-        // Invalid date format, fallback to today
-        $currentDate = date("Y-m-d");
+// Set default dates based on the view type
+switch ($viewType) {
+    case 'daily':
+        $startDate = $currentDate;
+        $endDate = $currentDate;
+        break;
+    case 'weekly':
+        $startDate = date("Y-m-d", strtotime('monday this week', strtotime($currentDate)));
+        $endDate = date("Y-m-d", strtotime('sunday this week', strtotime($currentDate)));
+        break;
+    case 'monthly':
+    default:
+        $startDate = date("Y-m-01", strtotime($currentDate));
+        $endDate = date("Y-m-t", strtotime($currentDate));
+        break;
+}
+
+// Check if a different period is selected
+if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+    // Validate the date formats
+    $startDate = $_GET['start_date'];
+    $endDate = $_GET['end_date'];
+    if (strtotime($startDate) === false || strtotime($endDate) === false) {
+        // Invalid date formats, fallback to the default period
+        $startDate = $currentDate;
+        $endDate = $currentDate;
     }
 }
 
-// Fetch work schedule for the selected date
-$workSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
+// Fetch work schedule for the selected period
+$workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate);
 
-// Determine the previous and next dates
-$prevDate = date("Y-m-d", strtotime($currentDate . " -1 day"));
-$nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
+// Create an associative array to store schedule data by date
+$scheduleByDate = [];
+foreach ($workSchedule as $schedule) {
+    $date = date("Y-m-d", strtotime($schedule['date']));
+    if (!isset($scheduleByDate[$date])) {
+        $scheduleByDate[$date] = [];
+    }
+    $scheduleByDate[$date][] = [
+        'user' => $userHandler->getUserNameById($schedule['user_id']),
+        'task_type' => $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name'],
+        'location' => $locationHandler->getLocationNameById($schedule['location_id'])['city'],
+        'start_time' => $schedule['start_time'],
+        'end_time' => $schedule['end_time']
+    ];
+}
+
+// Helper functions for navigation links
+function getPreviousPeriod($viewType, $startDate) {
+    switch ($viewType) {
+        case 'daily':
+            return date("Y-m-d", strtotime($startDate . " -1 day"));
+        case 'weekly':
+            return date("Y-m-d", strtotime($startDate . " -1 week"));
+        case 'monthly':
+            return date("Y-m-01", strtotime($startDate . " -1 month"));
+    }
+}
+
+function getNextPeriod($viewType, $startDate) {
+    switch ($viewType) {
+        case 'daily':
+            return date("Y-m-d", strtotime($startDate . " +1 day"));
+        case 'weekly':
+            return date("Y-m-d", strtotime($startDate . " +1 week"));
+        case 'monthly':
+            return date("Y-m-01", strtotime($startDate . " +1 month"));
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,50 +101,146 @@ $nextDate = date("Y-m-d", strtotime($currentDate . " +1 day"));
     <meta charset="UTF-8">
     <title>Overview Work Schedule</title>
     <link rel="stylesheet" href="styles/manage_time_off.css">
+    <style>
+        .calendar, .week, .day {
+            display: grid;
+            gap: 1px;
+            background-color: #ddd;
+        }
+        .calendar {
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .week {
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .day {
+            grid-template-columns: 1fr;
+        }
+        .calendar .day, .week .day, .day .event {
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            min-height: 100px;
+        }
+        .calendar .header, .week .header {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+        .calendar .event, .week .event, .day .event {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #e0f7fa;
+            border-left: 4px solid #00796b;
+        }
+        .day-header {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
 
-      <!-- Navigation to switch between views -->
-      <div class="view-navigation">
-        <a href="schedule_overview.php">Daily</a>
-        <a href="weekly_schedule.php">Weekly</a>
-        <a href="monthly_schedule.php">Monthly</a>
+<div class="container">
+    <a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
+    <div class="view-navigation">
+        <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
+        <a href="?view=weekly&start_date=<?php echo date("Y-m-d", strtotime('monday this week', strtotime($currentDate))); ?>&end_date=<?php echo date("Y-m-d", strtotime('sunday this week', strtotime($currentDate))); ?>">Weekly</a>
+        <a href="?view=monthly&start_date=<?php echo date("Y-m-01", strtotime($currentDate)); ?>&end_date=<?php echo date("Y-m-t", strtotime($currentDate)); ?>">Monthly</a>
     </div>
-    <h1>Work Schedule for <?php echo date("l, F j, Y", strtotime($currentDate)); ?></h1>
+    <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
 
     <div class="navigation">
-        <a href="?date=<?php echo $prevDate; ?>">Previous Day</a>
-        <a href="?date=<?php echo $nextDate; ?>">Next Day</a>
+        <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getPreviousPeriod($viewType, $startDate); ?>&end_date=<?php echo getPreviousPeriod($viewType, $endDate); ?>">Previous</a>
+        <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getNextPeriod($viewType, $startDate); ?>&end_date=<?php echo getNextPeriod($viewType, $endDate); ?>">Next</a>
     </div>
 
-    <div class="section">
-    <div class="work-schedule">
-        <?php if (empty($workSchedule)): ?>
-            <p>No work schedule available for this day.</p>
-        <?php else: ?>
-            <table>
-                <tr>
-                    <th>User</th>
-                    <th>Task Type</th>
-                    <th>Location</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                </tr>
-                <?php foreach ($workSchedule as $schedule): ?>
-                    <tr>
-                        <td><?php echo $userHandler->getUserNameById($schedule['user_id']); ?></td>
-                        <td><?php echo $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name']; ?></td>
-                        <td><?php echo $locationHandler->getLocationNameById($schedule['location_id'])['city']; ?></td>
-                        <td><?php echo $schedule['start_time']; ?></td>
-                        <td><?php echo $schedule['end_time']; ?></td>
-                    </tr>
+    <?php if ($viewType == 'daily'): ?>
+        <div class="day">
+            <div class="day-header"><?php echo date("l, F j, Y", strtotime($startDate)); ?></div>
+            <?php if (isset($scheduleByDate[$startDate])): ?>
+                <?php foreach ($scheduleByDate[$startDate] as $event): ?>
+                    <div class="event">
+                        <strong><?php echo $event['user']; ?></strong><br>
+                        <?php echo $event['task_type']; ?><br>
+                        <?php echo $event['location']; ?><br>
+                        <?php echo $event['start_time']; ?> - <?php echo $event['end_time']; ?>
+                    </div>
                 <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
-    </div>
+            <?php else: ?>
+                <p>No work schedule available for this day.</p>
+            <?php endif; ?>
+        </div>
+    <?php elseif ($viewType == 'weekly'): ?>
+        <div class="week">
+            <?php for ($i = 0; $i < 7; $i++): ?>
+                <?php
+                $date = date("Y-m-d", strtotime($startDate . " +$i days"));
+                $dayName = date("l", strtotime($date));
+                ?>
+                <div class="day">
+                    <div class="header"><?php echo $dayName; ?></div>
+                    <?php if (isset($scheduleByDate[$date])): ?>
+                        <?php foreach ($scheduleByDate[$date] as $event): ?>
+                            <div class="event">
+                                <strong><?php echo $event['user']; ?></strong><br>
+                                <?php echo $event['task_type']; ?><br>
+                                <?php echo $event['location']; ?><br>
+                                <?php echo $event['start_time']; ?> - <?php echo $event['end_time']; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No work schedule available for this day.</p>
+                    <?php endif; ?>
+                </div>
+            <?php endfor; ?>
+        </div>
+    <?php else: ?>
+        <div class="calendar">
+            <div class="header">Mon</div>
+            <div class="header">Tue</div>
+            <div class="header">Wed</div>
+            <div class="header">Thu</div>
+            <div class="header">Fri</div>
+            <div class="header">Sat</div>
+            <div class="header">Sun</div>
+
+            <?php
+            // Fill the first row with empty cells if the month doesn't start on Monday
+            $firstDayOfWeek = date("N", strtotime($startDate));
+            for ($i = 1; $i < $firstDayOfWeek; $i++) {
+                echo '<div class="day empty"></div>';
+            }
+
+            // Fill the calendar with the days of the month
+            $daysInMonth = date("t", strtotime($startDate));
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $date = date("Y-m-d", strtotime($startDate . " +".($day-1)." days"));
+                echo '<div class="day">';
+                echo '<strong>' . $day . '</strong>';
+
+                if (isset($scheduleByDate[$date])) {
+                    foreach ($scheduleByDate[$date] as $event) {
+                        echo '<div class="event">';
+                        echo '<strong>' . $event['user'] . '</strong><br>';
+                        echo $event['task_type'] . '<br>';
+                        echo $event['location'] . '<br>';
+                        echo $event['start_time'] . ' - ' . $event['end_time'];
+                        echo '</div>';
+                    }
+                }
+                echo '</div>';
+            }
+
+            // Fill the last row with empty cells if the month doesn't end on Sunday
+            $lastDayOfWeek = date("N", strtotime($endDate));
+            for ($i = $lastDayOfWeek; $i < 7; $i++) {
+                echo '<div class="day empty"></div>';
+            }
+            ?>
+        </div>
+    <?php endif; ?>
 </div>
-</div>
+
 </body>
 </html>
