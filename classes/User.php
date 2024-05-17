@@ -91,7 +91,7 @@ class User {
 
     public function getManagerUsers() {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("SELECT * FROM users WHERE type_user = 'employee'");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE type_user = 'manager'");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

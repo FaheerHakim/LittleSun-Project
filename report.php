@@ -2,37 +2,40 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-require_once __DIR__ . "/classes/Report.php"; // Import the Report class
+require_once __DIR__ . "/classes/User.php";
+require_once __DIR__ . "/classes/WorkHours.php";
 
-// Initialize the Report object
-$reportHandler = new Report();
+$userHandler = new User();
+$workHoursHandler = new WorkHours();
+
+include_once 'logged_in.php';
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get filter values
-    $locationId = $_POST['location_id'] ?? null;
-    $userId = $_POST['user_id'] ?? null;
-    $taskTypeId = $_POST['task_type_id'] ?? null;
-    $overtime = $_POST['overtime'] ?? null;
+    $employeeId = $_POST['user_id'];
+    $selectedMonth = $_POST['selected_month'];
 
-    // Generate report using Report class
-    $reportData = $reportHandler->generateReport($locationId, $userId, $taskTypeId, $overtime);
-} else {
-    // If form is not submitted, initialize report data as empty array
-    $reportData = [];
+    // Fetch work hours data for the selected employee and month
+    $workHoursData = [];
+    $userData = $userHandler->getUserById($employeeId);
+    $userWorkHours = $workHoursHandler->getWorkHoursForMonth($employeeId, $selectedMonth);
+    $workHoursData[] = [
+        'first_name' => $userData['first_name'],
+        'last_name' => $userData['last_name'],
+        'work_hours' => $userWorkHours
+    ];
 }
 
-// Fetch locations, users, and task types for filter options
-$locations = $reportHandler->getLocations();
-$users = $reportHandler->getUsers();
-$taskTypes = $reportHandler->getTaskTypes();
+// Fetch all employees for the dropdown
+$employees = $userHandler->getEmployeeUsers();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Generate Reports</title>
+    <title>Employee Work Hours Report</title>
     <style>
         table {
             border-collapse: collapse;
@@ -49,58 +52,68 @@ $taskTypes = $reportHandler->getTaskTypes();
     </style>
 </head>
 <body>
-    <h2>Generate Reports</h2>
-    <form action="" method="post">
-        <label for="location_id">Location:</label>
-        <select name="location_id" id="location_id">
-            <option value="">Select Location</option>
-            <?php foreach ($locations as $location): ?>
-                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
+    <h2>Employee Work Hours Report</h2>
+    <form method="post">
+        <label for="user_id">Select Employee:</label>
+        <select name="user_id" id="user_id" required>
+            <option value="">Select Employee</option>
+            <?php foreach ($employees as $employee): ?>
+                <option value="<?php echo $employee['user_id']; ?>"><?php echo $employee['first_name'] . ' ' . $employee['last_name']; ?></option>
             <?php endforeach; ?>
-        </select><br>
-        <label for="user_id">Person:</label>
-        <select name="user_id" id="user_id">
-            <option value="">Select Person</option>
-            <?php foreach ($users as $user): ?>
-                <option value="<?php echo $user['user_id']; ?>"><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></option>
-            <?php endforeach; ?>
-        </select><br>
-        <label for="task_type_id">Task Type:</label>
-        <select name="task_type_id" id="task_type_id">
-            <option value="">Select Task Type</option>
-            <?php foreach ($taskTypes as $taskType): ?>
-                <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
-            <?php endforeach; ?>
-        </select><br>
-        <label for="overtime">Overtime:</label>
-        <select name="overtime" id="overtime">
-            <option value="">Select Overtime</option>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
+        </select>
+        <label for="selected_month">Select Month:</label>
+        <input type="month" id="selected_month" name="selected_month" required>
         <button type="submit">Generate Report</button>
     </form>
 
-    <h3>Report</h3>
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Location</th>
-            <th>Task Type</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Overtime</th>
-        </tr>
-        <?php foreach ($reportData as $row): ?>
+    <?php if (isset($workHoursData) && !empty($workHoursData)): ?>
+    <?php foreach ($workHoursData as $employeeData): ?>
+        <?php 
+        $employeeName = $employeeData['first_name'] . ' ' . $employeeData['last_name'];
+        ?>
+        <h3>Work Hours Report for <?php echo $employeeName; ?> in <?php echo date('F Y', strtotime($selectedMonth)); ?></h3>
+        <table>
             <tr>
-                <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
-                <td><?php echo $row['city']; ?></td>
-                <td><?php echo $row['task_type_name']; ?></td>
-                <td><?php echo $row['start_time']; ?></td>
-                <td><?php echo $row['end_time']; ?></td>
-                <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Total Time per shift</th>
             </tr>
-        <?php endforeach; ?>
-    </table>
+
+            <?php 
+           $totalHours = 0; // Initialize total hours variable
+           foreach ($employeeData['work_hours'] as $workHour): 
+               // Calculate total hours and minutes
+               $totalHours += $workHour['total_hours']; // Add total hours to the sum
+               $totalHoursInt = floor($workHour['total_hours']); // Extract the integer part (hours)
+               $totalMinutes = round(($workHour['total_hours'] - $totalHoursInt) * 60); // Convert the fractional part to minutes
+       
+               // Format the total hours and minutes
+               $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); // Format hours and minutes with leading zeros if necessary
+       ?>
+               <tr>
+                   <td><?php echo date('Y-m-d', strtotime($workHour['start_time'])); ?></td>
+                   <td><?php echo date('H:i', strtotime($workHour['start_time'])); ?></td>
+                   <td><?php echo date('H:i', strtotime($workHour['end_time'])); ?></td>
+                   <td><?php echo $totalTime; ?></td> <!-- Display total hours in hours and minutes format -->
+               </tr>
+           <?php endforeach; ?>
+       
+           <tr>
+               <td colspan="3"><strong>Total Time this month:</strong></td>
+               <?php 
+                   // Calculate total hours and minutes for the total sum
+                   $totalHoursInt = floor($totalHours); // Extract the integer part (hours)
+                   $totalMinutes = round(($totalHours - $totalHoursInt) * 60); // Convert the fractional part to minutes
+       
+                   // Format the total hours and minutes for the total sum
+                   $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); // Format hours and minutes with leading zeros if necessary
+               ?>
+               <td><?php echo $totalTime; ?></td> <!-- Display total hours for the total sum in hours and minutes format -->
+           </tr>
+       </table>
+       <?php endforeach; ?>
+<?php endif; ?>
+
 </body>
 </html>

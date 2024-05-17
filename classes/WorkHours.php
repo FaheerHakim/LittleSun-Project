@@ -22,6 +22,11 @@ class WorkHours {
         $stmt = $conn->prepare("INSERT INTO work_hours (user_id, start_time) VALUES (?, ?)");
         $stmt->execute([$userId, $startTime]);
     }
+    public function clockOut($userId, $endTime) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND end_time IS NULL");
+        $stmt->execute([$endTime, $userId]);
+    }
 
     public function hasClockedOutToday($userId) {
         $conn = $this->db->getConnection();
@@ -31,11 +36,6 @@ class WorkHours {
         return $stmt->fetchColumn() > 0;
     }
 
-    public function clockOut($userId, $endTime) {
-        $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND end_time IS NULL");
-        $stmt->execute([$endTime, $userId]);
-    }
 
     public function getClockInTimes($userId, $date) {
         $conn = $this->db->getConnection();
@@ -68,6 +68,14 @@ class WorkHours {
         $stmt = $conn->prepare("SELECT user_id FROM work_hours");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+      public function getWorkHoursForMonth($userId, $month) {
+        $conn = $this->db->getConnection();
+        $startOfMonth = date('Y-m-01', strtotime($month));
+        $endOfMonth = date('Y-m-t', strtotime($month));
+        $stmt = $conn->prepare("SELECT start_time, end_time, TIMESTAMPDIFF(SECOND, start_time, end_time) / 3600 AS total_hours FROM work_hours WHERE user_id = ? AND start_time >= ? AND end_time <= ?");
+        $stmt->execute([$userId, $startOfMonth, $endOfMonth]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

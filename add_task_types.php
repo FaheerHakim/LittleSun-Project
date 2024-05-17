@@ -86,13 +86,13 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
                     <button type="button" class="edit-button" onclick="editTaskType(<?php echo $taskType['task_type_id']; ?>)">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="delete-button" onclick="confirmDelete(event, '<?php echo $taskTypeHandler->getTaskTypeNameById($taskType);?>')">
-                        <i class="fas fa-trash-alt"></i>
+                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskType['task_type_id']; ?>)">                       
+                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
-                <form id="delete_task_type_<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>" action="add_task_types.php" method="post" style="display: none;">
-                    <input type="hidden" name="delete_task_type" value="<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>">
-                </form>
+                <form id="delete_task_type_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: none;">
+                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
+                    </form>
             </div>
         <?php endforeach; ?>
     </div>
