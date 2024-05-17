@@ -13,9 +13,9 @@
     <div class="sidebar">
     <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
-        <a href=""> Hub Locations</a>
+        <a href="location.php"> Hub Locations</a>
         <a href="manager.php"> Hub Managers</a>
-        <a href=""> Task Types</a>
+        <a href="task_type.php"> Task Types</a>
         <a href="logout.php">Logout</a>
     </div>
     <?php endif; ?>

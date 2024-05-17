@@ -1,3 +1,23 @@
+<?php
+session_start();
+require_once __DIR__ . "/classes/User.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $user = new User();
+    $loggedInUser = $user->login($email, $password);
+
+    if ($loggedInUser) {
+        $_SESSION['user'] = $loggedInUser;
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        echo "Invalid email or password";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +33,7 @@
 <body>
     <div class="login-screen">
         <div class="login-left">
-            <img class="login-screen-image" src="images/startpagina.png" alt="login">
+           
         </div>
         <div class="login-right">
             <div class="login-form">

@@ -99,7 +99,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     </div>
 </div>
 
-<a href="dashboard.php" class="go-back-button" type="button">Go back</a>
+<a href="task_type.php" class="go-back-button" type="button">Go back</a>
 
 </body>
 </html>
