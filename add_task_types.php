@@ -7,7 +7,6 @@ require_once __DIR__ . "/classes/TaskType.php";
 include 'logged_in.php';
 
 include 'permission_admin.php';
-
 // Add task type
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
     // Validate input
@@ -30,6 +29,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_task_type'])) {
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_task_type'])) {
+    $typeId = $_POST['task_type_id'];
+    $typeName = $_POST['task_type_name'];
+    
+    // Database connection
+    $taskTypeHandler = new TaskType();
+    
+    // Update task type
+    $taskTypeHandler->updateTaskType($typeId, $typeName);
+    // You may need to implement the updateTaskType method in your TaskType class
+    // to handle updating the task type in the database.
+    
+    // No need for a redirect or response here since this is an AJAX request
+    exit();
+}
+
 // Get existing task types
 $taskTypeHandler = new TaskType();
 $taskTypes = $taskTypeHandler->getTaskTypes();
@@ -48,36 +63,37 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 
 <h1>Task types</h1>
 
-<div class="form-container">
-    <form action="add_task_types.php" method="post" enctype="multipart/form-data">
-        <div class="profile-picture" title="Profile Picture"></div>
-        
-        <div class="form-group-add">
-            <label for="task_types">Add a new task type</label>
-            <input type="text" id="add_task_type" name="add_task_type" autocomplete="off">
-            <button type="submit" class="add-button">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-        </div>
-    </form>
-    <div class="line"></div>
 
-    <label for="task_types">Existing task types</label>
-    <div class="form-group">
+<div class="form-container">
+<form action="add_task_types.php" method="post" enctype="multipart/form-data">
+    <div class="profile-picture" title="Profile Picture"></div>
+    
+     <div class="form-group-add">
+         <label for="task_types">Add a new task type</label>
+         <input type="text" id="add_task_type" name="add_task_type" autocomplete="off">
+         <button type="submit" class="add-button">
+            <i class="fa-solid fa-plus"></i>
+         </button>
+    </div>
+</form>
+<div class="line"></div>
+<label for="task_types">Existing task types</label>
+<div class="form-group">
         <?php foreach ($taskTypes as $taskType): ?>
-            <div class="form-group-content">
+            <div class="form-group-content" id="task_types">
                 <input type="text" id="task_type_<?php echo $taskType['task_type_id']; ?>" name="existing_types[]" value="<?php echo $taskType['task_type_name']; ?>">
                 <div class="buttons">
+                    <!-- nog aanpassen-->
                     <button type="button" class="edit-button" onclick="editTaskType(<?php echo $taskType['task_type_id']; ?>)">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskType['task_type_id']; ?>)">
+                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskTypeHandler->getTaskTypeNameById($taskType);?>)">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    <form id="delete_task_type_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: none;">
-                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
-                    </form>
                 </div>
+                <form id="delete_task_type_<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>" action="add_task_types.php" method="post" style="display: none;">
+                    <input type="hidden" name="delete_task_type" value="<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>">
+                </form>
             </div>
         <?php endforeach; ?>
     </div>

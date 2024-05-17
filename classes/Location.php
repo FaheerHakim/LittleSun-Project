@@ -48,5 +48,12 @@ class Location {
         $stmt->execute([$locationId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function updateLocation($locationId, $newLocationName) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("UPDATE locations SET city = ? WHERE location_id = ?");
+        $stmt->execute([$newLocationName, $locationId]);
+        return $stmt->rowCount() > 0;
+    }
+
 }
 ?>

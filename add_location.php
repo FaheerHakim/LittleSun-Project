@@ -32,7 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_location'])) {
     // Delete location
     $locationHandler->deleteLocation($locationId);
 }
-
+// Update location
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_location'])) {
+    $locationId = $_POST['location_id'];
+    $locationName = $_POST['location_name'];
+    
+    // Database connection
+    $locationHandler = new Location();
+    
+    // Update location
+    $locationHandler->updateLocation($locationId, $locationName);
+    // You need to implement the updateLocation method in your Location class
+    // to handle updating the location in the database.
+    
+    // No need for a redirect or response here since this is an AJAX request
+    exit();
+}
 // Get existing locations
 $locationHandler = new Location();
 $existingLocations = $locationHandler->getExistingLocations();
@@ -67,9 +82,9 @@ $existingLocations = $locationHandler->getExistingLocations();
     <div class="form-group">
     <?php foreach ($existingLocations as $location): ?>
         <div class="form-group-content">
-        <input type="text" id="locationInput" name="existing_location[]" value="<?php echo $location; ?>">    
+        <input type="text" id="locationInput_<?php echo $locationHandler->getLocationIdByName($location); ?>" name="existing_location[]" value="<?php echo $location; ?>">
         <div class="buttons">
-            <button type="button" class="edit-button" >
+        <button type="button" class="edit-button" onclick="editLocation(<?php echo $locationHandler->getLocationIdByName($location); ?>)">
             <i class="fa-solid fa-pen"></i>
             </button>
             <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">

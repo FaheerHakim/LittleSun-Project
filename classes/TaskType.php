@@ -34,6 +34,12 @@ class TaskType {
         $stmt->execute([$typeId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function updateTaskType($typeId, $newName) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("UPDATE task_types SET task_type_name = ? WHERE task_type_id = ?");
+        $stmt->execute([$newName, $typeId]);
+        return $stmt->rowCount() > 0;
+    }
 }
 
 ?>
