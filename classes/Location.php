@@ -54,6 +54,11 @@ class Location {
         $stmt->execute([$newLocationName, $locationId]);
         return $stmt->rowCount() > 0;
     }
-
+    public function getAllLocations() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT location_id, city FROM locations");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

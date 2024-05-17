@@ -83,11 +83,10 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
             <div class="form-group-content" id="task_types">
                 <input type="text" id="task_type_<?php echo $taskType['task_type_id']; ?>" name="existing_types[]" value="<?php echo $taskType['task_type_name']; ?>">
                 <div class="buttons">
-                    <!-- nog aanpassen-->
                     <button type="button" class="edit-button" onclick="editTaskType(<?php echo $taskType['task_type_id']; ?>)">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskTypeHandler->getTaskTypeNameById($taskType);?>)">
+                    <button type="button" class="delete-button" onclick="confirmDelete(event, '<?php echo $taskTypeHandler->getTaskTypeNameById($taskType);?>')">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>

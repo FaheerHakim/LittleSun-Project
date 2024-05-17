@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($result) {
                 // Manager added successfully
                 echo "Manager added successfully.";
+               
             } else {
                 // Error adding manager
                 echo "Error adding manager.";
@@ -61,25 +62,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h1>Add Manager</h1>
 
 <form action="add_manager.php" method="post" enctype="multipart/form-data">    
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-    </div>
+    <div class="form-container">
 
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-    </div>
+ 
+        
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="first_name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
     
-    <div class="form-group">
-        <label for="first-name">First Name</label>
-        <input type="text" id="first-name" name="first_name" required>
-    </div>
-
-    <div class="form-group">
-        <label for="last-name">Last Name</label>
-        <input type="text" id="last-name" name="last_name" required>
-    </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
     
     <div class="form-group">
         <label for="location">Location</label>
@@ -108,6 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <a href="manager.php" class="go-back-button" type="button">Go Back</a>
 </form>
-
+</div>
 </body>
 </html>
