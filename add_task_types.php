@@ -9,26 +9,27 @@ include 'logged_in.php';
 include 'permission_admin.php';
 
 // Add task type
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if (isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
-    // Validate input
-    $typeName = $_POST['add_task_type']; // You may want to perform further validation
-    // Add task type
-    $taskTypeHandler = new TaskType();
-    $taskTypeHandler->addTaskType($typeName);
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
+        // Validate input
+        $typeName = $_POST['add_task_type']; // You may want to perform further validation
+        // Add task type
+        $taskTypeHandler = new TaskType();
+        $taskTypeHandler->addTaskType($typeName);
 
-    header("Location: add_task_types.php");
-    exit();
-}
+        header("Location: add_task_types.php");
+        exit();
+    }
 
 // Delete task type
-if (isset($_POST['delete_task_type'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_task_type'])) {
     $typeId = $_POST['delete_task_type'];
-    // Delete task type
+    
+    // Database connection
     $taskTypeHandler = new TaskType();
+    
+    // Delete location
     $taskTypeHandler->deleteTaskType($typeId);
-}
 }
 
 // Get existing task types
@@ -63,25 +64,26 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     </div>
 </form>
 <div class="line"></div>
+<label for="task_types">Existing task types</label>
 <div class="form-group">
-    <label for="task_types">Existing task types</label>
-    <div class="form-group-content" id="task_types">
-        <ul>
-            <?php foreach ($taskTypes as $taskType): ?>
-                <li>
-                    <?php echo $taskType['task_type_name']; ?>
-                    <form id="delete_form_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: inline;">
-                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
-                        <button type="submit" class="delete-button" onclick="confirmDelete(<?php echo $taskType['task_type_id']; ?>)">   
+        <?php foreach ($taskTypes as $taskType): ?>
+            <div class="form-group-content" id="task_types">
+                <input type="text" id="task_type_<?php echo $taskType['task_type_id']; ?>" name="existing_types[]" value="<?php echo $taskType['task_type_name']; ?>">
+                <div class="buttons">
+                    <!-- nog aanpassen-->
+                    <button type="button" class="edit-button" onclick="editTaskType(<?php echo $taskType['task_type_id']; ?>)">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskTypeHandler->getTaskTypeNameById($taskType);?>)">
                         <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                    </button>
+                </div>
+                <form id="delete_task_type_<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>" action="add_task_types.php" method="post" style="display: none;">
+                    <input type="hidden" name="delete_task_type" value="<?php echo $taskTypeHandler->getTaskTypeNameById($taskType); ?>">
+                </form>
+            </div>
+        <?php endforeach; ?>
     </div>
-</div>
-</form>
 </div>
 
 <a href="dashboard.php" class="go-back-button" type="button">Go back</a>

@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    padding: 20px;
     margin: 0;
     background-color: black;
     color: white;
@@ -15,7 +14,6 @@ h1 {
     color: black;
     padding: 20px;
     margin-top: 20px;
-    border-radius: 10px;
     min-height: 85vh; 
     display: flex;
     align-items: center;
@@ -59,7 +57,7 @@ a {
 
 .add-button {
     padding: 10px;
-    background-color: #65b665;/* Red button */
+    background-color: #65b665;
     border: none;
     color: white;
     border-radius: 50px;
@@ -110,7 +108,7 @@ label {
     width: 70%;
     height: 1px;
     background-color: #ccc;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 input{
@@ -124,7 +122,6 @@ input{
 
 ul{
     list-style-type: none;
-    display: flex;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     padding: 0;

@@ -18,6 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !em
     
     // Add location
     $locationHandler->addLocation($locationName);
+    header("Location: add_location.php");
+    exit();
 }
 
 // Delete location
@@ -39,31 +41,41 @@ $existingLocations = $locationHandler->getExistingLocations();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add location</title>
+    <title>Hub locations</title>
     <link rel="stylesheet" href="styles/location.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="script/location.js"></script>
 </head>
 <body>
 
-<h1>Add location</h1>
+<h1>Hub locations</h1>
 <div class="form-container">
 <form action="add_location.php" method="post" enctype="multipart/form-data">
     <div class="profile-picture" title="Profile Picture"></div>
     
     <div class="form-group-add">
-        <label for="location">Location</label>
+        <label for="location">Add a new hub location</label>
         <input type="text" id="new_location" name="new_location" autocomplete="off">
-        <button type="submit" class="add-button">Add location</button>
+        <button type="submit" class="add-button">
+            <i class="fa-solid fa-plus"></i>
+        </button>
     </div>
     </form>
+    <div class="line"></div>
 
+    <label for="location">Hub locations</label>
     <div class="form-group">
-    <label for="location">Existing location</label>
     <?php foreach ($existingLocations as $location): ?>
         <div class="form-group-content">
-        <input type="text" id="locationInput" name="existing_location[]" value="<?php echo $location; ?>">            
-        <button type="button" class="edit-button" >Edit location</button>
-        <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">Delete location</button>
+        <input type="text" id="locationInput" name="existing_location[]" value="<?php echo $location; ?>">    
+        <div class="buttons">
+            <button type="button" class="edit-button" >
+            <i class="fa-solid fa-pen"></i>
+            </button>
+            <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>        
             <form id="delete_location_<?php echo $locationHandler->getLocationIdByName($location); ?>" action="add_location.php" method="post" style="display: none;">
                 <input type="hidden" name="delete_location" value="<?php echo $locationHandler->getLocationIdByName($location); ?>">
             </form>
