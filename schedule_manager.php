@@ -58,8 +58,6 @@ function getNextPeriod($viewType, $startDate) {
     }
 }
 
-// Initialize variables
-
 
 // Set default dates based on the view type
 switch ($viewType) {
@@ -79,15 +77,6 @@ switch ($viewType) {
 
 
 
-// Check if a different period is selected
-if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
-    $startDate = $_GET['start_date'];
-    $endDate = $_GET['end_date'];
-    if (strtotime($startDate) === false || strtotime($endDate) === false) {
-        // Invalid date formats, fallback to the default period
-        $startDate = $endDate = $currentDate;
-    }
-}
 
 
 
@@ -107,6 +96,33 @@ foreach ($allLocations as $location) {
 
 }
 }
+$timeOffEvents = $timeOffHandler->getApprovedTimeOffRequests($startDate, $endDate);
+
+// Initialize an array to store time off events by date
+$timeOffByDate = [];
+foreach ($timeOffEvents as $timeOff) {
+    $startDate = date("Y-m-d", strtotime($timeOff['start_date']));
+    $endDate = date("Y-m-d", strtotime($timeOff['end_date']));
+    // Loop through each date between start and end date
+    for ($date = $startDate; $date <= $endDate; $date = date('Y-m-d', strtotime($date . ' +1 day'))) {
+        $timeOffByDate[$date][] = [
+            'user_id' => $timeOff['user_id'],
+            'user' => $userHandler->getUserNameById($timeOff['user_id']),
+            'reason' => $timeOff['reason']
+        ];
+    }
+}
+
+// Check if a different period is selected
+if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+    $startDate = $_GET['start_date'];
+    $endDate = $_GET['end_date'];
+    if (strtotime($startDate) === false || strtotime($endDate) === false) {
+        // Invalid date formats, fallback to the default period
+        $startDate = $endDate = $currentDate;
+    }
+}
+
 
 ?>
 
@@ -207,6 +223,18 @@ foreach ($allLocations as $location) {
                     }
                 }
             }
+
+            if (isset($timeOffByDate[$date])) {
+                foreach ($timeOffByDate[$date] as $timeOffEvent) {
+                    echo '<div class="event time-off">';
+                    echo '<strong>' . $timeOffEvent['user'] . '</strong><br>';
+                    echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';
+                    echo '</div>';
+                }
+
+
+
+            }
             echo '</div>';
         }
 
@@ -221,3 +249,4 @@ foreach ($allLocations as $location) {
 </div>
 </body>
 </html>
+
