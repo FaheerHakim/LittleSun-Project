@@ -76,6 +76,12 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllUsers() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->query("SELECT user_id, first_name, last_name FROM users WHERE type_user = 'employee'");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getUsers() {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT * FROM users");

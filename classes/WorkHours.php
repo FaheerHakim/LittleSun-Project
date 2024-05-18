@@ -110,5 +110,11 @@ class WorkHours {
         // Fetch and return the filtered work hours data
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function executeCustomQuery($query) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

@@ -35,6 +35,7 @@ class Location {
             return null;
         }
     }
+    
 
     public function deleteLocation($locationId) {
         $conn = $this->db->getConnection();
@@ -56,8 +57,7 @@ class Location {
     }
     public function getAllLocations() {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("SELECT location_id, city FROM locations");
-        $stmt->execute();
+        $stmt = $conn->query("SELECT location_id, city FROM locations");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
