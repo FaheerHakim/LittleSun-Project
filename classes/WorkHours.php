@@ -111,7 +111,7 @@ class WorkHours {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function executeCustomQuery($query) {
+     public function executeCustomQuery($query) {
         $conn = $this->db->getConnection();
         $stmt = $conn->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

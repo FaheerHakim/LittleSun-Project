@@ -4,11 +4,13 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/WorkHours.php";
 require_once __DIR__ . "/classes/User.php";
-require_once __DIR__ . "/classes/Location.php"; // Include the Location class
+require_once __DIR__ . "/classes/Location.php"; 
+require_once __DIR__ . "/classes/TaskType.php"; 
 
 $workHoursHandler = new WorkHours();
 $userHandler = new User();
-$locationHandler = new Location(); // Instantiate the Location class
+$locationHandler = new Location(); 
+$taskTypeHandler = new TaskType();
 
 // Extract selected filters from the form submission
 $selectedUsers = isset($_POST['users']) ? $_POST['users'] : [];
@@ -22,11 +24,11 @@ $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
 // Construct the query based on selected filters
-// Construct the query based on selected filters
-$query = "SELECT work_hours.*, work_schedule.location_id 
+$query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id 
           FROM work_hours 
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
+
 
 if (!empty($selectedUsers) && $selectedUsers[0] != 'all') {
     $usersStr = implode(",", $selectedUsers);
@@ -96,7 +98,8 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
             <th>Employee Name</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Location</th> <!-- Added Location column header -->
+            <th>Location</th>
+            <th>Task Type</th>
             <th>Overtime</th>
         </tr>
         <?php foreach ($reportData as $row): ?>
@@ -115,6 +118,13 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
                     // Fetch the location name based on the location ID
                     $location = $locationHandler->getLocationById($row['location_id']);
                     echo $location ? $location['city'] : 'Unknown'; // Assuming 'city' is the column for the location name
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    // Fetch the task type name based on the task type ID
+                    $taskType = $taskTypeHandler->getTaskTypeNameById($row['task_type_id']);
+                    echo $taskType ? $taskType['task_type_name'] : 'Unknown'; // Assuming 'task_type_name' is the column for the task type name
                     ?>
                 </td>
                 <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>

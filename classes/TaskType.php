@@ -45,6 +45,7 @@ class TaskType {
         $stmt = $conn->query("SELECT task_type_id, task_type_name FROM task_types");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
 
 ?>
