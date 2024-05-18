@@ -79,27 +79,26 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
 
 $totalWorkedHours = 0;
 
-// Loop through the report data
+// Loop through each row of the report data
 foreach ($reportData as $row) {
-    // Calculate the worked hours for each row
+    // Calculate the worked hours for the current shift
     $startTime = new DateTime($row['start_time']);
     $endTime = new DateTime($row['end_time']);
-    $interval = $endTime->diff($startTime);
 
-    // Get the total hours and minutes
-    $totalHours = $interval->h;
-    $totalMinutes = $interval->i;
+    // Calculate the difference in seconds
+    $secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
 
-    // Round up minutes if they exceed 30 minutes
-    if ($totalMinutes >= 30) {
-        $totalHours += 1;
-    }
+    // Round up minutes based on seconds
+    $minutes = ceil($secondsDiff / 60);
 
-    // Add the total worked hours to the overall total
-    $totalWorkedHours += $totalHours;
+    // Accumulate the total worked hours
+    $totalWorkedHours += $minutes;
 }
 
-// Display the report
+// Convert the total worked hours to hours and minutes format
+$totalHours = floor($totalWorkedHours / 60);
+$totalMinutes = $totalWorkedHours % 60;
+$totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +123,7 @@ foreach ($reportData as $row) {
 </head>
 <body>
     <h2>Report Result</h2>
-    <p><strong>Total Worked Hours: <?php echo number_format($totalWorkedHours, 2); ?></strong></p>
+    <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
 
     <table>
         <tr>
