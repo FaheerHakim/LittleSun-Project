@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h1>Add Employee</h1>
 
 <form action="add_employee.php" method="post" enctype="multipart/form-data">    
+<div class="form-container"> 
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
@@ -110,6 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <a href="user.php" class="go-back-button" type="button">Go Back</a>
 </form>
-
+        </div>
 </body>
 </html>

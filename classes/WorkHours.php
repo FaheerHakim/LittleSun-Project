@@ -77,5 +77,38 @@ class WorkHours {
         $stmt->execute([$userId, $startOfMonth, $endOfMonth]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getFilteredWorkHours($startDate, $endDate, $personId, $taskTypeId, $includeOvertime) {
+        $conn = $this->db->getConnection();
+        $query = "SELECT start_time, end_time, TIMESTAMPDIFF(SECOND, start_time, end_time) / 3600 AS total_hours 
+                  FROM work_hours 
+                  WHERE 1=1";
+    
+        $params = [];
+    
+        // Add filters to the query
+        if ($startDate && $endDate) {
+            $query .= " AND DATE(start_time) >= ? AND DATE(end_time) <= ?";
+            $params[] = $startDate;
+            $params[] = $endDate;
+        }
+        if ($personId) {
+            $query .= " AND user_id = ?";
+            $params[] = $personId;
+        }
+        if ($taskTypeId) {
+            $query .= " AND task_type_id = ?";
+            $params[] = $taskTypeId;
+        }
+        if (!$includeOvertime) {
+            $query .= " AND overtime = 0";
+        }
+    
+        // Prepare and execute the query
+        $stmt = $conn->prepare($query);
+        $stmt->execute($params);
+    
+        // Fetch and return the filtered work hours data
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

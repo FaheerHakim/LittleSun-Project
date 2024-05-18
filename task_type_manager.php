@@ -11,7 +11,7 @@ $user = $_SESSION['user'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employees</title>
+    <title>Task types</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
@@ -22,9 +22,8 @@ $user = $_SESSION['user'];
 <!-- dashboard -->    
 
 <div class="main">
-    <h1><span class="title">Employees</span></h1>
-    <div onclick="location.href='add_employee.php';" class="info-square">Add Employee</div>
-    <div onclick="location.href='all_employees.php';" class="info-square">Existing Employees</div>
+    <h1><span class="title">Task types</span></h1>
+    <div onclick="location.href='assign_task_types.php';" class="info-square">Assign task type to user</div>
 </div>
 </body>
 </html>

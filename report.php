@@ -77,39 +77,35 @@ $employees = $userHandler->getEmployeeUsers();
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-                <th>Total Time per shift</th>
+                <th>Total work hours per shift</th>
             </tr>
 
             <?php 
-           $totalHours = 0; // Initialize total hours variable
+           $totalHours = 0; 
            foreach ($employeeData['work_hours'] as $workHour): 
-               // Calculate total hours and minutes
-               $totalHours += $workHour['total_hours']; // Add total hours to the sum
-               $totalHoursInt = floor($workHour['total_hours']); // Extract the integer part (hours)
-               $totalMinutes = round(($workHour['total_hours'] - $totalHoursInt) * 60); // Convert the fractional part to minutes
-       
-               // Format the total hours and minutes
-               $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); // Format hours and minutes with leading zeros if necessary
+
+            $totalHours += $workHour['total_hours']; 
+               $totalHoursInt = floor($workHour['total_hours']); 
+               $totalMinutes = round(($workHour['total_hours'] - $totalHoursInt) * 60); 
+               $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); 
        ?>
                <tr>
                    <td><?php echo date('Y-m-d', strtotime($workHour['start_time'])); ?></td>
                    <td><?php echo date('H:i', strtotime($workHour['start_time'])); ?></td>
                    <td><?php echo date('H:i', strtotime($workHour['end_time'])); ?></td>
-                   <td><?php echo $totalTime; ?></td> <!-- Display total hours in hours and minutes format -->
+                   <td><?php echo $totalTime; ?></td> 
                </tr>
            <?php endforeach; ?>
        
            <tr>
-               <td colspan="3"><strong>Total Time this month:</strong></td>
+               <td colspan="3"><strong>Total work hours this month:</strong></td>
                <?php 
-                   // Calculate total hours and minutes for the total sum
-                   $totalHoursInt = floor($totalHours); // Extract the integer part (hours)
-                   $totalMinutes = round(($totalHours - $totalHoursInt) * 60); // Convert the fractional part to minutes
+                   $totalHoursInt = floor($totalHours); 
+                   $totalMinutes = round(($totalHours - $totalHoursInt) * 60); 
        
-                   // Format the total hours and minutes for the total sum
-                   $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); // Format hours and minutes with leading zeros if necessary
+                   $totalTime = sprintf("%02d:%02d", $totalHoursInt, $totalMinutes); 
                ?>
-               <td><?php echo $totalTime; ?></td> <!-- Display total hours for the total sum in hours and minutes format -->
+               <td><?php echo $totalTime; ?></td> 
            </tr>
        </table>
        <?php endforeach; ?>

@@ -63,9 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form action="add_manager.php" method="post" enctype="multipart/form-data">    
     <div class="form-container">
-
- 
-        
         <div class="form-group">
             <label for="first-name">First Name</label>
             <input type="text" id="first-name" name="first_name" required>

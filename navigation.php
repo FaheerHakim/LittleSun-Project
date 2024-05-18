@@ -26,10 +26,10 @@
   <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
         <a href="user.php">Employees</a>
-        <a href=""> Task Types</a>
+        <a href="task_type_manager.php"> Task Types</a>
         <a href="work_schedule_manager.php">Work schedule</a>
-        <a>Reports</a>
-        <a href=""> Time-Off requests</a>
+        <a href="reports.php">Reports</a>
+        <a href="time_off_requests.php"> Time-Off requests</a>
         <a href="logout.php">Logout</a>
     </div>
     <?php endif; ?>
