@@ -40,14 +40,14 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
 
         <label for="period">Period:</label>
         <input type="radio" name="period" value="year" id="year"><label for="year">Year</label>
-        <select name="year_select" id="year_select" class="hidden">
+        <select name="year_select" id="year_select" class="year_select" style="display: none;">
             <?php for ($i = date("Y"); $i >= 2000; $i--): ?>
                 <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
             <?php endfor; ?>
         </select>
 
         <input type="radio" name="period" value="month" id="month"><label for="month">Month</label>
-        <select name="month_select" id="month_select" class="hidden">
+        <select name="month_select" id="month_select" class="month_select" style="display: none;">
             <?php for ($i = 1; $i <= 12; $i++): ?>
                 <option value="<?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?>"><?php echo date("F", mktime(0, 0, 0, $i, 10)); ?></option>
             <?php endfor; ?>
@@ -90,23 +90,23 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
     </form>
 
     <script>
-     document.getElementById('year').addEventListener('change', function () {
-            document.getElementById('year_select').classList.remove('hidden');
-            document.getElementById('month_select').classList.add('hidden');
-            document.getElementById('custom_period').classList.add('hidden');
-        });
+          document.getElementById('year').addEventListener('change', function () {
+        document.getElementById('year_select').style.display = 'block';
+        document.getElementById('month_select').style.display = 'none';
+        document.getElementById('custom_period').style.display = 'none';
+    });
 
-        document.getElementById('month').addEventListener('change', function () {
-            document.getElementById('year_select').classList.add('hidden');
-            document.getElementById('month_select').classList.remove('hidden');
-            document.getElementById('custom_period').classList.add('hidden');
-        });
+    document.getElementById('month').addEventListener('change', function () {
+        document.getElementById('year_select').style.display = 'none';
+        document.getElementById('month_select').style.display = 'block';
+        document.getElementById('custom_period').style.display = 'none';
+    });
 
-        document.getElementById('custom').addEventListener('change', function () {
-            document.getElementById('year_select').classList.add('hidden');
-            document.getElementById('month_select').classList.add('hidden');
-            document.getElementById('custom_period').classList.remove('hidden');
-        });
+    document.getElementById('custom').addEventListener('change', function () {
+        document.getElementById('year_select').style.display = 'none';
+        document.getElementById('month_select').style.display = 'none';
+        document.getElementById('custom_period').style.display = 'block';
+    });
     </script>
 </body>
 </html>

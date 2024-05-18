@@ -117,11 +117,7 @@ foreach ($reportData as $row) {
                ?>
                <td><?php echo $totalTime; ?></td> 
            </tr>
-           <tr>
-            <td colspan="4" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
-            <td colspan="1"><strong><?php echo number_format($totalWorkedHours, 2); ?></strong></td>
-            <td></td> <!-- Empty cell for Overtime column -->
-        </tr>
+           
        </table>
        <?php endforeach; ?>
 <?php endif; ?>
