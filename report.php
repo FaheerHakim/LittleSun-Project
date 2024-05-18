@@ -29,6 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Fetch all employees for the dropdown
 $employees = $userHandler->getEmployeeUsers();
 
+$totalWorkedHours = 0;
+foreach ($reportData as $row) {
+    $startTime = new DateTime($row['start_time']);
+    $endTime = new DateTime($row['end_time']);
+    $workedHours = $endTime->diff($startTime)->format('%h:%i');
+    list($hours, $minutes) = explode(':', $workedHours);
+    $totalWorkedHours += $hours + ($minutes / 60);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -107,6 +117,11 @@ $employees = $userHandler->getEmployeeUsers();
                ?>
                <td><?php echo $totalTime; ?></td> 
            </tr>
+           <tr>
+            <td colspan="4" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
+            <td colspan="1"><strong><?php echo number_format($totalWorkedHours, 2); ?></strong></td>
+            <td></td> <!-- Empty cell for Overtime column -->
+        </tr>
        </table>
        <?php endforeach; ?>
 <?php endif; ?>

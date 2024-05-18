@@ -68,6 +68,15 @@ if (in_array('all', $selectedUsers)) {
 // Assuming you have a method to execute custom queries in your WorkHours class
 $reportData = $workHoursHandler->executeCustomQuery($query);
 
+$totalWorkedHours = 0;
+foreach ($reportData as $row) {
+    $startTime = new DateTime($row['start_time']);
+    $endTime = new DateTime($row['end_time']);
+    $workedHours = $endTime->diff($startTime)->format('%h:%i');
+    list($hours, $minutes) = explode(':', $workedHours);
+    $totalWorkedHours += $hours + ($minutes / 60);
+}
+
 // Display the report
 ?>
 
@@ -96,11 +105,12 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
     <table>
         <tr>
             <th>Employee Name</th>
-            <th>Start Time</th>
-            <th>End Time</th>
             <th>Location</th>
             <th>Task Type</th>
             <th>Overtime</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Total Worked Hours per shift</th>
         </tr>
         <?php foreach ($reportData as $row): ?>
             <tr>
@@ -111,8 +121,6 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
                     echo $user['first_name'] . ' ' . $user['last_name'];
                     ?>
                 </td>
-                <td><?php echo $row['start_time']; ?></td>
-                <td><?php echo $row['end_time']; ?></td>
                 <td>
                     <?php
                     // Fetch the location name based on the location ID
@@ -128,8 +136,24 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
                     ?>
                 </td>
                 <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
+                <td><?php echo $row['start_time']; ?></td>
+                <td><?php echo $row['end_time']; ?></td>
+                <td>
+                    <?php
+                    // Calculate the worked hours
+                    $startTime = new DateTime($row['start_time']);
+                    $endTime = new DateTime($row['end_time']);
+                    $workedHours = $endTime->diff($startTime)->format('%h:%i'); // Format hours and minutes
+                    echo $workedHours;
+                    ?>
+                </td>
             </tr>
         <?php endforeach; ?>
+        <tr>
+            <td colspan="6" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
+            <td colspan="1"><strong><?php echo number_format($totalWorkedHours, 2); ?></strong></td>
+            <td></td> <!-- Empty cell for Overtime column -->
+        </tr>
     </table>
 </body>
 </html>
