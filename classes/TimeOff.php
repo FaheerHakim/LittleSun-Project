@@ -48,5 +48,8 @@ class TimeOff {
         $stmt->execute([$userId, $date, $date]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 }
+
+
 ?>
