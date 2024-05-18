@@ -12,7 +12,6 @@ $userHandler = new User();
 $locationHandler = new Location(); 
 $taskTypeHandler = new TaskType();
 
-// Extract selected filters from the form submission
 $selectedUsers = isset($_POST['users']) ? $_POST['users'] : [];
 $period = isset($_POST['period']) ? $_POST['period'] : "";
 $year = isset($_POST['year_select']) ? $_POST['year_select'] : "";
@@ -23,12 +22,28 @@ $location = isset($_POST['location']) ? $_POST['location'] : "";
 $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
+echo "Selected Users: "; var_dump($selectedUsers);
+echo "Period: $period <br>";
+echo "Year: $year <br>";
+echo "Month: $month <br>";
+echo "Start Date: $startDate <br>";
+echo "End Date: $endDate <br>";
+echo "Location: $location <br>";
+echo "Task Type: $taskType <br>";
+echo "Overtime: $overtime <br>";
+
+
+
 // Construct the query based on selected filters
 $query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id 
           FROM work_hours 
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
 
+if (in_array('all', $selectedUsers)) {
+    $allUsers = $userHandler->getAllUsers(); 
+    $selectedUsers = array_column($allUsers, 'user_id');
+}
 
 if (!empty($selectedUsers) && $selectedUsers[0] != 'all') {
     $usersStr = implode(",", $selectedUsers);
@@ -43,11 +58,11 @@ if ($period == 'year' && !empty($year)) {
     $query .= " AND work_hours.start_time BETWEEN '$startDate' AND '$endDate'";
 }
 
-if ($location != 'all' && $location != 'none') {
+if (!empty($location && $location != 'all') ) {
     $query .= " AND work_schedule.location_id = $location";
 }
 
-if ($taskType != 'all' && $taskType != 'none') {
+if (!empty($taskType && $taskType != 'all') ) {
     $query .= " AND work_schedule.task_type_id = $taskType"; // Assuming task_type_id is in the work_schedule table
 }
 
@@ -57,12 +72,6 @@ if ($overtime == 'yes') {
     $query .= " AND work_hours.overtime = 0";
 }
 
-// If 'All Employees' is selected, no need to filter by user_id
-if (in_array('all', $selectedUsers)) {
-    // Define an empty string for $usersStr
-    $usersStr = '';
-    $query = str_replace("work_hours.user_id IN ($usersStr)", "1", $query);
-}
 
 // Execute the query to fetch data from the database
 // Assuming you have a method to execute custom queries in your WorkHours class
@@ -104,8 +113,12 @@ foreach ($reportData as $row) {
     <h2>Report Result</h2>
     <table>
         <tr>
-            <th>Employee Name</th>
-            <th>Location</th>
+            <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
+                <th>Employee Name</th>
+            <?php endif; ?>
+            <?php if (!empty($location) && $location = 'all'): ?>
+                <th>Location</th>
+            <?php endif; ?>            
             <th>Task Type</th>
             <th>Overtime</th>
             <th>Start Time</th>
@@ -114,20 +127,22 @@ foreach ($reportData as $row) {
         </tr>
         <?php foreach ($reportData as $row): ?>
             <tr>
-                <td>
-                    <?php
-                    // Fetch the user's first name and last name based on the user ID
-                    $user = $userHandler->getUserById($row['user_id']);
-                    echo $user['first_name'] . ' ' . $user['last_name'];
-                    ?>
-                </td>
-                <td>
-                    <?php
-                    // Fetch the location name based on the location ID
-                    $location = $locationHandler->getLocationById($row['location_id']);
-                    echo $location ? $location['city'] : 'Unknown'; // Assuming 'city' is the column for the location name
-                    ?>
-                </td>
+                <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
+                    <td>
+                        <?php
+                        $user = $userHandler->getUserById($row['user_id']);
+                        echo $user['first_name'] . ' ' . $user['last_name'];
+                        ?>
+                    </td>
+                    <?php endif; ?>
+                <?php if (!empty($location) && $location = 'all'): ?>
+                    <td>
+                        <?php
+                        $location = $locationHandler->getLocationById($row['location_id']);
+                        echo $location ? $location['city'] : 'Unknown'; 
+                        ?>
+                    </td>
+                <?php endif; ?>
                 <td>
                     <?php
                     // Fetch the task type name based on the task type ID
@@ -150,7 +165,11 @@ foreach ($reportData as $row) {
             </tr>
         <?php endforeach; ?>
         <tr>
-            <td colspan="6" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
+        <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
+        <td colspan="<?php echo (!empty($location) && $location != 'all') ? '6' : '5'; ?>" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
+    <?php else: ?>
+        <td colspan="<?php echo (!empty($location) && $location != 'all') ? '5' : '4'; ?>" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
+    <?php endif; ?>             
             <td colspan="1"><strong><?php echo number_format($totalWorkedHours, 2); ?></strong></td>
             <td></td> <!-- Empty cell for Overtime column -->
         </tr>

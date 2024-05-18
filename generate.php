@@ -62,19 +62,17 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
         </div>
 
         <label for="location">Location:</label>
-<select name="location" id="location">
-    <option value="all">All Locations</option>
-    <option value="none">No Location</option> <!-- Add this line -->
-    <?php foreach ($locations as $location): ?>
-        <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
-    <?php endforeach; ?>
-</select>
-<br>
+        <select name="location" id="location" multiple multiselect-search="true">
+            <option value="all">All Locations</option>
+            <?php foreach ($locations as $location): ?>
+                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <br>
 
 <label for="task_type">Task Type:</label>
-<select name="task_type" id="task_type">
+<select name="task_type" id="task_type" multiple multiselect-search="true">
     <option value="all">All Task Types</option>
-    <option value="none">No Task Type</option> <!-- Add this line -->
     <?php foreach ($taskTypes as $taskType): ?>
         <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
     <?php endforeach; ?>
