@@ -28,7 +28,9 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
 </head>
 <body>
     <h2>Generate Report</h2>
-    <form action="report_result.php" method="post">
+    <form action="report_result.php" method="post" onsubmit="return validateForm();">
+    <div id="error-message" style="color: red; margin-bottom: 10px;"></div>
+
         <label for="users">Users:</label>
         <select name="users[]" id="users" multiple multiselect-search="true">
             <option value="all">All Employees</option>
@@ -39,20 +41,23 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
         <br>
 
         <label for="period">Period:</label>
-        <input type="radio" name="period" value="year" id="year"><label for="year">Year</label>
+        <input type="radio" name="period" value="year" id="year" checked>
+        <label for="year">Year </label>
         <select name="year_select" id="year_select" class="year_select" style="display: none;">
             <?php for ($i = date("Y"); $i >= 2000; $i--): ?>
                 <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
             <?php endfor; ?>
         </select>
 
-        <input type="radio" name="period" value="month" id="month"><label for="month">Month</label>
+        <input type="radio" name="period" value="month" id="month">
+        <label for="month">Month</label>
         <select name="month_select" id="month_select" class="month_select" style="display: none;">
             <?php for ($i = 1; $i <= 12; $i++): ?>
                 <option value="<?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?>"><?php echo date("F", mktime(0, 0, 0, $i, 10)); ?></option>
             <?php endfor; ?>
         </select>
-        <input type="radio" name="period" value="custom" id="custom"><label for="custom">Custom Period</label>
+        <input type="radio" name="period" value="custom" id="custom">
+        <label for="custom">Custom Period</label>
         <br>
         <div id="custom_period" style="display: none;">
             <label for="start_date">Start Date:</label>
@@ -88,7 +93,31 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
     </form>
 
     <script>
-          document.getElementById('year').addEventListener('change', function () {
+        function validateForm() {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.innerHTML = '';
+            // Check users
+            const users = document.getElementById('users');
+            const usersSelected = Array.from(users.options).some(option => option.selected && option.value == 'all');
+
+            // Check location
+            const location = document.getElementById('location');
+            const locationSelected = Array.from(location.options).some(option => option.selected && option.value == 'all');
+
+            // Check task type
+            const taskType = document.getElementById('task_type');
+            const taskTypeSelected = Array.from(taskType.options).some(option => option.selected && option.value == 'all');
+
+            if (!usersSelected && !locationSelected && !taskTypeSelected) {
+                errorMessage.innerHTML = 'Please select at least one of the following: Users, Location, or Task Type.';
+                return false;
+            }
+
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('year').addEventListener('change', function () {
         document.getElementById('year_select').style.display = 'block';
         document.getElementById('month_select').style.display = 'none';
         document.getElementById('custom_period').style.display = 'none';
@@ -105,6 +134,7 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
         document.getElementById('month_select').style.display = 'none';
         document.getElementById('custom_period').style.display = 'block';
     });
+});
     </script>
 </body>
 </html>

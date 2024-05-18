@@ -54,7 +54,10 @@ if ($period == 'year' && !empty($year)) {
     $query .= " AND YEAR(work_hours.start_time) = $year";
 } elseif ($period == 'month' && !empty($month)) {
     $query .= " AND MONTH(work_hours.start_time) = $month";
+
 } elseif ($period == 'custom' && !empty($startDate) && !empty($endDate)) {
+    // Ensure the end date includes the full day
+    $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
     $query .= " AND work_hours.start_time BETWEEN '$startDate' AND '$endDate'";
 }
 
