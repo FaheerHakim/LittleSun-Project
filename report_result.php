@@ -63,7 +63,7 @@ if (!empty($location && $location != 'all') ) {
 }
 
 if (!empty($taskType && $taskType != 'all') ) {
-    $query .= " AND work_schedule.task_type_id = $taskType"; // Assuming task_type_id is in the work_schedule table
+    $query .= " AND work_schedule.task_type_id = $taskType"; 
 }
 
 if ($overtime == 'yes') {
@@ -78,12 +78,25 @@ if ($overtime == 'yes') {
 $reportData = $workHoursHandler->executeCustomQuery($query);
 
 $totalWorkedHours = 0;
+
+// Loop through the report data
 foreach ($reportData as $row) {
+    // Calculate the worked hours for each row
     $startTime = new DateTime($row['start_time']);
     $endTime = new DateTime($row['end_time']);
-    $workedHours = $endTime->diff($startTime)->format('%h:%i');
-    list($hours, $minutes) = explode(':', $workedHours);
-    $totalWorkedHours += $hours + ($minutes / 60);
+    $interval = $endTime->diff($startTime);
+
+    // Get the total hours and minutes
+    $totalHours = $interval->h;
+    $totalMinutes = $interval->i;
+
+    // Round up minutes if they exceed 30 minutes
+    if ($totalMinutes >= 30) {
+        $totalHours += 1;
+    }
+
+    // Add the total worked hours to the overall total
+    $totalWorkedHours += $totalHours;
 }
 
 // Display the report
@@ -111,6 +124,8 @@ foreach ($reportData as $row) {
 </head>
 <body>
     <h2>Report Result</h2>
+    <p><strong>Total Worked Hours: <?php echo number_format($totalWorkedHours, 2); ?></strong></p>
+
     <table>
         <tr>
             <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
@@ -118,8 +133,10 @@ foreach ($reportData as $row) {
             <?php endif; ?>
             <?php if (!empty($location) && $location = 'all'): ?>
                 <th>Location</th>
-            <?php endif; ?>            
-            <th>Task Type</th>
+            <?php endif; ?> 
+            <?php if (!empty($taskType) && $taskType = 'all'): ?>           
+                <th>Task Type</th>
+            <?php endif; ?> 
             <th>Overtime</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -143,36 +160,41 @@ foreach ($reportData as $row) {
                         ?>
                     </td>
                 <?php endif; ?>
+                <?php if (!empty($taskType) && $taskType = 'all'): ?>
                 <td>
                     <?php
-                    // Fetch the task type name based on the task type ID
                     $taskType = $taskTypeHandler->getTaskTypeNameById($row['task_type_id']);
                     echo $taskType ? $taskType['task_type_name'] : 'Unknown'; // Assuming 'task_type_name' is the column for the task type name
                     ?>
                 </td>
+                <?php endif; ?>
+
                 <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
                 <td><?php echo $row['start_time']; ?></td>
                 <td><?php echo $row['end_time']; ?></td>
                 <td>
-                    <?php
-                    // Calculate the worked hours
-                    $startTime = new DateTime($row['start_time']);
-                    $endTime = new DateTime($row['end_time']);
-                    $workedHours = $endTime->diff($startTime)->format('%h:%i'); // Format hours and minutes
-                    echo $workedHours;
-                    ?>
+                <?php
+// Calculate the worked hours
+$startTime = new DateTime($row['start_time']);
+$endTime = new DateTime($row['end_time']);
+
+// Calculate the difference in seconds
+$secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
+
+// Round up minutes based on seconds
+$minutes = ceil($secondsDiff / 60);
+
+// Format hours and minutes
+$hours = floor($minutes / 60);
+$minutes %= 60;
+
+// Format the worked hours
+$workedHours = sprintf("%02d:%02d", $hours, $minutes);
+echo $workedHours;
+?>
                 </td>
             </tr>
         <?php endforeach; ?>
-        <tr>
-        <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
-        <td colspan="<?php echo (!empty($location) && $location != 'all') ? '6' : '5'; ?>" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
-    <?php else: ?>
-        <td colspan="<?php echo (!empty($location) && $location != 'all') ? '5' : '4'; ?>" style="text-align: right;"><strong>Total Worked Hours:</strong></td>
-    <?php endif; ?>             
-            <td colspan="1"><strong><?php echo number_format($totalWorkedHours, 2); ?></strong></td>
-            <td></td> <!-- Empty cell for Overtime column -->
-        </tr>
     </table>
 </body>
 </html>
