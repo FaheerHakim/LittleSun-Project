@@ -65,7 +65,7 @@ foreach ($workSchedule as $schedule) {
     if (!isset($scheduleByDate[$date])) {
         $scheduleByDate[$date] = [];
     }
-    if ($timeOffHandler->hasApprovedTimeOff($schedule['user_id'], $date)) {
+  if ($timeOffHandler->hasApprovedTimeOff($schedule['user_id'], $date)) {
         // Get the approved time off details
         $timeOffDetails = $timeOffHandler->getApprovedTimeOffDetails($schedule['user_id'], $date);
         

@@ -69,5 +69,16 @@ class Schedule {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['planned_hours'] : null;
     }
+
+
+
+    public function getWorkScheduleForLocation($startDate, $endDate, $locationId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE date BETWEEN ? AND ? AND location_id = ?");
+        $stmt->execute([$startDate, $endDate, $locationId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
 }
 ?>
