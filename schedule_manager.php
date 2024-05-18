@@ -136,6 +136,11 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
 </head>
 <body>
 <div class="container">
+
+
+<a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
+
+
     <div class="location-dropdown">
         <label for="location">Select Location:</label>
         <select id="location" name="location">
@@ -146,7 +151,7 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
         </select>
     </div>
 
-    <a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
+    
     <div class="view-navigation">
         <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
         <a href="?view=weekly&start_date=<?php echo date("Y-m-d", strtotime('monday this week', strtotime($currentDate))); ?>&end_date=<?php echo date("Y-m-d", strtotime('sunday this week', strtotime($currentDate))); ?>">Weekly</a>
@@ -181,8 +186,32 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
-<?php elseif ($viewType == 'weekly'): ?>
-    <!-- Weekly view code here -->
+        <?php elseif ($viewType == 'weekly'): ?>
+    <?php for ($i = 0; $i < 7; $i++) : ?>
+        <div class="day">
+            <div class="day-header"><?php echo date("l, F j, Y", strtotime("$startDate +$i days")); ?></div>
+            <?php foreach ($allLocations as $location): ?>
+                <?php
+                $locationId = $location['location_id'];
+                $locationName = $location['city'];
+                ?>
+                <?php $date = date("Y-m-d", strtotime("$startDate +$i days")); ?>
+                <?php if (isset($scheduleByLocation[$locationId][$date])): ?>
+                    <?php foreach ($scheduleByLocation[$locationId][$date] as $event): ?>
+                        <div class="event" data-location-id="<?php echo $locationId; ?>" data-user-id="<?php echo $event['user_id']; ?>">
+                            <strong><?php echo $event['user']; ?></strong><br>
+                            <?php echo $event['task_type']; ?><br>
+                            <?php echo $locationName; ?><br>
+                            <?php echo $event['start_time']; ?> - <?php echo $event['end_time']; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                 
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endfor; ?>
+
 <?php else: ?>
     <div class="calendar">
         <div class="header">Mon</div>
@@ -231,9 +260,6 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
                     echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';
                     echo '</div>';
                 }
-
-
-
             }
             echo '</div>';
         }
