@@ -60,5 +60,12 @@ class Location {
         $stmt = $conn->query("SELECT location_id, city FROM locations");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getLocationById($locationId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM locations WHERE location_id = ?");
+        $stmt->execute([$locationId]);
+        $location = $stmt->fetch(PDO::FETCH_ASSOC); // Assuming PDO is used for database operations
+        return $location;
+    }
 }
 ?>

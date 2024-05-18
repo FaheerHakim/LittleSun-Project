@@ -4,9 +4,11 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/WorkHours.php";
 require_once __DIR__ . "/classes/User.php";
+require_once __DIR__ . "/classes/Location.php"; // Include the Location class
 
 $workHoursHandler = new WorkHours();
-$userHandler = new User(); 
+$userHandler = new User();
+$locationHandler = new Location(); // Instantiate the Location class
 
 // Extract selected filters from the form submission
 $selectedUsers = isset($_POST['users']) ? $_POST['users'] : [];
@@ -20,33 +22,44 @@ $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
 // Construct the query based on selected filters
-$query = "SELECT * FROM work_hours WHERE 1";
+// Construct the query based on selected filters
+$query = "SELECT work_hours.*, work_schedule.location_id 
+          FROM work_hours 
+          INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
+          WHERE 1";
 
 if (!empty($selectedUsers) && $selectedUsers[0] != 'all') {
     $usersStr = implode(",", $selectedUsers);
-    $query .= " AND user_id IN ($usersStr)";
+    $query .= " AND work_hours.user_id IN ($usersStr)";
 }
 
 if ($period == 'year' && !empty($year)) {
-    $query .= " AND YEAR(start_time) = $year";
+    $query .= " AND YEAR(work_hours.start_time) = $year";
 } elseif ($period == 'month' && !empty($month)) {
-    $query .= " AND MONTH(start_time) = $month";
+    $query .= " AND MONTH(work_hours.start_time) = $month";
 } elseif ($period == 'custom' && !empty($startDate) && !empty($endDate)) {
-    $query .= " AND start_time BETWEEN '$startDate' AND '$endDate'";
+    $query .= " AND work_hours.start_time BETWEEN '$startDate' AND '$endDate'";
 }
 
 if ($location != 'all' && $location != 'none') {
-    $query .= " AND location_id = $location";
+    $query .= " AND work_schedule.location_id = $location";
 }
 
 if ($taskType != 'all' && $taskType != 'none') {
-    $query .= " AND task_type_id = $taskType";
+    $query .= " AND work_schedule.task_type_id = $taskType"; // Assuming task_type_id is in the work_schedule table
 }
 
 if ($overtime == 'yes') {
-    $query .= " AND overtime = 1";
+    $query .= " AND work_hours.overtime = 1";
 } elseif ($overtime == 'no') {
-    $query .= " AND overtime = 0";
+    $query .= " AND work_hours.overtime = 0";
+}
+
+// If 'All Employees' is selected, no need to filter by user_id
+if (in_array('all', $selectedUsers)) {
+    // Define an empty string for $usersStr
+    $usersStr = '';
+    $query = str_replace("work_hours.user_id IN ($usersStr)", "1", $query);
 }
 
 // Execute the query to fetch data from the database
@@ -80,9 +93,10 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
     <h2>Report Result</h2>
     <table>
         <tr>
-            <th>Employee Name</th> <!-- Changed from User ID to Employee Name -->
+            <th>Employee Name</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Location</th> <!-- Added Location column header -->
             <th>Overtime</th>
         </tr>
         <?php foreach ($reportData as $row): ?>
@@ -96,6 +110,13 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
                 </td>
                 <td><?php echo $row['start_time']; ?></td>
                 <td><?php echo $row['end_time']; ?></td>
+                <td>
+                    <?php
+                    // Fetch the location name based on the location ID
+                    $location = $locationHandler->getLocationById($row['location_id']);
+                    echo $location ? $location['city'] : 'Unknown'; // Assuming 'city' is the column for the location name
+                    ?>
+                </td>
                 <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
             </tr>
         <?php endforeach; ?>
