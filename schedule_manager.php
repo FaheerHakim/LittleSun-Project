@@ -173,7 +173,7 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
                 $locationName = $location['city'];
                 ?>
                 <?php if (isset($scheduleByLocation[$locationId][$startDate])): ?>
-                    <?php foreach ($scheduleByLocation[$locationId][$startDate] as $event): ?>
+                    <?php foreach ($scheduleByLocation[$locationId][$date] as $event): ?>
                         <div class="event" data-location-id="<?php echo $locationId; ?>" data-user-id="<?php echo $event['user_id']; ?>">
                             <strong><?php echo $event['user']; ?></strong><br>
                             <?php echo $event['task_type']; ?><br>
@@ -181,8 +181,8 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
                             <?php echo $event['start_time']; ?> - <?php echo $event['end_time']; ?>
                         </div>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No work schedule available for this day at <?php echo $locationName; ?></p>
+        
+            
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
