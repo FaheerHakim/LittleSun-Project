@@ -75,18 +75,29 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
         </select>
         <br>
 
-<label for="task_type">Task Type:</label>
-<select name="task_type" id="task_type" multiple multiselect-search="true">
-    <option value="all">All Task Types</option>
-    <?php foreach ($taskTypes as $taskType): ?>
-        <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
-    <?php endforeach; ?>
-</select>
+        <label for="task_type">Task Type:</label>
+        <select name="task_type" id="task_type" multiple multiselect-search="true">
+            <option value="all">All Task Types</option>
+            <?php foreach ($taskTypes as $taskType): ?>
+                <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
+            <?php endforeach; ?>
+        </select>
         <br>
 
         <label for="overtime">Overtime:</label>
-        <input type="radio" name="overtime" value="yes" id="overtime_yes"><label for="overtime_yes">Yes</label>
-        <input type="radio" name="overtime" value="no" id="overtime_no"><label for="overtime_no">No</label>
+        <select name="overtime" id="overtime">
+            <option value="">Select</option>
+            <option value="all">Both</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <br>
+
+        <label for="time_off">Time Off:</label>
+        <select name="time_off" id="time_off">
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+        </select>
         <br>
 
         <button type="submit">Generate Report</button>

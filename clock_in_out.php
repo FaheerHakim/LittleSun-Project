@@ -16,10 +16,14 @@ $workHoursHandler = new WorkHours();
 $user = $_SESSION['user'];
 $userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key of the user array
 
+date_default_timezone_set('Europe/Brussels');
+
 // Check if the clock-in button is clicked
 if (isset($_POST['clock_in'])) {
     // Clock in the user for the day
     $currentTime = date("Y-m-d H:i:s");
+    echo "Current Time: " . date("Y-m-d H:i:s") . "<br>";
+
     $workHoursHandler->clockIn($userId, $currentTime);
     echo "You have successfully clocked in for today.";
 }

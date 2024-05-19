@@ -55,7 +55,12 @@ class TimeOff {
     $stmt->execute([$endDate, $startDate]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-    
+public function executeCustomQuery($query) {
+    $conn = $this->db->getConnection();
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }
 

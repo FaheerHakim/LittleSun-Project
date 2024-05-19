@@ -22,20 +22,7 @@ $location = isset($_POST['location']) ? $_POST['location'] : "";
 $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
-echo "Selected Users: "; var_dump($selectedUsers);
-echo "Period: $period <br>";
-echo "Year: $year <br>";
-echo "Month: $month <br>";
-echo "Start Date: $startDate <br>";
-echo "End Date: $endDate <br>";
-echo "Location: $location <br>";
-echo "Task Type: $taskType <br>";
-echo "Overtime: $overtime <br>";
-
-
-
-// Construct the query based on selected filters
-$query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id 
+$query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id, work_schedule.start_time AS planned_start_time, work_schedule.end_time AS planned_end_time 
           FROM work_hours 
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
@@ -54,33 +41,27 @@ if ($period == 'year' && !empty($year)) {
     $query .= " AND YEAR(work_hours.start_time) = $year";
 } elseif ($period == 'month' && !empty($month)) {
     $query .= " AND MONTH(work_hours.start_time) = $month";
-
 } elseif ($period == 'custom' && !empty($startDate) && !empty($endDate)) {
-    // Ensure the end date includes the full day
     $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
     $query .= " AND work_hours.start_time BETWEEN '$startDate' AND '$endDate'";
 }
 
-if (!empty($location && $location != 'all') ) {
+if (!empty($location) && $location != 'all') {
     $query .= " AND work_schedule.location_id = $location";
 }
 
-if (!empty($taskType && $taskType != 'all') ) {
+if (!empty($taskType) && $taskType != 'all') {
     $query .= " AND work_schedule.task_type_id = $taskType"; 
+} 
+
+if (!empty($overtime) && $overtime != 'all') {
+    $query .= " AND work_schedule.overtime = $overtime"; 
 }
 
-if ($overtime == 'yes') {
-    $query .= " AND work_hours.overtime = 1";
-} elseif ($overtime == 'no') {
-    $query .= " AND work_hours.overtime = 0";
-}
-
-
-// Execute the query to fetch data from the database
-// Assuming you have a method to execute custom queries in your WorkHours class
 $reportData = $workHoursHandler->executeCustomQuery($query);
 
 $totalWorkedHours = 0;
+$totalOvertimeMinutes = 0; // To accumulate total overtime
 
 // Loop through each row of the report data
 foreach ($reportData as $row) {
@@ -96,12 +77,38 @@ foreach ($reportData as $row) {
 
     // Accumulate the total worked hours
     $totalWorkedHours += $minutes;
+
+    // Calculate overtime
+    $plannedStartTime = new DateTime($row['planned_start_time']);
+    $plannedEndTime = new DateTime($row['planned_end_time']);
+    $plannedStartTime->setTime($plannedStartTime->format('H'), $plannedStartTime->format('i'));
+    $plannedEndTime->setTime($plannedEndTime->format('H'), $plannedEndTime->format('i'));
+    $plannedDuration = $plannedEndTime->getTimestamp() - $plannedStartTime->getTimestamp();
+
+    $actualStartTime = new DateTime($row['start_time']);
+    $actualEndTime = new DateTime($row['end_time']);
+    $actualStartTime->setTime($actualStartTime->format('H'), $actualStartTime->format('i'));
+    $actualEndTime->setTime($actualEndTime->format('H'), $actualEndTime->format('i'));
+    $actualDuration = $actualEndTime->getTimestamp() - $actualStartTime->getTimestamp();
+
+    $isOvertime = $actualDuration > $plannedDuration;
+    $overtimeDuration = $isOvertime ? $actualDuration - $plannedDuration : 0;
+
+    if ($overtimeDuration > 0) {
+        $overtimeMinutes = ceil($overtimeDuration / 60);
+        $totalOvertimeMinutes += $overtimeMinutes; // Accumulate total overtime minutes
+    }
 }
 
 // Convert the total worked hours to hours and minutes format
 $totalHours = floor($totalWorkedHours / 60);
 $totalMinutes = $totalWorkedHours % 60;
 $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
+
+// Convert the total overtime to hours and minutes format
+$totalOvertimeHours = floor($totalOvertimeMinutes / 60);
+$totalOvertimeMinutes %= 60;
+$totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOvertimeMinutes);
 ?>
 
 <!DOCTYPE html>
@@ -127,6 +134,7 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 <body>
     <h2>Report Result</h2>
     <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
+    <p><strong>Total Overtime: <?php echo $totalOvertimeFormatted; ?></strong></p>
 
     <table>
         <tr>
@@ -139,10 +147,14 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
             <?php if (!empty($taskType) && $taskType = 'all'): ?>           
                 <th>Task Type</th>
             <?php endif; ?> 
-            <th>Overtime</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Total Worked Hours per shift</th>
+            <?php if (!empty($overtime) && $overtime = 'all'): ?>           
+                <th>Overtime</th>
+                <th>Overtime Duration</th>
+            <?php endif; ?> 
+
         </tr>
         <?php foreach ($reportData as $row): ?>
             <tr>
@@ -170,31 +182,58 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
                     ?>
                 </td>
                 <?php endif; ?>
-
-                <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
                 <td><?php echo $row['start_time']; ?></td>
                 <td><?php echo $row['end_time']; ?></td>
                 <td>
                 <?php
-// Calculate the worked hours
-$startTime = new DateTime($row['start_time']);
-$endTime = new DateTime($row['end_time']);
+                    $startTime = new DateTime($row['start_time']);
+                    $endTime = new DateTime($row['end_time']);
 
-// Calculate the difference in seconds
-$secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
+                    // Calculate the difference in seconds
+                    $secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
 
-// Round up minutes based on seconds
-$minutes = ceil($secondsDiff / 60);
+                    // Round up minutes based on seconds
+                    $minutes = ceil($secondsDiff / 60);
 
-// Format hours and minutes
-$hours = floor($minutes / 60);
-$minutes %= 60;
+                    // Format hours and minutes
+                    $hours = floor($minutes / 60);
+                    $minutes %= 60;
 
-// Format the worked hours
-$workedHours = sprintf("%02d:%02d", $hours, $minutes);
-echo $workedHours;
-?>
+                    // Format the worked hours
+                    $workedHours = sprintf("%02d:%02d", $hours, $minutes);
+                    echo $workedHours;
+                ?>
                 </td>
+                <?php
+                $plannedStartTime = new DateTime($row['planned_start_time']);
+                $plannedEndTime = new DateTime($row['planned_end_time']);
+                $plannedStartTime->setTime($plannedStartTime->format('H'), $plannedStartTime->format('i'));
+                $plannedEndTime->setTime($plannedEndTime->format('H'), $plannedEndTime->format('i'));
+                $plannedDuration = $plannedEndTime->getTimestamp() - $plannedStartTime->getTimestamp();
+
+                $actualStartTime = new DateTime($row['start_time']);
+                $actualEndTime = new DateTime($row['end_time']);
+                $actualStartTime->setTime($actualStartTime->format('H'), $actualStartTime->format('i'));
+                $actualEndTime->setTime($actualEndTime->format('H'), $actualEndTime->format('i'));
+                $actualDuration = $actualEndTime->getTimestamp() - $actualStartTime->getTimestamp();
+
+                $isOvertime = $actualDuration > $plannedDuration;
+                $overtimeDuration = $isOvertime ? $actualDuration - $plannedDuration : 0;
+
+                if ($overtimeDuration > 0) {
+                    $overtimeMinutes = ceil($overtimeDuration / 60);
+                    $overtimeHours = floor($overtimeMinutes / 60);
+                    $overtimeMinutes %= 60;
+                    $overtimeFormatted = sprintf("%02d:%02d", $overtimeHours, $overtimeMinutes);
+                } else {
+                    $overtimeFormatted = '00:00';
+                }
+                ?>
+                <?php if (!empty($overtime) && $overtime = 'all'): ?>
+                    <td><?php echo $isOvertime ? 'Yes' : 'No'; ?></td>
+                    <td><?php echo $overtimeFormatted; ?></td>
+                <?php endif; ?>
+
             </tr>
         <?php endforeach; ?>
     </table>
