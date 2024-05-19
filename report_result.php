@@ -138,6 +138,19 @@ $totalOvertimeHours = floor($totalOvertimeMinutes / 60);
 $totalOvertimeMinutes %= 60;
 $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOvertimeMinutes);
 
+$totalSickTimeMinutes = 0;
+foreach ($timeOffData as $row) {
+    $workSchedule = $workHoursHandler->getWorkScheduleForUserAndDate($row['user_id'], $row['start_date']);
+
+    $plannedStartTime = new DateTime($workSchedule['start_time']);
+    $plannedEndTime = new DateTime($workSchedule['end_time']);
+    $plannedDuration = $plannedEndTime->diff($plannedStartTime);
+    $plannedDuration->format('%H:%I');
+}
+
+// Convert total sick time to hours and minutes format
+
+$plannedDurationFormatted = $plannedDuration->format('%H:%I');
 ?>
 
 <!DOCTYPE html>
@@ -162,10 +175,13 @@ $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOverti
 </head>
 <body>
 <h2>Report Result</h2>
+<?php if ($timeOff !== 'yes'): ?>
     <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
     <p><strong>Total Overtime: <?php echo $totalOvertimeFormatted; ?></strong></p>
+<?php endif; ?>
     <?php if ($timeOff == 'yes'): ?>
-        
+        <h3>Total Sick Time: <?php echo $plannedDurationFormatted . " hours"; ?></h3>
+
     <?php endif; ?>
     <table>
         <tr>
@@ -176,8 +192,9 @@ $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOverti
                 <th>Reason</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Planned Start Time</th>
-                <th>Planned End Time</th>
+                <th>Scheduled Start Time</th>
+                <th>Scheduled End Time</th>
+                <th>Total sick time</th>
             <?php else: ?>  
                 <?php if (!empty($location) && $location == 'all'): ?>
                     <th>Location</th>
@@ -221,10 +238,20 @@ $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOverti
             ?>
             <td><?php echo $workSchedule['start_time']; ?></td>
             <td><?php echo $workSchedule['end_time']; ?></td>
-        <?php } else {
+        <?php 
+        } else {
             // No scheduled work date found, display empty cells
             ?>
         <?php } ?>
+        <td>
+        <?php
+        // Calculate the planned time for the shift
+        $plannedStartTime = new DateTime($workSchedule['start_time']);
+        $plannedEndTime = new DateTime($workSchedule['end_time']);
+        $plannedDuration = $plannedEndTime->diff($plannedStartTime);
+        echo $plannedDuration->format('%H:%I');
+            ?>
+        </td>
                     </tr>
             <?php endforeach; ?>
         <?php else: ?>
