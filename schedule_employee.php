@@ -23,31 +23,35 @@ $locationHandler = new Location();
 $taskTypeHandler = new TaskType();
 $timeOffHandler = new TimeOff();
 
-$viewType = isset($_GET['view']) ? $_GET['view'] : 'monthly';
+$viewType = isset($_GET['view']) ? $_GET['view'] : 'daily';
 $currentDate = date("Y-m-d");
 $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : $currentDate;
 $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : $currentDate;
 
 
+$workSchedule = [];
 
-// Fetch work schedule for the selected period for the logged-in user
-// Fetch work schedule for the selected period for the logged-in user
 switch ($viewType) {
+
+    
     case 'daily':
+        
         $workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate, $userId);
         break;
     case 'weekly':
+       
+        $workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate, $userId);
+        break;
     case 'monthly':
     default:
-        $workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate, $userId); // Updated to include user ID
-         
-        $scheduleByDate = [];
+        $workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate, $userId);
+
 
         break;
 }
 
-
-
+// Initialize an associative array to store schedule data
+$scheduleByDate = [];
 // Initialize an associative array to store schedule data
 
 // Check if $workSchedule is not null before iterating over it
@@ -57,11 +61,13 @@ if ($workSchedule !== null) {
         $scheduleByDate[$date][] = [
             'task_type' => $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name'],
             'location' => $locationHandler->getLocationById($schedule['location_id'])['city'],
-            'start_time' => $schedule['start_time'],
-            'end_time' => $schedule['end_time']
+            'start_time' => date("H:i", strtotime($schedule['start_time'])), // Format start_time
+            'end_time' => date("H:i", strtotime($schedule['end_time'])) // Format end_time
         ];
     }
 }
+
+
 
 // Fetch time off events for the logged-in user
 $timeOffEvents = $timeOffHandler->getApprovedTimeOffRequestsForUser($startDate, $endDate, $userId);
@@ -130,9 +136,10 @@ function getNextPeriod($viewType, $startDate)
     <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
 
     <div class="navigation">
-        <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getPreviousPeriod($viewType, $startDate); ?>&end_date=<?php echo getPreviousPeriod($viewType, $endDate); ?>">Previous</a>
-        <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getNextPeriod($viewType, $startDate); ?>&end_date=<?php echo getNextPeriod($viewType, $endDate); ?>">Next</a>
-    </div>
+    <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getPreviousPeriod($viewType, $startDate); ?>&end_date=<?php echo getPreviousPeriod($viewType, $endDate); ?>">Previous</a>
+    <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getNextPeriod($viewType, $startDate); ?>&end_date=<?php echo getNextPeriod($viewType, $endDate); ?>">Next</a>
+</div>
+
     <?php if ($viewType == 'daily'): ?>
     <div class="day">
         <div class="day-header"><?php echo date("l, F j, Y", strtotime($startDate)); ?></div>
