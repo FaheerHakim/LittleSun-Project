@@ -1,0 +1,89 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Container styles */
+.assign-schedule-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Heading styles */
+h1 {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+/* Back button styles */
+.go-back-button  {
+    background-color: #FFDD00;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+   
+}
+
+/* Hover effect */
+.go-back-button:hover {
+    background-color: #ffe958;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Select styles */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Form label styles */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.assign-button  {
+    background-color: #FFDD00;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  
+   
+}
+
+/* Hover effect */
+.assign-button:hover {
+    background-color: #ffe958;
+}

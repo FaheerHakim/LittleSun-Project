@@ -8,7 +8,7 @@ require_once __DIR__ . "/classes/Location.php";
 
 include 'logged_in.php';
 
-include 'permission_admin.php';
+include 'permission_manager.php';
 
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
@@ -20,7 +20,7 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
 <head>
     <meta charset="UTF-8">
     <title>User Profiles</title>
-    <link rel="stylesheet" href="styles/edit_manager.css">
+    <link rel="stylesheet" href="styles/assign_employees.css">
     <script src="script/edit_manager.js" defer></script>
  
 </head>
@@ -37,15 +37,16 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
             <img src="../LittleSun-Project/images/profile.jpg" alt="User Profile" class="profile-picture">
             <div class="user-info">
     <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-    <a href="assign_employee.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="delete-button" type="button">Assign work</a>
+   
 </div>
 
+ <a href="assign_work.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="assign-button" type="button">Assign work</a>
         
     </div>
     <?php endforeach; ?>
     </div>
 
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+    <a href="schedule_manager.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 
