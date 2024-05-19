@@ -28,6 +28,8 @@ $currentDate = date("Y-m-d");
 $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : $currentDate;
 $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : $currentDate;
 
+
+
 // Fetch work schedule for the selected period for the logged-in user
 // Fetch work schedule for the selected period for the logged-in user
 switch ($viewType) {
@@ -38,18 +40,15 @@ switch ($viewType) {
     case 'monthly':
     default:
         $workSchedule = $scheduleHandler->getWorkScheduleForPeriod($startDate, $endDate, $userId); // Updated to include user ID
+         
+        $scheduleByDate = [];
+
         break;
 }
 
-// Debugging output to inspect $workSchedule
-if (isset($workSchedule)) {
-    var_dump($workSchedule);
-} else {
-    echo "Work schedule is not defined!";
-}
+
 
 // Initialize an associative array to store schedule data
-$scheduleByDate = [];
 
 // Check if $workSchedule is not null before iterating over it
 if ($workSchedule !== null) {
@@ -193,8 +192,9 @@ function getNextPeriod($viewType, $startDate)
     </div>
 
 
-<?php else: ?>
+    <?php else: ?>
     <div class="calendar">
+        <!-- Header for days of the week -->
         <div class="header">Mon</div>
         <div class="header">Tue</div>
         <div class="header">Wed</div>
@@ -210,38 +210,25 @@ function getNextPeriod($viewType, $startDate)
             echo '<div class="day empty"></div>';
         }
 
+        // Loop through each day of the month
         $daysInMonth = date("t", strtotime($startDate));
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = date("Y-m-d", strtotime($startDate . " +".($day-1)." days"));
+
+            // Output the day number and schedule events for this day
             echo '<div class="day">';
             echo '<strong>' . $day . '</strong>';
 
-            if (isset($scheduleByLocation)) {
-                foreach ($allLocations as $location) {
-                    $locationId = $location['location_id'];
-                    $locationName = $location['city'];
-
-                    if (isset($scheduleByLocation[$locationId][$date])) {
-                        foreach ($scheduleByLocation[$locationId][$date] as $event) {
-                            echo '<div class="event" data-location-id="' . $locationId . '" data-user-id="' . $event['user_id'] . '">';
-                            echo '<strong>' . $event['user'] . '</strong><br>';
-                            echo $event['task_type'] . '<br>';
-                            echo $locationName . '<br>';
-                            echo $event['start_time'] . ' - ' . $event['end_time'];
-                            echo '</div>';
-                        }
-                    }
-                }
-            }
-
-            if (isset($timeOffByDate[$date])) {
-                foreach ($timeOffByDate[$date] as $timeOffEvent) {
-                    echo '<div class="event time-off">';
-                    echo '<strong>' . $timeOffEvent['user'] . '</strong><br>';
-                    echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';
+            if (isset($scheduleByDate[$date])) {
+                foreach ($scheduleByDate[$date] as $event) {
+                    echo '<div class="event">';
+                    echo $event['task_type'] . '<br>';
+                    echo $event['location'] . '<br>';
+                    echo $event['start_time'] . ' - ' . $event['end_time'];
                     echo '</div>';
                 }
             }
+            
             echo '</div>';
         }
 
