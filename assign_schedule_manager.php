@@ -8,7 +8,7 @@ require_once __DIR__ . "/classes/Location.php";
 
 include 'logged_in.php';
 
-include 'permission_admin.php';
+include 'permission_manager.php';
 
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
