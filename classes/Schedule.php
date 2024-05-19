@@ -79,6 +79,11 @@ class Schedule {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    
+    public function getWorkScheduleForUserAndDate($userId, $date) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE user_id = ? AND date = ?");
+        $stmt->execute([$userId, $date]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

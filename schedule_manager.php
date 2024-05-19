@@ -80,13 +80,24 @@ $timeOffByDate = [];
 foreach ($timeOffEvents as $timeOff) {
     $timeOffStartDate = date("Y-m-d", strtotime($timeOff['start_date']));
     $timeOffEndDate = date("Y-m-d", strtotime($timeOff['end_date']));
-    // Loop through each date between start and end date
+    
+    // Loop through each date between start and end date of time-off request
     for ($date = $timeOffStartDate; $date <= $timeOffEndDate; $date = date('Y-m-d', strtotime($date . ' +1 day'))) {
         $timeOffByDate[$date][] = [
             'user_id' => $timeOff['user_id'],
             'user' => $userHandler->getUserNameById($timeOff['user_id']),
             'reason' => $timeOff['reason']
         ];
+
+        // Check if the user was scheduled on this day
+        $scheduledWorkDay = $scheduleHandler->getWorkScheduleForUserAndDate($timeOff['user_id'], $date);
+        if ($scheduledWorkDay) {
+            // If scheduled, add work schedule details to time-off event
+            $timeOffByDate[$date][0]['task_type'] = $taskTypeHandler->getTaskTypeNameById($scheduledWorkDay['task_type_id'])['task_type_name'];
+            $timeOffByDate[$date][0]['location'] = $locationHandler->getLocationNameById($scheduledWorkDay['location_id']);
+            $timeOffByDate[$date][0]['start_time'] = $scheduledWorkDay['start_time'];
+            $timeOffByDate[$date][0]['end_time'] = $scheduledWorkDay['end_time'];
+        }
     }
 }
 
@@ -251,6 +262,14 @@ function getNextPeriod($viewType, $startDate) {
                         echo '<div class="event time-off">';
                         echo '<strong>' . $timeOffEvent['user'] . '</strong><br>';
                         echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';
+                        
+                        // Check if work schedule details are available
+                        if (isset($timeOffEvent['task_type'])) {
+                            echo $timeOffEvent['task_type'] . '<br>';
+                            echo $timeOffEvent['location']['city'] . '<br>';
+                            echo $timeOffEvent['start_time'] . " - " . $timeOffEvent['end_time'];
+                        }
+                        
                         echo '</div>';
                     }
                 }

@@ -28,7 +28,7 @@
         <a href="dashboard.php">Dashboard</a>
         <a href="user.php">Employees</a>
         <a href="task_type_manager.php"> Task Types</a>
-        <a href="schedule_manager.php">Work schedule</a>
+        <a href="work_schedule_manager.php">Work schedule</a>
         <a href="reports.php">Reports</a>
         <a href="time_off_requests.php"> Time-Off requests</a>
         <a href="logout.php">Logout</a>

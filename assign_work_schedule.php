@@ -121,7 +121,7 @@ $locations = $scheduleHandler->getLocations();
                     <?php endif; ?>
                 <?php else: ?>
                     <p>All task types have been assigned a work schedule for this user.</p>
-                    <button onclick="location.href='schedule_overview.php'">Overview work schedule</button>
+                    <button onclick="location.href='schedule_manager.php'">Overview work schedule</button>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
