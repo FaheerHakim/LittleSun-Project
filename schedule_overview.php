@@ -65,32 +65,20 @@ foreach ($workSchedule as $schedule) {
     if (!isset($scheduleByDate[$date])) {
         $scheduleByDate[$date] = [];
     }
-    if ($timeOffHandler->hasApprovedTimeOff($schedule['user_id'], $date)) {
+     if ($timeOffHandler->hasApprovedTimeOff($schedule['user_id'], $date)) {
         // Get the approved time off details
         $timeOffDetails = $timeOffHandler->getApprovedTimeOffDetails($schedule['user_id'], $date);
-        
-        // Display the approved time off details instead of regular work schedule events
-        $timeOffStartDate = $timeOffDetails['start_date'];
-        $timeOffEndDate = $timeOffDetails['end_date'];
-        $currentOffDate = $timeOffStartDate;
 
-        while (strtotime($currentOffDate) <= strtotime($timeOffEndDate)) {
-            if (strtotime($currentOffDate) >= strtotime($startDate) && strtotime($currentOffDate) <= strtotime($endDate)) {
-                if (!isset($scheduleByDate[$currentOffDate])) {
-                    $scheduleByDate[$currentOffDate] = [];
-                }
-                $scheduleByDate[$currentOffDate][] = [
-                    'user' => $userHandler->getUserNameById($schedule['user_id']),
-                    'task_type' => 'Time Off', // Assuming 'Time Off' is a task type
-                    'location' => 'Off', // Assuming 'Off' is the location for time off
-                    'start_time' => 'Full Day', // Indicate the whole day is off
-                    'end_time' => 'Full Day',
-                    'time_off_reason' => $timeOffDetails['reason'], // Display the reason for time off
-                    'time_off_additional_notes' => $timeOffDetails['additional_notes'] // Display additional notes for time off
-                ];
-            }
-            $currentOffDate = date("Y-m-d", strtotime($currentOffDate . ' +1 day'));
-        }
+        // Display the approved time off details instead of regular work schedule events
+        $scheduleByDate[$date][] = [
+            'user' => $userHandler->getUserNameById($schedule['user_id']),
+            'task_type' => 'Time Off', // Assuming 'Time Off' is a task type
+            'location' => 'Off', // Assuming 'Off' is the location for time off
+            'start_time' => 'Full Day', // Indicate the whole day is off
+            'end_time' => 'Full Day',
+            'time_off_reason' => $timeOffDetails['reason'], // Display the reason for time off
+            'time_off_additional_notes' => $timeOffDetails['additional_notes'] // Display additional notes for time off
+        ];
     } else {
         // Add the regular work schedule entry if there is no approved time off
         $scheduleByDate[$date][] = [

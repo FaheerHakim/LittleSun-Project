@@ -1,0 +1,160 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Location Dropdown */
+.location-dropdown {
+    margin-bottom: 20px;
+}
+
+/* Go Back Button */
+.go-back {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 20px; /* Increased margin */
+    margin-bottom: 15px;
+}
+
+.go-back:hover {
+   
+    background-color: #0056b3;
+}
+
+/* View Navigation */
+.view-navigation {
+    margin-bottom: 20px;
+}
+
+.view-navigation a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 20px; /* Increased margin */
+}
+
+.view-navigation a:hover {
+    background-color: #0056b3;
+}
+
+/* Header Styles */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Navigation Styles */
+.navigation {
+    margin-bottom: 20px;
+}
+
+.navigation a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 175px; /* Increased margin */
+}
+
+.navigation a:hover {
+    background-color: #0056b3;
+}
+
+/* Day Styles */
+.day {
+    margin-bottom: 10px;
+}
+
+.day-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Event Styles */
+.event {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.event strong {
+    font-weight: bold;
+}
+
+/* Time Off Styles */
+.event.time-off {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+/* Calendar Styles */
+.calendar, .week, .day {
+    display: grid;
+    gap: 1px;
+    background-color: #ddd;
+}
+
+.calendar {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.week {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+    grid-template-columns: 1fr;
+}
+
+.calendar .day, .week .day, .day .event {
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ddd;
+    min-height: 80px;
+}
+
+.calendar .header, .week .header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+}
+
+.calendar .event, .week .event, .day .event {
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #e0f7fa;
+    border-left: 4px solid #00796b;
+}
+
+.day .event.time-off {
+    background-color: #ffe0b2;
+    border-color: #ffc107;
+}
