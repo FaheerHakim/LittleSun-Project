@@ -259,6 +259,7 @@ function getNextPeriod($viewType, $startDate) {
 
                 if (isset($timeOffByDate[$date])) {
                     foreach ($timeOffByDate[$date] as $timeOffEvent) {
+                        
                         echo '<div class="event time-off">';
                         echo '<strong>' . $timeOffEvent['user'] . '</strong><br>';
                         echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';

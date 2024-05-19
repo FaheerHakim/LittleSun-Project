@@ -6,11 +6,14 @@ require_once __DIR__ . "/classes/WorkHours.php";
 require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/Location.php"; 
 require_once __DIR__ . "/classes/TaskType.php"; 
+require_once __DIR__ . "/classes/TimeOff.php"; 
+
 
 $workHoursHandler = new WorkHours();
 $userHandler = new User();
 $locationHandler = new Location(); 
 $taskTypeHandler = new TaskType();
+$timeOffHandler = new TimeOff();
 
 $selectedUsers = isset($_POST['users']) ? $_POST['users'] : [];
 $period = isset($_POST['period']) ? $_POST['period'] : "";
@@ -22,10 +25,33 @@ $location = isset($_POST['location']) ? $_POST['location'] : "";
 $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
+$timeOff = isset($_POST['time_off']) ? $_POST['time_off'] : "";
+$timeOffQuery = "SELECT * FROM time_off_requests WHERE 1";
+
 $query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id, work_schedule.start_time AS planned_start_time, work_schedule.end_time AS planned_end_time 
           FROM work_hours 
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
+
+if (!empty($timeOff) && $timeOff != 'all') {
+    if ($timeOff == 'yes') {
+        // Include only time off days
+        $query .= " AND EXISTS (
+                        SELECT 1 
+                        FROM time_off_requests 
+                        WHERE time_off_requests.user_id = work_hours.user_id 
+                        AND DATE(work_hours.start_time) BETWEEN time_off_requests.start_date AND time_off_requests.end_date
+                    )";
+    } elseif ($timeOff == 'no') {
+        // Exclude time off days
+        $query .= " AND NOT EXISTS (
+                        SELECT 1 
+                        FROM time_off_requests 
+                        WHERE time_off_requests.user_id = work_hours.user_id 
+                        AND DATE(work_hours.start_time) BETWEEN time_off_requests.start_date AND time_off_requests.end_date
+                    )";
+    }
+}
 
 if (in_array('all', $selectedUsers)) {
     $allUsers = $userHandler->getAllUsers(); 
@@ -59,8 +85,15 @@ if (!empty($overtime) && $overtime != 'all') {
 }
 
 $reportData = $workHoursHandler->executeCustomQuery($query);
+$timeOffData = $timeOffHandler->executeCustomQuery($timeOffQuery);
 
 $totalWorkedHours = 0;
+$sickLeaveCount = 0;
+foreach ($timeOffData as $row) {
+    if ($row['reason'] === 'Sick Leave') {
+        $sickLeaveCount++;
+    }
+}
 $totalOvertimeMinutes = 0; // To accumulate total overtime
 
 // Loop through each row of the report data
@@ -109,6 +142,8 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 $totalOvertimeHours = floor($totalOvertimeMinutes / 60);
 $totalOvertimeMinutes %= 60;
 $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOvertimeMinutes);
+$totalTimeOffs = count($timeOffData);
+
 ?>
 
 <!DOCTYPE html>
@@ -132,30 +167,74 @@ $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOverti
     </style>
 </head>
 <body>
-    <h2>Report Result</h2>
+<h2>Report Result</h2>
     <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
     <p><strong>Total Overtime: <?php echo $totalOvertimeFormatted; ?></strong></p>
-
+    <?php if ($timeOff == 'yes'): ?>
+        <h3>Total Sick Leaves: <?php echo $sickLeaveCount; ?></h3>
+        <h3>Total Time Offs: <?php echo $totalTimeOffs; ?></h3>
+    <?php endif; ?>
     <table>
         <tr>
             <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
                 <th>Employee Name</th>
             <?php endif; ?>
-            <?php if (!empty($location) && $location = 'all'): ?>
-                <th>Location</th>
-            <?php endif; ?> 
-            <?php if (!empty($taskType) && $taskType = 'all'): ?>           
-                <th>Task Type</th>
-            <?php endif; ?> 
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Total Worked Hours per shift</th>
-            <?php if (!empty($overtime) && $overtime = 'all'): ?>           
-                <th>Overtime</th>
-                <th>Overtime Duration</th>
-            <?php endif; ?> 
-
+            <?php if ($timeOff == 'yes'): ?>
+                <th>Reason</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Planned Start Time</th>
+                <th>Planned End Time</th>
+            <?php else: ?>  
+                <?php if (!empty($location) && $location == 'all'): ?>
+                    <th>Location</th>
+                <?php endif; ?> 
+                <?php if (!empty($taskType) && $taskType == 'all'): ?>           
+                    <th>Task Type</th>
+                <?php endif; ?> 
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Total Worked Hours per shift</th>
+                <?php if (!empty($overtime) && $overtime == 'all'): ?>           
+                    <th>Overtime</th>
+                    <th>Overtime Duration</th>
+                <?php endif; ?> 
+            <?php endif; ?>
         </tr>
+            <?php if ($timeOff == 'yes'): ?>
+            <?php foreach ($timeOffData as $row): ?>
+                <?php
+        // Get the user details based on user_id
+        $user = $userHandler->getUserById($row['user_id']);
+        ?>
+        <td><?php echo isset($user['first_name']) ? $user['first_name'] : 'Unknown'; ?> <?php echo isset($user['last_name']) ? $user['last_name'] : ''; ?></td>
+        <td>
+            <?php
+            echo $row['reason'];
+            if ($row['reason'] === 'Other') {
+                // Display additional notes if the reason is 'other'
+                echo "<br>Additional Notes: " . $row['additional_notes'];
+            }
+            ?>
+        </td>
+        <td><?php echo $row['start_date']; ?></td>
+        <td><?php echo $row['end_date']; ?></td>
+      
+        <?php
+        // Check if the user has a scheduled work date on the days they took time off
+        $workSchedule = $workHoursHandler->getWorkScheduleForUserAndDate($row['user_id'], $row['start_date']);
+        if ($workSchedule) {
+            // Display the start and end time of the user's work schedule
+            ?>
+            <td><?php echo $workSchedule['start_time']; ?></td>
+            <td><?php echo $workSchedule['end_time']; ?></td>
+        <?php } else {
+            // No scheduled work date found, display empty cells
+            ?>
+        <?php } ?>
+                    </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
         <?php foreach ($reportData as $row): ?>
             <tr>
                 <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
@@ -236,6 +315,7 @@ $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOverti
 
             </tr>
         <?php endforeach; ?>
+    <?php endif; ?> 
     </table>
 </body>
 </html>

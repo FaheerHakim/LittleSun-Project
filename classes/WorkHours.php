@@ -166,5 +166,13 @@ class WorkHours {
         $stmt = $conn->prepare("INSERT INTO overtime (user_id, start_time, end_time, overtime_duration) VALUES (?, ?, ?, ?)");
         $stmt->execute([$userId, $startTime, $endTime, $overtimeDuration]);
     }
+    public function getWorkScheduleForUserAndDate($userId, $date) {
+        $conn = $this->db->getConnection();
+        $startOfDay = date("Y-m-d 00:00:00", strtotime($date));
+        $endOfDay = date("Y-m-d 23:59:59", strtotime($date));
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE user_id = ? AND start_time >= ? AND end_time <= ?");
+        $stmt->execute([$userId, $startOfDay, $endOfDay]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

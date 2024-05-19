@@ -28,7 +28,7 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
 </head>
 <body>
     <h2>Generate Report</h2>
-    <form action="report_result-copy.php" method="post" onsubmit="return validateForm();">
+    <form action="report_result.php" method="post" onsubmit="return validateForm();">
     <div id="error-message" style="color: red; margin-bottom: 10px;"></div>
 
         <label for="users">Users:</label>
