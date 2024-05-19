@@ -53,12 +53,13 @@ class Schedule {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function getWorkScheduleForPeriod($startDate, $endDate) {
+    public function getWorkScheduleForPeriod($startDate, $endDate, $userId) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE date BETWEEN ? AND ?");
-        $stmt->execute([$startDate, $endDate]);
+        $stmt = $conn->prepare("SELECT * FROM work_schedule WHERE user_id = ? AND date BETWEEN ? AND ?");
+        $stmt->execute([$userId, $startDate, $endDate]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     
     public function getPlannedWorkingHours($userId, $date) {
         $conn = $this->db->getConnection();
@@ -69,7 +70,6 @@ class Schedule {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['planned_hours'] : null;
     }
-
 
 
     public function getWorkScheduleForLocation($startDate, $endDate, $locationId) {
