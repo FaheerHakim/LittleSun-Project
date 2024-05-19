@@ -22,20 +22,7 @@ $location = isset($_POST['location']) ? $_POST['location'] : "";
 $taskType = isset($_POST['task_type']) ? $_POST['task_type'] : "";
 $overtime = isset($_POST['overtime']) ? $_POST['overtime'] : "";
 
-echo "Selected Users: "; var_dump($selectedUsers);
-echo "Period: $period <br>";
-echo "Year: $year <br>";
-echo "Month: $month <br>";
-echo "Start Date: $startDate <br>";
-echo "End Date: $endDate <br>";
-echo "Location: $location <br>";
-echo "Task Type: $taskType <br>";
-echo "Overtime: $overtime <br>";
-
-
-
-// Construct the query based on selected filters
-$query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id 
+$query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_type_id, work_schedule.start_time AS planned_start_time, work_schedule.end_time AS planned_end_time 
           FROM work_hours 
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
@@ -54,18 +41,16 @@ if ($period == 'year' && !empty($year)) {
     $query .= " AND YEAR(work_hours.start_time) = $year";
 } elseif ($period == 'month' && !empty($month)) {
     $query .= " AND MONTH(work_hours.start_time) = $month";
-
 } elseif ($period == 'custom' && !empty($startDate) && !empty($endDate)) {
-    // Ensure the end date includes the full day
     $endDate = date('Y-m-d 23:59:59', strtotime($endDate));
     $query .= " AND work_hours.start_time BETWEEN '$startDate' AND '$endDate'";
 }
 
-if (!empty($location && $location != 'all') ) {
+if (!empty($location) && $location != 'all') {
     $query .= " AND work_schedule.location_id = $location";
 }
 
-if (!empty($taskType && $taskType != 'all') ) {
+if (!empty($taskType) && $taskType != 'all') {
     $query .= " AND work_schedule.task_type_id = $taskType"; 
 }
 
@@ -75,46 +60,9 @@ if ($overtime == 'yes') {
     $query .= " AND work_hours.overtime = 0";
 }
 
-
-// Execute the query to fetch data from the database
-// Assuming you have a method to execute custom queries in your WorkHours class
 $reportData = $workHoursHandler->executeCustomQuery($query);
 
 $totalWorkedHours = 0;
-
-// Loop through each row of the report data
-foreach ($reportData as $row) {
-    // Calculate the worked hours for the current shift
-    $startTime = new DateTime($row['start_time']);
-    $endTime = new DateTime($row['end_time']);
-
-    // Calculate the difference in seconds
-    $secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
-
-    // Round up minutes based on seconds
-    $minutes = ceil($secondsDiff / 60);
-
-    // Accumulate the total worked hours
-    $totalWorkedHours += $minutes;
-
-    // Check for overtime
-    $plannedStartTime = new DateTime($row['planned_start_time']);
-    $plannedEndTime = new DateTime($row['planned_end_time']);
-
-    // Calculate planned duration in minutes
-    $plannedDuration = $plannedEndTime->getTimestamp() - $plannedStartTime->getTimestamp();
-
-    // If worked duration exceeds planned duration, calculate overtime
-    $overtimeMinutes = max(0, $minutes - $plannedDuration);
-
-    // Update the row with overtime information
-    $row['overtime'] = ($overtimeMinutes > 0) ? 'Yes' : 'No';
-}
-
-// Convert the total worked hours to hours and minutes format
-$totalHours = floor($totalWorkedHours / 60);
-$totalMinutes = $totalWorkedHours % 60;
-$totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 ?>
 
 <!DOCTYPE html>
@@ -122,37 +70,22 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 <head>
     <meta charset="UTF-8">
     <title>Report Result</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
     <h2>Report Result</h2>
-    <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
-
     <table>
         <tr>
             <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
                 <th>Employee Name</th>
             <?php endif; ?>
-            <?php if (!empty($location) && $location = 'all'): ?>
+            <?php if (!empty($location) && $location == 'all'): ?>
                 <th>Location</th>
             <?php endif; ?> 
-            <?php if (!empty($taskType) && $taskType = 'all'): ?>           
+            <?php if (!empty($taskType) && $taskType == 'all'): ?>           
                 <th>Task Type</th>
             <?php endif; ?> 
             <th>Overtime</th>
+            <th>Overtime Duration</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Total Worked Hours per shift</th>
@@ -166,8 +99,8 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
                         echo $user['first_name'] . ' ' . $user['last_name'];
                         ?>
                     </td>
-                    <?php endif; ?>
-                <?php if (!empty($location) && $location = 'all'): ?>
+                <?php endif; ?>
+                <?php if (!empty($location) && $location == 'all'): ?>
                     <td>
                         <?php
                         $location = $locationHandler->getLocationById($row['location_id']);
@@ -175,38 +108,53 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
                         ?>
                     </td>
                 <?php endif; ?>
-                <?php if (!empty($taskType) && $taskType = 'all'): ?>
-                <td>
-                    <?php
-                    $taskType = $taskTypeHandler->getTaskTypeNameById($row['task_type_id']);
-                    echo $taskType ? $taskType['task_type_name'] : 'Unknown'; // Assuming 'task_type_name' is the column for the task type name
-                    ?>
-                </td>
+                <?php if (!empty($taskType) && $taskType == 'all'): ?>
+                    <td>
+                        <?php
+                        $taskType = $taskTypeHandler->getTaskTypeNameById($row['task_type_id']);
+                        echo $taskType ? $taskType['task_type_name'] : 'Unknown';
+                        ?>
+                    </td>
                 <?php endif; ?>
 
-                <td><?php echo $row['overtime'] ? 'Yes' : 'No'; ?></td>
+                <?php
+                $plannedStartTime = new DateTime($row['planned_start_time']);
+                $plannedEndTime = new DateTime($row['planned_end_time']);
+                $plannedStartTime->setTime($plannedStartTime->format('H'), $plannedStartTime->format('i'));
+                $plannedEndTime->setTime($plannedEndTime->format('H'), $plannedEndTime->format('i'));
+                $plannedDuration = $plannedEndTime->getTimestamp() - $plannedStartTime->getTimestamp();
+
+                $actualStartTime = new DateTime($row['start_time']);
+                $actualEndTime = new DateTime($row['end_time']);
+                $actualStartTime->setTime($actualStartTime->format('H'), $actualStartTime->format('i'));
+                $actualEndTime->setTime($actualEndTime->format('H'), $actualEndTime->format('i'));
+                $actualDuration = $actualEndTime->getTimestamp() - $actualStartTime->getTimestamp();
+
+                $isOvertime = $actualDuration > $plannedDuration;
+                $overtimeDuration = $isOvertime ? $actualDuration - $plannedDuration : 0;
+
+                if ($overtimeDuration > 0) {
+                    $overtimeMinutes = ceil($overtimeDuration / 60);
+                    $overtimeHours = floor($overtimeMinutes / 60);
+                    $overtimeMinutes %= 60;
+                    $overtimeFormatted = sprintf("%02d:%02d", $overtimeHours, $overtimeMinutes);
+                } else {
+                    $overtimeFormatted = '00:00';
+                }
+                ?>
+
+                <td><?php echo $isOvertime ? 'Yes' : 'No'; ?></td>
+                <td><?php echo $overtimeFormatted; ?></td>
                 <td><?php echo $row['start_time']; ?></td>
                 <td><?php echo $row['end_time']; ?></td>
                 <td>
-                <?php
-// Calculate the worked hours
-$startTime = new DateTime($row['start_time']);
-$endTime = new DateTime($row['end_time']);
-
-// Calculate the difference in seconds
-$secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
-
-// Round up minutes based on seconds
-$minutes = ceil($secondsDiff / 60);
-
-// Format hours and minutes
-$hours = floor($minutes / 60);
-$minutes %= 60;
-
-// Format the worked hours
-$workedHours = sprintf("%02d:%02d", $hours, $minutes);
-echo $workedHours;
-?>
+                    <?php
+                    $minutes = ceil($actualDuration / 60);
+                    $hours = floor($minutes / 60);
+                    $minutes %= 60;
+                    $workedHours = sprintf("%02d:%02d", $hours, $minutes);
+                    echo $workedHours;
+                    ?>
                 </td>
             </tr>
         <?php endforeach; ?>
