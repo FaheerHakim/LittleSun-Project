@@ -52,7 +52,7 @@ class TimeOff {
     public function getApprovedTimeOffDetails($userId, $date) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT start_date, end_date, reason, additional_notes FROM time_off_requests WHERE user_id = ? AND start_date <= ? AND end_date >= ? AND status = 'approved'");
-        $stmt->execute([$userId, $date]);
+        $stmt->execute([$userId, $date, $date]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
