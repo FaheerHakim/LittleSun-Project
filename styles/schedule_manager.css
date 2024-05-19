@@ -27,8 +27,8 @@ body {
 .go-back {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #FFDD00;
+    color: black;
     text-decoration: none;
     border-radius: 4px;
     margin-right: 20px; /* Increased margin */
@@ -37,7 +37,8 @@ body {
 
 .go-back:hover {
    
-    background-color: #0056b3;
+    background-color: #ffe958;
+    
 }
 
 /* View Navigation */
@@ -48,15 +49,15 @@ body {
 .view-navigation a {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #FFDD00;
+    color: black;
     text-decoration: none;
     border-radius: 4px;
     margin-right: 20px; /* Increased margin */
 }
 
 .view-navigation a:hover {
-    background-color: #0056b3;
+    background-color: #ffe958;
 }
 
 /* Header Styles */
@@ -73,15 +74,15 @@ h1 {
 .navigation a {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #FFDD00;
+    color: black;
     text-decoration: none;
     border-radius: 4px;
     margin-right: 175px; /* Increased margin */
 }
 
 .navigation a:hover {
-    background-color: #0056b3;
+    background-color: #ffe958;
 }
 
 /* Day Styles */

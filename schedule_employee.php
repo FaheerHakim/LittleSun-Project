@@ -119,7 +119,7 @@ function getNextPeriod($viewType, $startDate)
 </head>
 <body>
 <div class="container">
-    <a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
+    <a href="dashboard.php" class="go-back" type="button">Go Back</a>
 
     <div class="view-navigation">
         <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
