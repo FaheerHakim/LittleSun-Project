@@ -67,8 +67,8 @@ foreach ($allLocations as $location) {
             'user_id' => $schedule['user_id'],
             'user' => $userHandler->getUserNameById($schedule['user_id']),
             'task_type' => $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name'],
-            'start_time' => $schedule['start_time'],
-            'end_time' => $schedule['end_time']
+            'start_time' => date("H:i", strtotime($schedule['start_time'])), // Format start_time
+            'end_time' => date("H:i", strtotime($schedule['end_time'])) // Format end_time
         ];
     }
 }
