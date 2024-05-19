@@ -47,13 +47,14 @@ $locations = $scheduleHandler->getLocations();
 <head>
     <meta charset="UTF-8">
     <title>Assign Work Schedule</title>
-    <link rel="stylesheet" href="styles/assign_task_types.css">
+    <link rel="stylesheet" href="styles/assign_work.css">
     <script src="script/assign_task_type.js" defer></script>
 </head>
 <body>
 <div class="assign-schedule-container">
+      <a href="assign_employees.php" class="go-back-button" type="button">Go Back</a>
     <div class="assign-schedule-container">
-    <a href="assign_employees.php" class="go-back-button" type="button">Go Back</a>
+  
     <h1>Assign Work Schedule to <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h1>
     <?php if (empty($assignedTaskTypes)): ?>
         <p>No assigned task types found for this user.</p>
@@ -79,8 +80,11 @@ $locations = $scheduleHandler->getLocations();
             <label for="end_time">End Time:</label>
             <input type="time" id="end_time" name="end_time" required><br>
             <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
-            <button class="assign-button" type="submit">Assign Work Schedule</button>
+            
         </form>
+        
+<button class="assign-button" type="submit">Assign Work Schedule</button>
+
     <?php endif; ?>
 </div>
 <?php
