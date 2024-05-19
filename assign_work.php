@@ -60,7 +60,7 @@ $locations = $scheduleHandler->getLocations();
         <p>No assigned task types found for this user.</p>
         <button onclick="location.href='schedule_manager.php'">Overview work schedule</button>
     <?php else: ?>
-        <form action="assign_work_schedule.php" method="post" onsubmit="return confirmAssignment()">
+        <form action="assign_employees.php" method="post" onsubmit="return confirmAssignment()">
             <label for="task_type_id">Assigned task types:</label>
             <select name="task_type_id" id="task_type_id">
                 <?php foreach ($assignedTaskTypes as $taskType): ?>
@@ -80,10 +80,10 @@ $locations = $scheduleHandler->getLocations();
             <label for="end_time">End Time:</label>
             <input type="time" id="end_time" name="end_time" required><br>
             <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
-            
+            <button class="assign-button" type="submit">Assign Work Schedule</button>
         </form>
         
-<button class="assign-button" type="submit">Assign Work Schedule</button>
+
 
     <?php endif; ?>
 </div>
