@@ -37,7 +37,7 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
             <img src="../LittleSun-Project/images/profile.jpg" alt="User Profile" class="profile-picture">
             <div class="user-info">
     <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-    <a href="assign_work.php" class="delete-button" type="button">Assign work</a>
+    <a href="assign_work.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="delete-button" type="button">Assign work</a>
 </div>
 
         
