@@ -45,6 +45,14 @@ class TaskType {
         $stmt = $conn->query("SELECT task_type_id, task_type_name FROM task_types");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+     // Get assigned task types for a user
+     public function getAssignedTaskTypes($userId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT task_types.* FROM task_types INNER JOIN user_task_types ON task_types.task_type_id = user_task_types.task_type_id WHERE user_task_types.user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
 }
 
