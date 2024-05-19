@@ -28,6 +28,13 @@ class TimeOff {
         $stmt->execute([$requestId]);
         return $stmt->rowCount() > 0;
     }
+
+    public function getTimeOffRequestsForUser($userId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM time_off_requests WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
     
     public function declineTimeOffRequest($requestId) {
@@ -53,6 +60,13 @@ class TimeOff {
     $conn = $this->db->getConnection();
     $stmt = $conn->prepare("SELECT user_id, start_date, end_date, reason FROM time_off_requests WHERE status = 'approved' AND start_date <= ? AND end_date >= ?");
     $stmt->execute([$endDate, $startDate]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getApprovedTimeOffRequestsForUser($userId, $startDate, $endDate) {
+    $conn = $this->db->getConnection();
+    $stmt = $conn->prepare("SELECT start_date, end_date, reason FROM time_off_requests WHERE user_id = ? AND status = 'approved' AND start_date <= ? AND end_date >= ?");
+    $stmt->execute([$userId, $endDate, $startDate]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 public function executeCustomQuery($query) {
