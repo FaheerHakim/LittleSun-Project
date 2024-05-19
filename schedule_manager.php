@@ -155,7 +155,7 @@ function getNextPeriod($viewType, $startDate) {
 
     <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
 
-    <a href="assign_schedule_manager.php" class="go-back" type="button">Assign Work </a>
+    <a href="assign_employees.php" class="go-back" type="button">Assign Work </a>
    
 
     <div class="navigation">

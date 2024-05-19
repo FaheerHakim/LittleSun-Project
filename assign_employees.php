@@ -37,7 +37,7 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
             <img src="../LittleSun-Project/images/profile.jpg" alt="User Profile" class="profile-picture">
             <div class="user-info">
     <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-    <a href="assign_employee.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="delete-button" type="button">Assign work</a>
+    <a href="assign_work.php" class="delete-button" type="button">Assign work</a>
 </div>
 
         
@@ -45,7 +45,7 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
     <?php endforeach; ?>
     </div>
 
-    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+    <a href="schedule_manager.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 
