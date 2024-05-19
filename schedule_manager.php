@@ -266,13 +266,14 @@ function getNextPeriod($viewType, $startDate) {
                         echo '<div class="event time-off">';
                         echo '<strong>' . $timeOffEvent['user'] . '</strong><br>';
                         echo 'Time Off: ' . $timeOffEvent['reason'] . '<br>';
-                        
+                        $startTime = new DateTime($timeOffEvent['start_time']);
+                        $endTime = new DateTime($timeOffEvent['end_time']);
+
                         // Check if work schedule details are available
                         if (isset($timeOffEvent['task_type'])) {
                             echo $timeOffEvent['task_type'] . '<br>';
                             echo $timeOffEvent['location']['city'] . '<br>';
-                            echo $timeOffEvent['start_time'] . " - " . $timeOffEvent['end_time'];
-                        }
+                            echo $startTime->format('H:i') . " - " . $endTime->format('H:i');                        }
                         
                         echo '</div>';
                     }

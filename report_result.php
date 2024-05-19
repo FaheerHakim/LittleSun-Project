@@ -88,12 +88,7 @@ $reportData = $workHoursHandler->executeCustomQuery($query);
 $timeOffData = $timeOffHandler->executeCustomQuery($timeOffQuery);
 
 $totalWorkedHours = 0;
-$sickLeaveCount = 0;
-foreach ($timeOffData as $row) {
-    if ($row['reason'] === 'Sick Leave') {
-        $sickLeaveCount++;
-    }
-}
+
 $totalOvertimeMinutes = 0; // To accumulate total overtime
 
 // Loop through each row of the report data
@@ -142,7 +137,6 @@ $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 $totalOvertimeHours = floor($totalOvertimeMinutes / 60);
 $totalOvertimeMinutes %= 60;
 $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOvertimeMinutes);
-$totalTimeOffs = count($timeOffData);
 
 ?>
 
@@ -171,8 +165,7 @@ $totalTimeOffs = count($timeOffData);
     <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
     <p><strong>Total Overtime: <?php echo $totalOvertimeFormatted; ?></strong></p>
     <?php if ($timeOff == 'yes'): ?>
-        <h3>Total Sick Leaves: <?php echo $sickLeaveCount; ?></h3>
-        <h3>Total Time Offs: <?php echo $totalTimeOffs; ?></h3>
+        
     <?php endif; ?>
     <table>
         <tr>
