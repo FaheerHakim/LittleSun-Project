@@ -44,10 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_location'])) {
     
     // Update location
     $locationHandler->updateLocation($locationId, $locationName);
-    // You need to implement the updateLocation method in your Location class
-    // to handle updating the location in the database.
-    
-    // No need for a redirect or response here since this is an AJAX request
+  
     exit();
 }
 // Get existing locations

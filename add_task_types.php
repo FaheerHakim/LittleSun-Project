@@ -14,7 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_task_type']) && !e
     // Add task type
     $taskTypeHandler = new TaskType();
     $taskTypeHandler->addTaskType($typeName);
-    header("Location: add_task_types.php");
+    $_SESSION['message'] = "Location added successfully.";
+    $_SESSION['message_type'] = "success";
+    header("Location: message-tasktype.php");
     exit();
 }
 
@@ -25,8 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_task_type'])) {
     $taskTypeHandler = new TaskType();
     // Delete task type
     $taskTypeHandler->deleteTaskType($typeId);
-    header("Location: add_task_types.php");
-    exit();
+ 
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_task_type'])) {
@@ -38,10 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_task_type'])) {
     
     // Update task type
     $taskTypeHandler->updateTaskType($typeId, $typeName);
-    // You may need to implement the updateTaskType method in your TaskType class
-    // to handle updating the task type in the database.
     
-    // No need for a redirect or response here since this is an AJAX request
     exit();
 }
 
@@ -79,25 +77,30 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
 <div class="line"></div>
 <label for="task_types">Existing task types</label>
 <div class="form-group">
-        <?php foreach ($taskTypes as $taskType): ?>
-            <div class="form-group-content" id="task_types">
-                <input type="text" id="task_type_<?php echo $taskType['task_type_id']; ?>" name="existing_types[]" value="<?php echo $taskType['task_type_name']; ?>">
-                <div class="buttons">
-                    <button type="button" class="edit-button" onclick="editTaskType(<?php echo $taskType['task_type_id']; ?>)">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $taskType['task_type_id']; ?>)">                       
-                         <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-                <form id="delete_task_type_<?php echo $taskType['task_type_id']; ?>" action="add_task_types.php" method="post" style="display: none;">
-                        <input type="hidden" name="delete_task_type" value="<?php echo $taskType['task_type_id']; ?>">
-                    </form>
+    <?php foreach ($taskTypes as $taskType): ?>
+        <div class="form-group-content" id="task_types">
+            <input type="text" id="task_type_<?php echo $taskType['task_type_id']; ?>" name="existing_types[]" value="<?php echo $taskType['task_type_name']; ?>">
+            <div class="buttons">
+                <button type="button" class="edit-button" onclick="confirmEdit(<?php echo $taskType['task_type_id']; ?>)">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button type="button" class="delete-button" onclick="confirmDelete(<?php echo $taskType['task_type_id']; ?>)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
-        <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 
+<div id="editConfirmationModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to edit this task type?</p>
+        <div class="button-container">
+            <button class="button no" onclick="closeEditModal()">No</button>
+            <button class="button yes" id="confirmEditButton" onclick="performEdit()">Yes</button>
+        </div>
+    </div>
+</div>
 <a href="task_type.php" class="go-back-button" type="button">Go back</a>
 
 </body>

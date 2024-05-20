@@ -1,14 +1,26 @@
-function confirmDelete(event, taskTypeId) {
-    event.stopPropagation();
-    var form = document.getElementById('delete_task_type_' + taskTypeId);
-    if (form) {
-        if (confirm("Are you sure you want to delete this task type?")) {
-            form.submit();
-        }
-    } else {
-        console.error("Form with ID delete_task_type_" + taskTypeId + " not found.");
+function confirmDelete(taskTypeId) {
+    window.location.href = `confirm_delete_tasktype.php?delete_task_type=${taskTypeId}`;
+}
+
+var taskTypeIdToEdit = null;
+
+function confirmEdit(taskTypeId) {
+    taskTypeIdToEdit = taskTypeId;
+    document.getElementById('editConfirmationModal').style.display = 'block';
+}
+
+function closeEditModal() {
+    document.getElementById('editConfirmationModal').style.display = 'none';
+    taskTypeIdToEdit = null;
+}
+
+function performEdit() {
+    if (taskTypeIdToEdit !== null) {
+        editTaskType(taskTypeIdToEdit);
+        closeEditModal();
     }
 }
+
 function editTaskType(taskTypeId) {
     // Get the updated task type name
     var updatedTaskTypeName = document.getElementById('task_type_' + taskTypeId).value;
