@@ -37,24 +37,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($result) {
                 // Manager added successfully
                 $_SESSION['message'] = "Manager added successfully.";
+                $_SESSION['message_type'] = "success";
             } else {
                 // Error adding manager
                 $_SESSION['message'] = "Error adding manager.";
+                $_SESSION['message_type'] = "error";
             }
         } else {
             // Location not found
             $_SESSION['message'] = "Location not found.";
+            $_SESSION['message_type'] = "error";
         }
 
-        // Redirect to the same page to prevent form resubmission
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        // Redirect to the message page
+        header('Location: message.php');
         exit();
     } else {
         // Required fields are missing
         $_SESSION['message'] = "All fields are required.";
-        
-        // Redirect to the same page to prevent form resubmission
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        $_SESSION['message_type'] = "error";
+
+        // Redirect to the message page
+        header('Location: message.php');
         exit();
     }
 }
@@ -71,15 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h1>Add Manager</h1>
 
-<?php
-// Display message if set
-if (isset($_SESSION['message'])) {
-    $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
-    echo '<p class="message ' . $message_type . '">' . $_SESSION['message'] . '</p>';
-    unset($_SESSION['message']); // Clear message after displaying
-    unset($_SESSION['message_type']); // Clear message type after displaying
-}
-?>
 
 <form action="add_manager.php" method="post" enctype="multipart/form-data">    
     <div class="form-container">
