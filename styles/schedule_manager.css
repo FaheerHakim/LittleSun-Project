@@ -1,6 +1,5 @@
 /* Reset CSS */
 * {
-    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -8,14 +7,14 @@
 /* Body Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    color: #333;
+    margin: 0;
+    background-color: black;
+    color: white;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
+
+h1 {
+    text-align: center;
 }
 
 /* Location Dropdown */
@@ -23,85 +22,92 @@ body {
     margin-bottom: 20px;
 }
 
-/* Go Back Button */
-.go-back {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #FFDD00;
-    color: black;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-right: 20px; /* Increased margin */
-    margin-bottom: 15px;
+.go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #FFDD00; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 16px;
 }
 
-.go-back:hover {
-   
+.go-back-button:hover {
     background-color: #ffe958;
-    
+}
+
+a {
+    text-decoration: none;
 }
 
 /* View Navigation */
 .view-navigation {
     margin-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 20px;
 }
 
 .view-navigation a {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #FFDD00;
-    color: black;
+    background-color: #808080;
+    color: white;
     text-decoration: none;
     border-radius: 4px;
-    margin-right: 20px; /* Increased margin */
 }
 
 .view-navigation a:hover {
-    background-color: #ffe958;
-}
-
-/* Header Styles */
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    background-color: #a7a7a7;
 }
 
 /* Navigation Styles */
 .navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-bottom: 20px;
 }
 
 .navigation a {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #FFDD00;
+    background-color: #FF6600;
     color: black;
     text-decoration: none;
     border-radius: 4px;
-    margin-right: 175px; /* Increased margin */
 }
 
 .navigation a:hover {
-    background-color: #ffe958;
+    background-color: #ff8d40;
 }
 
 /* Day Styles */
 .day {
-    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
 }
 
 .day-header {
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: grid;
+    gap: 1px;
+    min-height: 62px;
+    align-content: center;
 }
 
 /* Event Styles */
 .event {
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+    margin: 6px;   
     border-radius: 4px;
 }
 
@@ -116,10 +122,8 @@ h1 {
 }
 
 /* Calendar Styles */
-.calendar, .week, .day {
+.calendar, .week {
     display: grid;
-    gap: 1px;
-    background-color: #ddd;
 }
 
 .calendar {
@@ -134,9 +138,8 @@ h1 {
     grid-template-columns: 1fr;
 }
 
-.calendar .day, .week .day, .day .event {
+.calendar .day, .week .day{
     background-color: #fff;
-    padding: 5px;
     border: 1px solid #ddd;
     min-height: 80px;
 }
@@ -149,7 +152,7 @@ h1 {
 }
 
 .calendar .event, .week .event, .day .event {
-    margin: 5px 0;
+    margin: 10px;
     padding: 5px;
     background-color: #e0f7fa;
     border-left: 4px solid #00796b;
@@ -159,10 +162,26 @@ h1 {
     background-color: #ffe0b2;
     border-color: #ffc107;
 }
-<<<<<<< HEAD
-.with-time-off {
-    background-color: lightcoral;
-}
-=======
 
->>>>>>> bee5869b94e795231758b0e48f9111740ebaf842
+
+.form-container {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    height: 100vh; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-content{
+    margin: 0 auto;
+    width: 70%;
+}
+
+.no-events {
+    font-style: italic;
+    color: #777;
+    margin: 10px;
+}

@@ -125,16 +125,19 @@ function getNextPeriod($viewType, $startDate)
 </head>
 <body>
 <div class="container">
-    <a href="dashboard.php" class="go-back" type="button">Go Back</a>
+    <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
+    
+    <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
+
+    <div class="form-container">
+        <div class="form-content">
     <div class="view-navigation">
         <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
         <a href="?view=weekly&start_date=<?php echo date("Y-m-d", strtotime('monday this week', strtotime($currentDate))); ?>&end_date=<?php echo date("Y-m-d", strtotime('sunday this week', strtotime($currentDate))); ?>">Weekly</a>
         <a href="?view=monthly&start_date=<?php echo date("Y-m-01", strtotime($currentDate)); ?>&end_date=<?php echo date("Y-m-t", strtotime($currentDate)); ?>">Monthly</a>
     </div>
-
-    <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
-
+    
     <div class="navigation">
     <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getPreviousPeriod($viewType, $startDate); ?>&end_date=<?php echo getPreviousPeriod($viewType, $endDate); ?>">Previous</a>
     <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getNextPeriod($viewType, $startDate); ?>&end_date=<?php echo getNextPeriod($viewType, $endDate); ?>">Next</a>
@@ -142,11 +145,10 @@ function getNextPeriod($viewType, $startDate)
 
     <?php if ($viewType == 'daily'): ?>
     <div class="day">
-        <div class="day-header"><?php echo date("l, F j, Y", strtotime($startDate)); ?></div>
+        <div class="day-header"><?php echo date("F j, l", strtotime($startDate)); ?></div>
         <?php 
         $date = date("Y-m-d", strtotime($startDate));
         $hasEvents = false;
-        // Removed the loop over $allLocations
         ?>
        <?php if (isset($scheduleByDate[$date])): ?>
     <?php 
@@ -171,7 +173,7 @@ function getNextPeriod($viewType, $startDate)
     <div class="calendar">
         <?php for ($i = 0; $i < 7; $i++): ?>
             <div class="day">
-                <div class="day-header"><?php echo date("l, F j, Y", strtotime("$startDate +$i days")); ?></div>
+                <div class="day-header"><?php echo date("l, F j", strtotime("$startDate +$i days")); ?></div>
                 <?php 
                 $date = date("Y-m-d", strtotime("$startDate +$i days"));
                 $hasEvents = false;
@@ -247,8 +249,8 @@ function getNextPeriod($viewType, $startDate)
         ?>
     </div>
 <?php endif; ?>
-
-
+</div>
+</div>
 </div>
 </body>
 </html>
