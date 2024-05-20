@@ -17,10 +17,31 @@ $user = $_SESSION['user'];
 $userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key of the user array
 
 date_default_timezone_set('Europe/Brussels');
+if (isset($_POST['clock_in'])) {
+    // Clock in the user for the day
+    $currentTime = date("Y-m-d H:i:s");
+    $workHoursHandler->clockIn($userId, $currentTime);
+    $_SESSION['message'] = "You have successfully clocked in for today.";
+    header("Location: clock_in_out.php");
+exit();
+}
 
+// Check if the clock-out button is clicked
+if (isset($_POST['clock_out'])) {
+    // Clock out the user for the day
+    $currentTime = date("Y-m-d H:i:s");
+    $workHoursHandler->clockOut($userId, $currentTime);
+    $_SESSION['message'] = "You have successfully clocked out for today.";
+    header("Location: clock_in_out.php");
+    exit();
+}
 
 $isClockedIn = $workHoursHandler->isClockedIn($userId);
+// Retrieve the message from the session
+$message = isset($_SESSION['message']) ? $_SESSION['message'] : '';
 
+// Clear the message from the session
+unset($_SESSION['message']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,21 +64,9 @@ $isClockedIn = $workHoursHandler->isClockedIn($userId);
                 <button type="submit" name="clock_in">Clock In</button>
             <?php endif; ?>
         </form>
-   <?php
-        if (isset($_POST['clock_in'])) {
-            // Clock in the user for the day
-            $currentTime = date("Y-m-d H:i:s");
-            $workHoursHandler->clockIn($userId, $currentTime);
-            echo "You have successfully clocked in for today.";
-        }
-
-        // Check if the clock-out button is clicked
-        if (isset($_POST['clock_out'])) {
-            // Clock out the user for the day
-            $currentTime = date("Y-m-d H:i:s");
-            $workHoursHandler->clockOut($userId, $currentTime);
-            echo "You have successfully clocked out for today.";
-        }?>
+        <?php if ($message): ?>
+        <div class="message"><?php echo htmlspecialchars($message); ?></div>
+    <?php endif; ?>
     </div>
 </div>
 </body>

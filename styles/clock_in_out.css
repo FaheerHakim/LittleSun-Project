@@ -16,6 +16,10 @@ h1 {
     align-items: flex-start;
     height: 100vh;
 }
+p{
+    font-size: 18px;
+}
+
 
 .form-container {
     background-color: white;
@@ -39,13 +43,13 @@ button {
     font-size: 16px;
     cursor: pointer;
     border: none;
-    background-color: #007bff;
+    background-color: #003366;
     color: #fff;
     border-radius: 5px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #004182;
 }
 
 .go-back-button {
