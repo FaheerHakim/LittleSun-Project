@@ -36,9 +36,10 @@ if (isset($_SESSION['message'])) {
             gap: 6px;
         }
         p.message{
-            margin: 0;
+            margin: 16px;
             font-size: 18px;
             font-weight: bold;
+            
         }
         .message.success {
             color: #155724;
@@ -48,6 +49,7 @@ if (isset($_SESSION['message'])) {
         }
 
         .button{
+            margin-top: 24px;
             padding: 10px 20px;
             text-decoration: none;
             border: none;
@@ -55,7 +57,6 @@ if (isset($_SESSION['message'])) {
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 24px;
         }
         .button.continue{
             background-color: #65b665;
@@ -69,9 +70,7 @@ if (isset($_SESSION['message'])) {
         .button.again:hover{
             background-color: #c0392b;
         }
-        .image-container{
-            margin-bottom: 12px;
-        }
+
         
     </style>
 </head>
@@ -104,7 +103,7 @@ if (isset($_SESSION['message'])) {
         <?php if ($message_type == 'success'): ?>
             <a href="dashboard.php" class="button continue">Continue</a>
         <?php else: ?>
-            <a href="add_manager.php" class="button again">Try Again</a>
+            <a href="add_locaton.php" class="button again">Try Again</a>
         <?php endif; ?>
     </div>
 </div>

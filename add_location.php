@@ -18,7 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !em
     
     // Add location
     $locationHandler->addLocation($locationName);
-    header("Location: add_location.php");
+    $_SESSION['message'] = "Location added successfully.";
+    $_SESSION['message_type'] = "success";
+    header("Location: message-location.php");
     exit();
 }
 
@@ -26,12 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !em
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_location'])) {
     $locationId = $_POST['delete_location'];
     
-    // Database connection
-    $locationHandler = new Location();
-    
-    // Delete location
-    $locationHandler->deleteLocation($locationId);
+    // Prompt for confirmation
+    if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] === 'yes') {
+        // Database connection
+        $locationHandler = new Location();
+        
+        // Delete location
+        $locationHandler->deleteLocation($locationId);
+        $_SESSION['message'] = "Location deleted successfully.";
+        $_SESSION['message_type'] = "success";
+        header("Location: message-location.php");
+        exit();
+    } else {
+        $_SESSION['message'] = "Location deletion canceled.";
+        $_SESSION['message_type'] = "error";
+        header("Location: message-location.php");
+        exit();
+    }
 }
+
 // Update location
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_location'])) {
     $locationId = $_POST['location_id'];
@@ -59,7 +74,7 @@ $existingLocations = $locationHandler->getExistingLocations();
     <title>Hub locations</title>
     <link rel="stylesheet" href="styles/location.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="script/location.js"></script>
+    <script src="script/location.js" defer></script>
 </head>
 <body>
 
