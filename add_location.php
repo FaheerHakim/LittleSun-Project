@@ -81,25 +81,25 @@ $existingLocations = $locationHandler->getExistingLocations();
     <div class="line"></div>
 
     <label for="location">Hub locations</label>
-    <div class="form-group">
-    <?php foreach ($existingLocations as $location): ?>
+<div class="form-group">
+    <?php foreach ($existingLocations as $location): 
+        $locationId = $locationHandler->getLocationIdByName($location); ?>
         <div class="form-group-content">
-        <input type="text" id="locationInput_<?php echo $locationHandler->getLocationIdByName($location); ?>" name="existing_location[]" value="<?php echo $location; ?>">
-        <div class="buttons">
-        <button type="button" class="edit-button" onclick="editLocation(<?php echo $locationHandler->getLocationIdByName($location); ?>)">
-            <i class="fa-solid fa-pen"></i>
-            </button>
-            <button type="button" class="delete-button" onclick="confirmDelete(event, <?php echo $locationHandler->getLocationIdByName($location); ?>)">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-        </div>        
-            <form id="delete_location_<?php echo $locationHandler->getLocationIdByName($location); ?>" action="add_location.php" method="post" style="display: none;">
-                <input type="hidden" name="delete_location" value="<?php echo $locationHandler->getLocationIdByName($location); ?>">
+            <input type="text" id="locationInput_<?php echo $locationId; ?>" name="existing_location[]" value="<?php echo htmlspecialchars($location); ?>">
+            <div class="buttons">
+                <button type="button" class="edit-button" onclick="editLocation(<?php echo $locationId; ?>)">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button type="button" class="delete-button" onclick="confirmDelete(<?php echo $locationId; ?>)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <form id="delete_location_<?php echo $locationId; ?>" action="confirm_delete.php" method="post" style="display: none;">
+                <input type="hidden" name="location_id" value="<?php echo $locationId; ?>">
             </form>
         </div>
     <?php endforeach; ?>
 </div>
-</form>
 </div>   
 <a href="location.php" class="go-back-button" type="button">Go Back</a>
 

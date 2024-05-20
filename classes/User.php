@@ -137,7 +137,19 @@ class User {
         $userDetails = $this->getUserById($userId);
         return $userDetails['first_name'] . ' ' . $userDetails['last_name'];
     }
+    public function updateUser($userId, $firstName, $lastName, $email, $locationId) {
+        try {
+            $conn = $this->db->getConnection();
+            $stmt = $conn->prepare("UPDATE users SET first_name = ?, last_name = ?, email = ?, location_id = ? WHERE user_id = ?");
+            $stmt->execute([$firstName, $lastName, $email, $locationId, $userId]);
+            echo "Update successful.";
+
+            return true; 
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
 }
     
-
-// Remove the closing PHP tag

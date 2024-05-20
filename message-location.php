@@ -101,7 +101,7 @@ if (isset($_SESSION['message'])) {
 
     <div class="button-container">
         <?php if ($message_type == 'success'): ?>
-            <a href="dashboard.php" class="button continue">Continue</a>
+            <a href="add_location.php" class="button continue">Continue</a>
         <?php else: ?>
             <a href="add_location.php" class="button again">Try Again</a>
         <?php endif; ?>

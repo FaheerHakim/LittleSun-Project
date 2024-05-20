@@ -15,7 +15,6 @@
         <a href="dashboard.php">Dashboard</a>
         <a href="location.php"> Hub Locations</a>
         <a href="manager.php"> Hub Managers</a>
-        <a href="schedule_admin.php">Work schedule</a>
         <a href="task_type.php"> Task Types</a>
         <a href="logout.php">Logout</a>
     </div>

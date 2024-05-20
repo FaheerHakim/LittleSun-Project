@@ -35,8 +35,6 @@ class Location {
             return null;
         }
     }
-    
-
     public function deleteLocation($locationId) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("DELETE FROM locations WHERE location_id = ?");
