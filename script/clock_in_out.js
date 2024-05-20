@@ -4,8 +4,8 @@ $(document).ready(function() {
         var currentDate = new Date();
         var currentTimeElement = document.getElementById("currentTime");
         if (currentTimeElement) {
-            currentTimeElement.textContent = "Current Time: " + currentDate.toLocaleString();
-        } else {
+            currentTimeElement.innerHTML = "<b>Current Time</b>: <br>" + currentDate.toLocaleString();
+                } else {
             console.error("Element with ID 'currentTime' not found.");
         }
     }

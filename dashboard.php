@@ -43,12 +43,10 @@ $user = $_SESSION['user'];
 
      <!-- employees navigation -->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
-        <p>moet nog gewijzigd worden</p>
-
-
-    <div onclick="location.href='total_hours_worked_employee.php';" class="info-square">Total hours worked</div>
-    <div onclick="location.href='upcoming_tasks.php';" class="info-square">Upcoming tasks</div>
-    <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
+        <h2>Quick actions</h2>
+        <div onclick="location.href='clock_in_out.php';" class="info-square">Clock in & out</div>
+        <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
+         <div onclick="location.href='schedule_employee.php';" class="info-square">Work schedule</div>
     <?php endif; ?>
     
    

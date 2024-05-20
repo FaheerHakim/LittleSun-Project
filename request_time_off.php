@@ -39,11 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
 <body>
 <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
 
+<h1>Request Time Off</h1>
 <div class="container">
 <div class="form-container">
-    
-    <h1>Request Time Off</h1>
-    
     <form action="request_time_off.php" method="post">
             <label for="start_date">Start Date:</label>
             <input type="date" name="start_date" id="start_date">

@@ -174,5 +174,12 @@ class WorkHours {
         $stmt->execute([$userId, $startOfDay, $endOfDay]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function isClockedIn($userId) {
+        $conn = $this->db->getConnection();
+        $date = date("Y-m-d");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM work_hours WHERE user_id = ? AND DATE(start_time) = ? AND end_time IS NULL");
+        $stmt->execute([$userId, $date]);
+        return $stmt->fetchColumn() > 0;
+    }
 }
 ?>

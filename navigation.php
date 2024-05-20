@@ -39,10 +39,9 @@
     <div class="sidebar">
     <img src="images/little-sun-logo-3895446415.png" alt="Little Sun Logo" style="max-width: 135px; max-height: 135px; margin-left: 30px; margin-top: 30px; margin-bottom: 20px;">
         <a href="dashboard.php">Dashboard</a>
-        <a href="schedule_employee.php">Work schedule</a>
-        <a href="clock_in_out.php">Clock in/out</a>
-        <a href=""> Time-Off requests</a>
-        <a>Sick leave</a>
+        <a href="work_schedule_employee.php">Work schedule</a>
+        <a href="clock_in_out_employee.php">Clock in/out</a>
+        <a href="time_off.php"> Request time-off</a>
         <a href="logout.php">Logout</a>
     </div>
     <?php endif; ?>

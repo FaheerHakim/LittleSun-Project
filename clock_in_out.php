@@ -18,23 +18,9 @@ $userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key o
 
 date_default_timezone_set('Europe/Brussels');
 
-// Check if the clock-in button is clicked
-if (isset($_POST['clock_in'])) {
-    // Clock in the user for the day
-    $currentTime = date("Y-m-d H:i:s");
-    echo "Current Time: " . date("Y-m-d H:i:s") . "<br>";
 
-    $workHoursHandler->clockIn($userId, $currentTime);
-    echo "You have successfully clocked in for today.";
-}
+$isClockedIn = $workHoursHandler->isClockedIn($userId);
 
-// Check if the clock-out button is clicked
-if (isset($_POST['clock_out'])) {
-    // Clock out the user for the day
-    $currentTime = date("Y-m-d H:i:s");
-    $workHoursHandler->clockOut($userId, $currentTime);
-    echo "You have successfully clocked out for today.";
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,11 +31,34 @@ if (isset($_POST['clock_out'])) {
     <script src="script/clock_in_out.js"></script>
 </head>
 <body>
-<a href="dashboard.php" id="goback-button">Go Back</a>
-<form action="clock_in_out.php" method="post">
-    <button type="submit" name="clock_in">Clock In</button>
-    <button type="submit" name="clock_out">Clock Out</button>
-    <p id="currentTime">current Time</p>
-</form>
+<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<h1>Clock In/Out</h1>
+<div class="container">
+    <div class="form-container">
+        <form action="clock_in_out.php" method="post">
+            <p id="currentTime"></p>
+            <?php if ($isClockedIn): ?>
+                <button type="submit" name="clock_out">Clock Out</button>
+            <?php else: ?>
+                <button type="submit" name="clock_in">Clock In</button>
+            <?php endif; ?>
+        </form>
+   <?php
+        if (isset($_POST['clock_in'])) {
+            // Clock in the user for the day
+            $currentTime = date("Y-m-d H:i:s");
+            $workHoursHandler->clockIn($userId, $currentTime);
+            echo "You have successfully clocked in for today.";
+        }
+
+        // Check if the clock-out button is clicked
+        if (isset($_POST['clock_out'])) {
+            // Clock out the user for the day
+            $currentTime = date("Y-m-d H:i:s");
+            $workHoursHandler->clockOut($userId, $currentTime);
+            echo "You have successfully clocked out for today.";
+        }?>
+    </div>
+</div>
 </body>
 </html>

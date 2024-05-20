@@ -1,13 +1,16 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    margin: 0;
+    background-color: black;
+    color: white;
 }
 
+h1 {
+    text-align: center;
+}
+p{
+    font-size: 18px;
+}
 .form-container {
     background-color: white;
     padding: 20px;
@@ -18,10 +21,6 @@ body {
     text-align: center;
 }
 
-.form-container h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-}
 
 .form-container label {
     display: block;
@@ -54,20 +53,30 @@ body {
     background-color: #45a049;
 }
 .go-back-button {
-    display: inline-block;
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #FFDD00; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 16px;
     text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
 }
+
 .go-back-button:hover {
-    background-color: #2980b9;
+    background-color: #ffe958;
+}
+
+a {
+    text-decoration: none;
 }
 
 .container{
+    background-color: white;
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
