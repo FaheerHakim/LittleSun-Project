@@ -162,6 +162,13 @@ class User {
         $stmt->execute([$email]);
         return $stmt->fetchColumn() > 0;
     }
+        public function deleteUser($userId) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }
     
 }
     

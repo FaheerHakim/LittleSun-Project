@@ -12,3 +12,8 @@ function searchUsers() {
         }
     });
 }
+
+function confirmDelete(userId) {
+    var form = document.getElementById('delete_location_' + userId);
+    form.submit();
+}
