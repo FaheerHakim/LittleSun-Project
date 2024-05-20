@@ -46,10 +46,12 @@
         <a href="logout.php">Logout</a>
     </div>
     <?php endif; ?>
-
+    <?php
+    $profilePicture = !empty($userDetails['profile_picture']) ? $userDetails['profile_picture'] : './images/profile.jpg';
+    ?>
     <!-- User Profile Section -->
     <div class="user-profile">
-    <img src="<?php echo $userDetails['profile_picture']; ?>" alt="Profile Picture"> 
+    <img src="<?php echo htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
     <div class="user-details">
         <span class="name"><?php echo $userDetails['first_name'] . ' ' . $userDetails['last_name']; ?></span>
         <span class="user-type"><?php echo ucfirst($userDetails['type_user']); ?></span>
