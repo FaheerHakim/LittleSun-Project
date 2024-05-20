@@ -20,7 +20,7 @@ $managers = $user->getManagerUsers(); // Get the employee users
 <head>
     <meta charset="UTF-8">
     <title>User Profiles</title>
-    <link rel="stylesheet" href="styles/edit_manager.css">
+    <link rel="stylesheet" href="styles/edit_managers.css">
     <script src="script/edit_manager.js" defer></script>
  
 </head>
@@ -47,7 +47,7 @@ $managers = $user->getManagerUsers(); // Get the employee users
     </div>
 
     <a href="manager.php" class="go-back-button" type="button">Go Back</a>
-
+   
 </body>
 
 

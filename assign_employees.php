@@ -5,6 +5,7 @@ session_start();
 
 require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/Location.php";
+require_once __DIR__ . "/classes/Schedule.php";
 
 include 'logged_in.php';
 
@@ -12,8 +13,32 @@ include 'permission_manager.php';
 
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
+$scheduleHandler = new Schedule(); 
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get form data
+    $userId = $_POST['user_id'];
+    $taskTypeId = $_POST['task_type_id'];
+    $locationId = $_POST['location_id'];
+    $date = $_POST['date'];
+    $startTime = $_POST['start_time'];
+    $endTime = $_POST['end_time'];
 
+    // Validate the data
+    if (empty($userId) || empty($taskTypeId) || empty($locationId) || empty($date) || empty($startTime) || empty($endTime)) {
+        echo "All fields are required.";
+        exit;
+    }
+
+    // Insert data into the database
+    $result = $scheduleHandler->assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime);
+    if ($result) {
+        echo "Work schedule assigned successfully.";
+        // Redirect or do other actions after successful insertion
+    } else {
+        echo "Failed to assign work schedule.";
+    }
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
