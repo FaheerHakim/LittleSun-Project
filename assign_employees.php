@@ -3,17 +3,18 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
+require_once __DIR__ . "/classes/Schedule.php"; 
 require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/Location.php";
-require_once __DIR__ . "/classes/Schedule.php";
+
 
 include 'logged_in.php';
 
 include 'permission_manager.php';
 
+$scheduleHandler = new Schedule();
 $user = new User();
 $employees = $user->getEmployeeUsers(); // Get the employee users
-$scheduleHandler = new Schedule(); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get form data
@@ -32,12 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert data into the database
     $result = $scheduleHandler->assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime);
-    if ($result) {
-        echo "Work schedule assigned successfully.";
-        // Redirect or do other actions after successful insertion
-    } else {
-        echo "Failed to assign work schedule.";
-    }
+    
 }
 
 ?><!DOCTYPE html>
