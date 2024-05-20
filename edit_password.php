@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Password</title>
-    <link rel="stylesheet" href="styles/edit_password.css">
+    <link rel="stylesheet" href="styles/edit_passwords.css">
     <!-- Include CSS and JS as needed -->
 </head>
 <body>
