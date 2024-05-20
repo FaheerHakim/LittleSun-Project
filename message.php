@@ -1,7 +1,12 @@
 <?php
 session_start();
+$message = "";
+$message_type = "";
 if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
     $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
 }
 ?>
 <!DOCTYPE html>
@@ -92,21 +97,20 @@ if (isset($_SESSION['message'])) {
         <?php endif; ?>
     </div>
     <?php
-    if (isset($_SESSION['message'])) {
-        $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
-        echo '<p class="message ' . $message_type . '">' . $_SESSION['message'] . '</p>';
-        unset($_SESSION['message']); 
-        unset($_SESSION['message_type']); 
-    }
-    ?>
+  if (isset($message)) {
+    echo '<p class="message ' . htmlspecialchars($message_type) . '">' . htmlspecialchars($message) . '</p>';
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+}
+?>
 
-    <div class="button-container">
-        <?php if ($message_type == 'success'): ?>
-            <a href="dashboard.php" class="button continue">Continue</a>
-        <?php else: ?>
-            <a href="add_manager.php" class="button again">Try Again</a>
-        <?php endif; ?>
-    </div>
+<div class="button-container">
+    <?php if (isset($message_type) && $message_type == 'success'): ?>
+        <a href="dashboard.php" class="button continue">Continue</a>
+    <?php else: ?>
+        <a href="add_manager.php" class="button again">Try Again</a>
+    <?php endif; ?>
+</div>
 </div>
 </body>
 </html>

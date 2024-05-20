@@ -9,7 +9,7 @@ include 'permission_admin.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if all required fields are filled
-    if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['location'] )){
+    if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['location'] )) {
         // Sanitize input data
         $email = $_POST['email'];
         $password = $_POST['password']; // You may want to hash the password for security
@@ -34,10 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Add the manager to the database
             $result = $userHandler->addManager($email, $password, $first_name, $last_name, $location_id, $profile_picture);
 
-            if ($result) {
+            if ($result === true) {
                 // Manager added successfully
                 $_SESSION['message'] = "Manager added successfully.";
                 $_SESSION['message_type'] = "success";
+            } elseif ($result === "Email already exists") {
+                // Email already exists error
+                $_SESSION['message'] = "Email already exists.";
+                $_SESSION['message_type'] = "error";
             } else {
                 // Error adding manager
                 $_SESSION['message'] = "Error adding manager.";

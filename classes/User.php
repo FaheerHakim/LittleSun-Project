@@ -19,6 +19,12 @@ class User {
     
     public function addManager($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
+
+        // Check if email already exists
+        if ($this->emailExists($email)) {
+            return "Email already exists";
+        }
+
         $target_file = null;
     
         // Handle file upload if a file was provided
@@ -39,7 +45,7 @@ class User {
             $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
             $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
         }
-        return $result;
+        return $result === true ? true : "Error adding manager";
     }
 
     public function addEmployee($email, $password, $first_name, $last_name, $location_id, $file) {
@@ -149,6 +155,12 @@ class User {
             echo "Error: " . $e->getMessage();
             return false;
         }
+    }
+    public function emailExists($email) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetchColumn() > 0;
     }
     
 }
