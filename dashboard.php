@@ -25,14 +25,16 @@ $user = $_SESSION['user'];
     
      <!-- Admin navigation -->
     <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
-        <p>moet nog gewijzigd worden</p>
+        <h2>Quick actions</h2>
+        <div onclick="location.href='add_location.php';" class="info-square">Add & edit locations</div>
+        <div onclick="location.href='add_manager.php';" class="info-square">Add manager</div>
+        <div onclick="location.href='add_task_types.php';" class="info-square">Add & edit task types</div>
     <?php endif; ?>
         
 
      <!-- Managers navigation -->
      <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
         <p>moet nog gewijzigd worden</p>
-
         <div onclick="location.href='total_hours_worked_manager.php';" class="info-square">Total hours worked</div>
         <div onclick="location.href='assign_task_types.php';" class="info-square">Assign task types</div>
         <div onclick="location.href='manage_time_off.php';" class="info-square">Manage time off</div>
