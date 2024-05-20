@@ -25,7 +25,7 @@ if ($locationInfo) {
     $locationName = $locationInfo['city'];
 }
 
-$profilePicture = "path/to/default_profile_picture.jpeg";
+$profilePicture = "../LittleSun-Project/images/profile.jpg";
 if (!empty($managerInfo['profile_picture'])) {
     $profilePicture = $managerInfo['profile_picture'];
 }
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
                 <input type="text" id="location" name="location" value="<?= htmlspecialchars($locationName) ?>" required>
             </div>
             <div class="form-group">
-                <button type="button" class="delete-button" onclick="confirmDelete(<?php echo $user_id; ?>)">Delete</button>
+                <button type="button" class="delete-button" onclick="confirmDelete(<?php echo $user_id; ?>)">Delete manager</button>
             </div>
         </div>
     </form>

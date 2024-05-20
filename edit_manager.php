@@ -41,9 +41,8 @@ $managers = $user->getManagerUsers(); // Get the employee users
                 <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">
             <div class="user-info">
                 <h2><?= htmlspecialchars($manager['first_name'] . " " . $manager['last_name']) ?></h2>
-                <a href="edit_password.php?user_id=<?= htmlspecialchars($manager['user_id']) ?>" class="edit-button" type="button">Edit password</a>
-                <a href="" class="delete-button" type="button">Delete</a>
-                <a href="edit_manager_detail.php?user_id=<?= htmlspecialchars($manager['user_id']) ?>" class="edit-button" type="button">View Details</a>
+                <a href="edit_password.php?user_id=<?= htmlspecialchars($manager['user_id']) ?>" class="button edit" type="button">Edit password</a>
+                <a href="edit_manager_detail.php?user_id=<?= htmlspecialchars($manager['user_id']) ?>" class="button view" type="button">View profile</a>
 
             </div>
         </div>

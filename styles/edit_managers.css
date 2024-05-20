@@ -89,20 +89,29 @@ h1 {
     text-align: left;
 }
 
-/* Edit button */
-.edit-button {
+.button{
     display: inline-block;
     margin-top: 10px;
     padding: 10px 10px;
-    background-color: #FFDD00;
+    background-color: lightgray;
     color: black;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
+.button.view{
+    background-color: #FFDD00; 
+}
+.button.view:hover{
+    background-color: #ffe958;
+}
+
+.button.edit {
+    background-color: lightgray;
+}
 
 .edit-button:hover {
-    background-color: #ffe958;
+    background-color: rgb(168, 168, 168);
 }
 
 /* Delete button */
