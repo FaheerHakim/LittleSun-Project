@@ -29,6 +29,8 @@ if (isset($_GET['user_id'])) {
         $assignedTaskTypes = $userHandler->getAssignedTaskTypes($userId);
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

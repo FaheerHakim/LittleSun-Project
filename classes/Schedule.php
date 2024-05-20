@@ -8,10 +8,10 @@ class Schedule {
         $this->db = new Db();
     }
 
-    public function assignTaskSchedule($userId, $locationId, $taskTypeId, $startTime, $endTime, $date) {
+    public function assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, location_id, task_type_id, start_time, end_time, date) VALUES (?, ?, ?, ?, ?, ?)");
-        return $stmt->execute([$userId, $locationId, $taskTypeId, $startTime, $endTime, $date]);
+        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, location_id, task_type_id,  date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$userId, $taskTypeId, $locationId, $date, $startTime, $endTime]);
     }
 
     public function getTimeOffRequests($userId) {
