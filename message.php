@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (isset($_SESSION['message'])) {
+    $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +35,7 @@ session_start();
             flex-direction: column;
             gap: 6px;
         }
-        .message p{
+        p.message{
             margin: 0;
             font-size: 18px;
             font-weight: bold;
@@ -66,28 +69,44 @@ session_start();
         .button.again:hover{
             background-color: #c0392b;
         }
+        .image-container{
+            margin-bottom: 12px;
+        }
         
     </style>
 </head>
 <body>
 
 <div class="message-container">
-<?php
-if (isset($_SESSION['message'])) {
-    $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
-    echo '<p class="message ' . $message_type . '">' . $_SESSION['message'] . '</p>';
-    unset($_SESSION['message']); 
-    unset($_SESSION['message_type']); 
-}
-?>
+    <div class="image-container">
+        <?php if ($message_type == 'success'): ?>
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48.5" fill="#13C39C" stroke="#25FFAE" stroke-width="3"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M75.1743 34.1417L46.514 69.977L24 51.2131L28.2479 46.1156L45.5582 60.5386L69.9971 30L75.1743 34.1417V34.1417Z" fill="white"/>
+            </svg>
+        <?php else: ?>
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48.5" fill="#FB4B4B" stroke="#F6BDBD" stroke-width="3"/>
+            <path d="M67 67L33 33M67 33L33 67" stroke="white" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+        <?php endif; ?>
+    </div>
+    <?php
+    if (isset($_SESSION['message'])) {
+        $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
+        echo '<p class="message ' . $message_type . '">' . $_SESSION['message'] . '</p>';
+        unset($_SESSION['message']); 
+        unset($_SESSION['message_type']); 
+    }
+    ?>
 
-<div class="button-container">
-    <?php if ($message_type == 'success'): ?>
-        <a href="dashboard.php" class="button continue">Continue</a>
-    <?php else: ?>
-        <a href="add_manager.php" class="button again">Try Again</a>
-    <?php endif; ?>
-</div>
+    <div class="button-container">
+        <?php if ($message_type == 'success'): ?>
+            <a href="dashboard.php" class="button continue">Continue</a>
+        <?php else: ?>
+            <a href="add_manager.php" class="button again">Try Again</a>
+        <?php endif; ?>
+    </div>
 </div>
 </body>
 </html>
