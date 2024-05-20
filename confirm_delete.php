@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['location_id'])) {
             margin: 20px auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            font-family: Arial, sans-serif;
             text-align: center;
             min-width: 400px;
             min-height: 200px;
@@ -66,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['location_id'])) {
             gap: 16px;
         }
         a{
-            background-color: grey;
+            background-color: lightgray;
         }
         
     </style>
@@ -78,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['location_id'])) {
         <a href="add_location.php">Cancel</a>
         <form action="add_location.php" method="post">
             <input type="hidden" name="delete_location" value="<?php echo htmlspecialchars($locationId); ?>">
-            <button type="submit">Yes, delete it</button>
+            <button class="button yes" type="submit">Yes, delete it</button>
         </form>
     </div>
 </div>

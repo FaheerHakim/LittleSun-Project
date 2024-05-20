@@ -80,14 +80,14 @@ $existingLocations = $locationHandler->getExistingLocations();
     </form>
     <div class="line"></div>
 
-    <label for="location">Hub locations</label>
+   <label for="location">Hub locations</label>
 <div class="form-group">
     <?php foreach ($existingLocations as $location): 
         $locationId = $locationHandler->getLocationIdByName($location); ?>
         <div class="form-group-content">
             <input type="text" id="locationInput_<?php echo $locationId; ?>" name="existing_location[]" value="<?php echo htmlspecialchars($location); ?>">
             <div class="buttons">
-                <button type="button" class="edit-button" onclick="editLocation(<?php echo $locationId; ?>)">
+            <button type="button" class="edit-button" onclick="confirmEdit(<?php echo $locationId; ?>)">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button type="button" class="delete-button" onclick="confirmDelete(<?php echo $locationId; ?>)">
@@ -101,6 +101,17 @@ $existingLocations = $locationHandler->getExistingLocations();
     <?php endforeach; ?>
 </div>
 </div>   
+<div id="editConfirmationModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to edit this location?</p>
+        <div class="button-container">
+            <button class="button no" onclick="closeEditModal()">No</button>
+            <button class="button yes" id="confirmEditButton" onclick="performEdit()">Yes</button>
+        </div>
+    </div>
+</div>
+
+
 <a href="location.php" class="go-back-button" type="button">Go Back</a>
 
 </body>

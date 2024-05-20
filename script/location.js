@@ -3,6 +3,25 @@ function confirmDelete(locationId) {
     form.submit();
 }
 
+var locationIdToEdit = null;
+
+function confirmEdit(locationId) {
+    locationIdToEdit = locationId;
+    document.getElementById('editConfirmationModal').style.display = 'block';
+}
+
+function closeEditModal() {
+    document.getElementById('editConfirmationModal').style.display = 'none';
+    locationIdToEdit = null;
+}
+
+function performEdit() {
+    if (locationIdToEdit !== null) {
+        editLocation(locationIdToEdit);
+        closeEditModal();
+    }
+}
+
 function editLocation(locationId) {
     // Get the updated location name
     var updatedLocationName = document.getElementById('locationInput_' + locationId).value;
