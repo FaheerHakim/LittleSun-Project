@@ -16,7 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $location_name = $_POST['location']; // Assuming location name is provided from the form
-        $profile_picture = $_FILES ['profile_picture'];
+        $profile_picture = null;
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+            $profile_picture = $_FILES['profile_picture'];
+        }
 
         // Database connection
         require_once __DIR__ . "/classes/User.php"; // Assuming the User class exists

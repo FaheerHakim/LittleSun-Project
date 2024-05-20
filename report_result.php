@@ -158,22 +158,12 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
 <head>
     <meta charset="UTF-8">
     <title>Report Result</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/report_result.css">
+   
 </head>
 <body>
+<a href="generate.php" class="go-back-button" type="button">Go Back</a>
+    
 <h2>Report Result</h2>
 <?php if ($timeOff !== 'yes'): ?>
     <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
