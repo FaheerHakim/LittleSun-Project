@@ -36,19 +36,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($result) {
                 // Manager added successfully
-                echo "Manager added successfully.";
-               
+                $_SESSION['message'] = "Manager added successfully.";
             } else {
                 // Error adding manager
-                echo "Error adding manager.";
+                $_SESSION['message'] = "Error adding manager.";
             }
         } else {
             // Location not found
-            echo "Location not found.";
+            $_SESSION['message'] = "Location not found.";
         }
+
+        // Redirect to the same page to prevent form resubmission
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     } else {
         // Required fields are missing
-        echo "All fields are required.";
+        $_SESSION['message'] = "All fields are required.";
+        
+        // Redirect to the same page to prevent form resubmission
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     }
 }
 ?>
@@ -63,6 +70,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <h1>Add Manager</h1>
+
+<?php
+// Display message if set
+if (isset($_SESSION['message'])) {
+    $message_type = isset($_SESSION['message_type']) ? $_SESSION['message_type'] : '';
+    echo '<p class="message ' . $message_type . '">' . $_SESSION['message'] . '</p>';
+    unset($_SESSION['message']); // Clear message after displaying
+    unset($_SESSION['message_type']); // Clear message type after displaying
+}
+?>
 
 <form action="add_manager.php" method="post" enctype="multipart/form-data">    
     <div class="form-container">
