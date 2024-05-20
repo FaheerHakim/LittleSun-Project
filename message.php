@@ -33,7 +33,7 @@ if (isset($_SESSION['message'])) {
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 6px;
+            gap: 24px;
         }
         p.message{
             margin: 0;

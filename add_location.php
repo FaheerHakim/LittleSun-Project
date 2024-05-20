@@ -28,25 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !em
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_location'])) {
     $locationId = $_POST['delete_location'];
     
-    // Prompt for confirmation
-    if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] === 'yes') {
-        // Database connection
-        $locationHandler = new Location();
-        
-        // Delete location
-        $locationHandler->deleteLocation($locationId);
-        $_SESSION['message'] = "Location deleted successfully.";
-        $_SESSION['message_type'] = "success";
-        header("Location: message-location.php");
-        exit();
-    } else {
-        $_SESSION['message'] = "Location deletion canceled.";
-        $_SESSION['message_type'] = "error";
-        header("Location: message-location.php");
-        exit();
-    }
+    // Database connection
+    $locationHandler = new Location();
+    
+    // Delete location
+    $locationHandler->deleteLocation($locationId);
 }
-
 // Update location
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_location'])) {
     $locationId = $_POST['location_id'];

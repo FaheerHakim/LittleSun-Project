@@ -33,7 +33,7 @@ if (isset($_SESSION['message'])) {
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 6px;
+            gap: 24px;
         }
         p.message{
             margin: 16px;
@@ -103,7 +103,7 @@ if (isset($_SESSION['message'])) {
         <?php if ($message_type == 'success'): ?>
             <a href="dashboard.php" class="button continue">Continue</a>
         <?php else: ?>
-            <a href="add_locaton.php" class="button again">Try Again</a>
+            <a href="add_location.php" class="button again">Try Again</a>
         <?php endif; ?>
     </div>
 </div>
