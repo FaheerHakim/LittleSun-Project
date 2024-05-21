@@ -23,6 +23,10 @@ $pendingRequestsCount = $timeOffHandler->getPendingRequestsCount(); // This func
 
 $currentDate = date("Y-m-d");
 $todaysSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
+$userId = $user['user_id'];
+
+$employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userId, $currentDate);
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -86,7 +90,18 @@ $todaysSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
         <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
          <div onclick="location.href='schedule_employee.php';" class="info-square">Work schedule</div>
         <h2>Today's work schedule</h2>
-
+        <p><?php echo date("l, F j, Y"); ?></p>
+        <div id="employee-todays-schedule">
+        <?php if (!empty($employeeTodaysSchedule)): ?>
+            <div class="schedule-entry">
+                <strong>Task Type:</strong> <?php echo htmlspecialchars($taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id'])['task_type_name']); ?><br>
+                <strong>Location:</strong> <?php echo htmlspecialchars($locationHandler->getLocationNameById($employeeTodaysSchedule['location_id'])['city']); ?><br>
+                <strong>Time:</strong> <?php echo htmlspecialchars($employeeTodaysSchedule['start_time']); ?> - <?php echo htmlspecialchars($employeeTodaysSchedule['end_time']); ?>
+            </div>
+        <?php else: ?>
+            <p>No work scheduled for today.</p>
+        <?php endif; ?>
+        </div>
     <?php endif; ?>
     
 </div>
