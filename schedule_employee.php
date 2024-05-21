@@ -10,6 +10,7 @@ require_once __DIR__ . "/classes/Location.php";
 require_once __DIR__ . "/classes/TaskType.php";
 require_once __DIR__ . "/classes/TimeOff.php";
 
+date_default_timezone_set('Europe/Brussels'); 
 
 include 'logged_in.php';
 include 'permission_employee.php';

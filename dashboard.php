@@ -11,6 +11,8 @@ require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/TaskType.php";
 require_once __DIR__ . "/classes/Location.php";
 
+date_default_timezone_set('Europe/Brussels'); 
+
 $timeOffHandler = new TimeOff();
 $scheduleHandler = new Schedule();
 $userHandler = new User();
@@ -82,6 +84,8 @@ $todaysSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
         <div onclick="location.href='clock_in_out.php';" class="info-square">Clock in & out</div>
         <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
          <div onclick="location.href='schedule_employee.php';" class="info-square">Work schedule</div>
+        <h2>Today's work schedule</h2>
+
     <?php endif; ?>
     
 </div>
