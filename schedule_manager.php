@@ -134,9 +134,14 @@ function getNextPeriod($viewType, $startDate) {
     <script src="script/schedule_manager.js" defer ></script>
 </head>
 <body>
+   
+
 <div class="container">
-    <a href="work_schedule_manager.php" class="go-back" type="button">Go Back</a>
     
+    <a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
+    <a href="assign_employees.php" class="go-back-button" type="button">Assign Work </a>
+
+
     <div class="location-dropdown">
         <label for="location">Select Location:</label>
         <select id="location" name="location">
@@ -146,17 +151,17 @@ function getNextPeriod($viewType, $startDate) {
             <?php endforeach; ?>
         </select>
     </div>
+    
+    <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
 
+    <div class="form-container">
+        <div class="form-content">
     <div class="view-navigation">
         <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
         <a href="?view=weekly&start_date=<?php echo date("Y-m-d", strtotime('monday this week', strtotime($currentDate))); ?>&end_date=<?php echo date("Y-m-d", strtotime('sunday this week', strtotime($currentDate))); ?>">Weekly</a>
         <a href="?view=monthly&start_date=<?php echo date("Y-m-01", strtotime($currentDate)); ?>&end_date=<?php echo date("Y-m-t", strtotime($currentDate)); ?>">Monthly</a>
     </div>
 
-    <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
-
-    <a href="assign_employees.php" class="go-back" type="button">Assign Work </a>
-   
 
     <div class="navigation">
         <a href="?view=<?php echo $viewType; ?>&start_date=<?php echo getPreviousPeriod($viewType, $startDate); ?>&end_date=<?php echo getPreviousPeriod($viewType, $endDate); ?>">Previous</a>
