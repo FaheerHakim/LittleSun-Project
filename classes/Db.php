@@ -1,9 +1,9 @@
 <?php
 class Db {
-    private $host = 'localhost';
-    private $user = 'root';
-    private $password = 'root';
-    private $dbname = 'little_sun';
+    private $host = 'ID437071_littlesun.db.webhosting.be';
+    private $user = 'ID437071_littlesun';
+    private $password = 'Thomasmore2023';
+    private $dbname = 'ID437071_littlesun';
     private $conn;
 
     public function __construct() {
