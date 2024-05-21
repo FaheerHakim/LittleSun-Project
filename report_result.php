@@ -151,6 +151,11 @@ foreach ($timeOffData as $row) {
 // Convert total sick time to hours and minutes format
 
 $plannedDurationFormatted = $plannedDuration->format('%H:%I');
+$uniqueUsers = [];
+foreach ($reportData as $row) {
+    $uniqueUsers[$row['user_id']] = true;
+}
+$userCount = count($uniqueUsers);
 ?>
 
 <!DOCTYPE html>
@@ -168,14 +173,16 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
 <div id="userContainer">
         <div class="metrics">
             <?php if ($timeOff !== 'yes'): ?>
-                    <div class="info-square"><b>Total Worked Hours</b> <br> <?php echo $totalWorkedHoursFormatted . " " . "hours"; ?></div>
+                    <div class="info-square"><b>Total worked hours</b> <br> <?php echo $totalWorkedHoursFormatted . " " . "hours"; ?></div>
                 <?php endif; ?>
                 <?php if ($timeOff == 'yes'): ?>
-                    <h3>Total Sick Time: <?php echo $plannedDurationFormatted . " hours"; ?></h3>
+                    <div class="info-square"><b>Sick time</b> <br> <?php echo $plannedDurationFormatted . " hours"; ?></div>
                 <?php endif; ?>
                 <?php if (!empty($overtime) && $overtime == 'all'): ?>
-                    <div class="info-square"><b>Total Overtime</b> <br><?php echo $totalOvertimeFormatted . " " . "hours"; ?></div>
+                    <div class="info-square"><b>Total overtime</b> <br><?php echo $totalOvertimeFormatted . " " . "hours"; ?></div>
                 <?php endif; ?>
+                <div class="info-square"><b>Total Users</b> <br><?php echo $userCount; ?></div>
+
         </div>
         
         <table>
