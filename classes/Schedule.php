@@ -10,7 +10,7 @@ class Schedule {
 
     public function assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, location_id, task_type_id,  date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, task_type_id, location_id,  date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$userId, $taskTypeId, $locationId, $date, $startTime, $endTime]);
     }
 
