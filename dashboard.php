@@ -54,7 +54,8 @@ $todaysSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
         <div onclick="location.href='schedule_manager.php';" class="info-square">Overview work schedule</div>
         <h2>Pending time-off requests: <?php echo $pendingRequestsCount; ?></h2>
         <div onclick="location.href='manage_time_off.php';" class="info-square">Manage time off</div>
-        <h2>Today's work schedule</h2>
+        <h2>Today's work schedule</h2> 
+        <p><?php echo date("l, F j, Y"); ?></p>
         <div id="todays-schedule">
         <?php if (!empty($todaysSchedule)): ?>
                 <?php foreach ($todaysSchedule as $schedule): ?>
