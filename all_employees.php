@@ -35,7 +35,6 @@ $employees = $user->getEmployeeUsers();
                     <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
                     <div class="user-info">
                     <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
-                 
                     <a href="edit_employee_detail.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="button view" type="button">View profile</a>
                 </div>
             </div>
