@@ -159,7 +159,7 @@ function getNextPeriod($viewType, $startDate)
              data-user-id="<?php echo isset($event['user_id']) ? $event['user_id'] : ''; ?>">
             <strong><?php echo isset($event['user']) ? $event['user'] : ''; ?></strong><br>
             <?php echo isset($event['task_type']) ? $event['task_type'] : ''; ?><br>
-            <?php echo isset($event['location_id']) ? $locationHandler->getLocationById($event['location_id'])['city'] : ''; ?><br>
+            <?php echo $event['location'] . '<br>';?>
             <?php echo isset($event['start_time']) && isset($event['end_time']) ? $event['start_time'] . ' - ' . $event['end_time'] : ''; ?>
         </div>
     <?php endforeach; ?>
@@ -188,7 +188,7 @@ function getNextPeriod($viewType, $startDate)
              data-user-id="<?php echo isset($event['user_id']) ? $event['user_id'] : ''; ?>">
             <strong><?php echo isset($event['user']) ? $event['user'] : ''; ?></strong><br>
             <?php echo isset($event['task_type']) ? $event['task_type'] : ''; ?><br>
-            <?php echo isset($event['location_id']) ? $locationHandler->getLocationById($event['location_id'])['city'] : ''; ?><br>
+            <?php echo $event['location'] . '<br>';?>
             <?php echo isset($event['start_time']) && isset($event['end_time']) ? $event['start_time'] . ' - ' . $event['end_time'] : ''; ?>
         </div>
     <?php endforeach; ?>
