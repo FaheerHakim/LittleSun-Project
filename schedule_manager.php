@@ -184,6 +184,23 @@ function getNextPeriod($viewType, $startDate) {
                             <?php endforeach; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
+                    <?php if (isset($timeOffByDate[$date])): ?>
+                        <?php 
+                        $hasEvents = true;
+                        foreach ($timeOffByDate[$date] as $timeOffEvent): ?>
+                            <div class="event time-off">
+                                <strong><?php echo $timeOffEvent['user']; ?></strong><br>
+                                Time Off: <?php echo $timeOffEvent['reason']; ?><br>
+                                <?php if (isset($timeOffEvent['task_type'])): ?>
+                                    <?php echo $timeOffEvent['task_type']; ?><br>
+                                    <?php echo $timeOffEvent['location']['city']; ?><br>
+                                    <?php echo isset($timeOffEvent['start_time']) ? $timeOffEvent['start_time'] : 'N/A'; ?>
+                                    -
+                                    <?php echo isset($timeOffEvent['end_time']) ? $timeOffEvent['end_time'] : 'N/A'; ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     <?php if (!$hasEvents): ?>
                         <div class="no-events">No events scheduled for today.</div>
                     <?php endif; ?>
@@ -213,6 +230,23 @@ function getNextPeriod($viewType, $startDate) {
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
+                            <?php if (isset($timeOffByDate[$date])): ?>
+                                <?php 
+                                $hasEvents = true;
+                                foreach ($timeOffByDate[$date] as $timeOffEvent): ?>
+                                    <div class="event time-off">
+                                        <strong><?php echo $timeOffEvent['user']; ?></strong><br>
+                                        Time Off: <?php echo $timeOffEvent['reason']; ?><br>
+                                        <?php if (isset($timeOffEvent['task_type'])): ?>
+                                            <?php echo $timeOffEvent['task_type']; ?><br>
+                                            <?php echo $timeOffEvent['location']['city']; ?><br>
+                                            <?php echo isset($timeOffEvent['start_time']) ? $timeOffEvent['start_time'] : 'N/A'; ?>
+                                            -
+                                            <?php echo isset($timeOffEvent['end_time']) ? $timeOffEvent['end_time'] : 'N/A'; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                             <?php if (!$hasEvents): ?>
                                 <div class="no-events">No events scheduled for this day.</div>
                             <?php endif; ?>
