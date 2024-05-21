@@ -137,7 +137,7 @@ function getNextPeriod($viewType, $startDate) {
    
 
 <div class="container">
-    
+
     <a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
     <a href="assign_employees.php" class="go-back-button" type="button">Assign Work </a>
 
@@ -196,8 +196,9 @@ function getNextPeriod($viewType, $startDate) {
             <?php endif; ?>
         </div>
     <?php elseif ($viewType == 'weekly'): ?>
-        <?php for ($i = 0; $i < 7; $i++): ?>
-            <div class="day">
+            <div class="calendar">
+                 <?php for ($i = 0; $i < 7; $i++): ?>
+                <div class="day">
                 <div class="day-header"><?php echo date("l, F j, Y", strtotime("$startDate +$i days")); ?></div>
                 <?php 
                 $date = date("Y-m-d", strtotime("$startDate +$i days"));
@@ -224,6 +225,8 @@ function getNextPeriod($viewType, $startDate) {
                 <?php endif; ?>
             </div>
         <?php endfor; ?>
+  </div>
+
     <?php else: ?>
         <div class="calendar">
             <div class="header">Mon</div>
