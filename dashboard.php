@@ -92,6 +92,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
         <h2>Today's work schedule</h2>
         <p><?php echo date("l, F j, Y"); ?></p>
         <div id="employee-todays-schedule">
+            
         <?php if (!empty($employeeTodaysSchedule)): ?>
             <div class="schedule-entry">
                 <strong>Task Type:</strong> <?php echo htmlspecialchars($taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id'])['task_type_name']); ?><br>
