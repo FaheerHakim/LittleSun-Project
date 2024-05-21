@@ -19,14 +19,14 @@ $userHandler = new User();
 $taskTypeHandler = new TaskType();
 $locationHandler = new Location();
 
-$pendingRequestsCount = $timeOffHandler->getPendingRequestsCount(); // This function will count the pending requests
+$pendingRequestsCount = $timeOffHandler->getPendingRequestsCount();
 
 $currentDate = date("Y-m-d");
 $todaysSchedule = $scheduleHandler->getWorkScheduleForDate($currentDate);
+$timeOffEvents = $timeOffHandler->getApprovedTimeOffRequests($currentDate, $currentDate);
 $userId = $user['user_id'];
 
 $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userId, $currentDate);
-
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -35,7 +35,6 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/dashboard.css">
-    
 </head>
 <body>
 
@@ -44,16 +43,16 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
 <div class="main">
     <h1><span class="title"> Dashboard </span></h1>
     
-    <?php if(isset($user['type_user']) && $user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
+    <?php if (isset($user['type_user']) && $user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
         <h2>Quick actions</h2>
         <div onclick="location.href='add_location.php';" class="info-square">Add & edit locations</div>
         <div onclick="location.href='add_manager.php';" class="info-square">Add manager</div>
         <div onclick="location.href='add_task_types.php';" class="info-square">Add & edit task types</div>
     <?php endif; ?>
   
-    <?php if(isset($user['type_user']) && $user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
+    <?php if (isset($user['type_user']) && $user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
         <h2>Quick actions</h2>
-         <div onclick="location.href='add_employee.php';" class="info-square">Add Employee</div>
+        <div onclick="location.href='add_employee.php';" class="info-square">Add Employee</div>
         <div onclick="location.href='assign_task.php';" class="info-square">Assign task types</div>
         <div onclick="location.href='schedule_manager.php';" class="info-square">Overview work schedule</div>
         <h2>Pending time-off requests: <?php echo $pendingRequestsCount; ?></h2>
@@ -64,9 +63,9 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
             <?php if (!empty($todaysSchedule)): ?>
                 <?php foreach ($todaysSchedule as $schedule): ?>
                     <?php
-                        $userName = $userHandler->getUserNameById($schedule['user_id']);
-                        $taskTypeDetails = $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id']);
-                        $locationDetails = $locationHandler->getLocationNameById($schedule['location_id']);
+                        $userName = $userHandler->getUserNameById($schedule['user_id']) ?? 'Unknown user';
+                        $taskTypeDetails = $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id']) ?? ['task_type_name' => 'Unknown task type'];
+                        $locationDetails = $locationHandler->getLocationNameById($schedule['location_id']) ?? ['city' => 'Unknown location'];
 
                         $taskType = is_array($taskTypeDetails) && isset($taskTypeDetails['task_type_name']) ? $taskTypeDetails['task_type_name'] : 'Unknown task type';
                         $location = is_array($locationDetails) && isset($locationDetails['city']) ? $locationDetails['city'] : 'Unknown location';
@@ -86,8 +85,8 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
                 <h2>Today's Time Off</h2>
                 <?php foreach ($timeOffEvents as $timeOffEvent): ?>
                     <?php
-                        $userName = $userHandler->getUserNameById($timeOffEvent['user_id']);
-                        $reason = $timeOffEvent['reason'];
+                        $userName = $userHandler->getUserNameById($timeOffEvent['user_id']) ?? 'Unknown user';
+                        $reason = $timeOffEvent['reason'] ?? 'No reason provided';
                     ?>
                     <div class="schedule-entry time-off">
                         <strong><?php echo htmlspecialchars($userName); ?></strong><br>
@@ -106,7 +105,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
         </div>
     <?php endif; ?>
 
-    <?php if(isset($user['type_user']) && $user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
+    <?php if (isset($user['type_user']) && $user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
         <h2>Quick actions</h2>
         <div onclick="location.href='clock_in_out.php';" class="info-square">Clock in & out</div>
         <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
@@ -117,8 +116,12 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
             
         <?php if (!empty($employeeTodaysSchedule)): ?>
             <div class="schedule-entry">
-                <?php echo htmlspecialchars($taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id'])['task_type_name']); ?><br>
-                <?php echo htmlspecialchars($locationHandler->getLocationNameById($employeeTodaysSchedule['location_id'])['city']); ?><br>
+                <?php
+                    $taskType = $taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id']) ?? ['task_type_name' => 'Unknown task type'];
+                    $location = $locationHandler->getLocationNameById($employeeTodaysSchedule['location_id']) ?? ['city' => 'Unknown location'];
+                ?>
+                <?php echo htmlspecialchars($taskType['task_type_name']); ?><br>
+                <?php echo htmlspecialchars($location['city']); ?><br>
                 <?php echo htmlspecialchars($employeeTodaysSchedule['start_time']); ?> - <?php echo htmlspecialchars($employeeTodaysSchedule['end_time']); ?>
             </div>
         <?php else: ?>
@@ -130,8 +133,8 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
             <h2>Today's Time Off</h2>
             <?php foreach ($timeOffEvents as $timeOffEvent): ?>
                 <?php
-                    $userName = $userHandler->getUserNameById($timeOffEvent['user_id']);
-                    $reason = $timeOffEvent['reason'];
+                    $userName = $userHandler->getUserNameById($timeOffEvent['user_id']) ?? 'Unknown user';
+                    $reason = $timeOffEvent['reason'] ?? 'No reason provided';
                 ?>
                 <div class="schedule-entry time-off">
                     <strong><?php echo htmlspecialchars($userName); ?></strong><br>
