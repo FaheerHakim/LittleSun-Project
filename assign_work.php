@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-require_once __DIR__ . "/classes/Schedule.php"; // Update to use Schedule class
+require_once __DIR__ . "/classes/Schedule.php";
 require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/TaskType.php"; // Include the TaskType class
 require_once __DIR__ . "/classes/TimeOff.php";
@@ -59,6 +59,11 @@ if (isset($_GET['user_id'])) {
     if ($user) {
         $assignedTaskTypes = $userHandler->getAssignedTaskTypes($userId);
         $assignedTaskTypeIds = array_column($assignedTaskTypes, 'task_type_id');
+        
+        // Filter out task types that are already assigned work
+        $availableTaskTypes = array_filter($assignedTaskTypes, function($taskType) use ($userId, $scheduleHandler) {
+            return !$scheduleHandler->hasWorkSchedule($userId, $taskType['task_type_id']);
+        });
     }
 }
 ?>
@@ -79,17 +84,17 @@ if (isset($_GET['user_id'])) {
     <h1>Assign Work Schedule to <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></h1>
 <div class="assign-schedule-container">
     <div class="assign-schedule">
-        <?php if (empty($assignedTaskTypes)): ?>
+        <?php if (empty($availableTaskTypes)): ?>
             <p>No task types assigned to this user.</p>
-            <button onclick="location.href='schedule_manager.php'">Overview work schedule</button>
+            <button class="assign-task" onclick="location.href='assign_task.php'">Assign a task type</button>
         <?php else: ?>
             <?php if (isset($error)): ?>
                 <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
             <?php endif; ?>
             <form action="assign_work.php" method="post" onsubmit="disableSubmitButton()">
-                <label for="task_type_id">Assigned task types:</label>
+                <label for="task_type_id">Available task types:</label>
                 <select name="task_type_id" id="task_type_id">
-                    <?php foreach ($assignedTaskTypes as $taskType): ?>
+                    <?php foreach ($availableTaskTypes as $taskType): ?>
                         <option value="<?php echo htmlspecialchars($taskType['task_type_id']); ?>"><?php echo htmlspecialchars($taskType['task_type_name']); ?></option>
                     <?php endforeach; ?>
                 </select>
