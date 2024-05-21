@@ -35,10 +35,6 @@ $query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_typ
 
 if (!empty($timeOff)) {
     if ($timeOff == 'yes') {
-<<<<<<< HEAD
-=======
-
->>>>>>> 274767cd66a5b5f6d103ac6dcdfcaae6704b7079
         $query .= " AND EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
@@ -46,10 +42,6 @@ if (!empty($timeOff)) {
                         AND DATE(work_hours.start_time) BETWEEN time_off_requests.start_date AND time_off_requests.end_date
                     )";
     } elseif ($timeOff == 'no') {
-<<<<<<< HEAD
-=======
-  
->>>>>>> 274767cd66a5b5f6d103ac6dcdfcaae6704b7079
         $query .= " AND NOT EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
