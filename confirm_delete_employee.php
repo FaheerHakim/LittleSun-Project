@@ -5,18 +5,13 @@ require_once __DIR__ . "/classes/User.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
-
-    $user = new User();
-    $user->deleteUser($user_id);
-
-    header("Location: all_employees.php");
-    exit();
 } else {
     // Handle the case where user ID is not provided
     header("Location: edit_employee.php");
     exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,11 +75,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     <p>Are you sure you want to delete this employee?</p>
     <div class="button-container">
         <a href="edit_employee_detail.php?user_id=<?php echo htmlspecialchars($user_id); ?>">Cancel</a>
-        <form action="" method="post">
+        <form action="confirm_delete_employee.php" method="post">
             <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_id); ?>">
+            <input type="hidden" name="confirm" value="yes">
             <button class="button yes" type="submit">Yes, delete</button>
         </form>
     </div>
 </div>
 </body>
 </html>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm']) && $_POST['confirm'] === 'yes') {
+    $user_id = $_POST['user_id'];
+
+    $user = new User();
+    $user->deleteUser($user_id);
+
+    header("Location: all_employees.php");
+    exit();
+}
+?>
