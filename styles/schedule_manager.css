@@ -13,15 +13,6 @@ h1 {
     color: white;
 }
 
-/* Location Dropdown */
-.location-dropdown {
-    position: absolute;
-    top: 160px;
-    color: black;
-    left: 650px;
-
-
-}
 
 .go-back-button {
     position: absolute;
@@ -177,6 +168,16 @@ a {
     flex-direction: column;
 }
 
+.form-container-manager {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    height: 100vh; 
+    display: flex;
+    flex-direction: row;
+}
+
 .form-content{
     margin: 0 auto;
     width: 70%;
@@ -186,4 +187,48 @@ a {
     font-style: italic;
     color: #777;
     margin: 10px;
+}
+.assign-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding: 10px;
+    background-color: #FFDD00; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.assign-button:hover {
+    background-color: #ffe958;
+}
+
+.legend-color{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 50px;
+}
+
+.legend-item{
+    display: flex;
+    margin: 20px;
+}
+
+.legend{
+    width: 200px;
+}
+
+.filter{
+    width: 200px;
+}
+
+#location{
+    width: 150px;
+    padding: 10px 20px;
+    border-radius: 10px;;
 }

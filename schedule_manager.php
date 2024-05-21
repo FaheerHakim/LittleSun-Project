@@ -142,19 +142,24 @@ function getNextPeriod($viewType, $startDate) {
     <a href="assign_employees.php" class="assign-button" type="button">Assign Work </a>
 
 
-    <div class="location-dropdown">
-        <label for="location">Select Location:</label>
-        <select id="location" name="location">
-            <option value="all">All Locations</option>
-            <?php foreach ($allLocations as $location): ?>
-                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    
+   
     <h1>Work Schedule for <?php echo date("F Y", strtotime($startDate)); ?></h1>
 
-    <div class="form-container">
+    <div class="form-container-manager">
+        <div class="legend">
+                <div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #e0f7fa;"></div>
+                        <div class="legend-text">Planned work schedule</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ffc107;"></div>
+                        <div class="legend-text">Time Off</div>
+                    </div>
+                </div>
+        </div>
         <div class="form-content">
     <div class="view-navigation">
         <a href="?view=daily&start_date=<?php echo $currentDate; ?>&end_date=<?php echo $currentDate; ?>">Daily</a>
@@ -298,27 +303,17 @@ function getNextPeriod($viewType, $startDate) {
         </div>
     <?php endif; ?>
 </div>
-<style>
-    .assign-button {
-    position: absolute;
-    top: 10px;
-    left: 200px;
-    padding: 10px;
-    background-color: #FFDD00; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 16px;
-    text-decoration: none;
-    color: black;
-}
-
-.assign-button:hover {
-    background-color: #ffe958;
-}
-
-
-</style>
+<div class="filter">
+<div class="location-dropdown">
+        <label for="location">Select Location:</label>
+        <select id="location" name="location">
+            <option value="all">All Locations</option>
+            <?php foreach ($allLocations as $location): ?>
+                <option value="<?php echo $location['location_id']; ?>"><?php echo $location['city']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    
+</div>
 </body>
 </html>
