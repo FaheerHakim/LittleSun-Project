@@ -17,34 +17,33 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profiles</title>
+    <title>All employees</title>
     <link rel="stylesheet" href="styles/all_employees.css">
     <script src="script/all_employees.js" defer></script>
  
 </head>
 <body>
-
-    <!-- Search bar -->
-    <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
-
-    <!-- User container -->
+<h1>Existing employees</h1>
 
     <div id="userContainer">
-        <?php foreach ($employees as $employee): ?>
-        <div class="user-box">
-            <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
-            <div class="user-info">
-                <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-                <!-- Display assigned tasks -->
-                <ul>
-                <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
-                    <?php foreach ($assignedTaskTypes as $task): ?>
-                        <li><?= htmlspecialchars($task['task_type_name']) ?></li>
-                    <?php endforeach; ?>
-                </ul>
+        <input type="text" id="searchBar" placeholder="Search for employees..." onkeyup="searchUsers()">
+        <div class="form-group">
+            <?php foreach ($employees as $employee): ?>
+            <div class="user-box">
+                <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
+                <div class="user-info">
+                    <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
+                   <!-- <ul>
+                    <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
+                        <?php foreach ($assignedTaskTypes as $task): ?>
+                            <li><?= htmlspecialchars($task['task_type_name']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>-->
+                    <a href="edit_employee_detail.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="button view" type="button">View profile</a>
+                </div>
             </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
     </div>
 
     <a href="user.php" class="go-back-button" type="button">Go Back</a>

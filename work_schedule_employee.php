@@ -24,7 +24,6 @@ $user = $_SESSION['user'];
 <div class="main">
     <h1><span class="title"> Work schedule</span></h1>
     <div onclick="location.href='schedule_employee.php';" class="info-square">Work schedule</div>
-    <div onclick="location.href='total_hours_worked_employee.php';" class="info-square">Total hours worked</div>
 </div>
 </body>
 </html>
