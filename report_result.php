@@ -157,23 +157,28 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Report Result</title>
+    <title>Report result</title>
     <link rel="stylesheet" href="styles/report_result.css">
    
 </head>
 <body>
 <a href="generate.php" class="go-back-button" type="button">Go Back</a>
     
-<h2>Report Result</h2>
-<?php if ($timeOff !== 'yes'): ?>
-    <p><strong>Total Worked Hours: <?php echo $totalWorkedHoursFormatted; ?></strong></p>
-    <p><strong>Total Overtime: <?php echo $totalOvertimeFormatted; ?></strong></p>
-<?php endif; ?>
-    <?php if ($timeOff == 'yes'): ?>
-        <h3>Total Sick Time: <?php echo $plannedDurationFormatted . " hours"; ?></h3>
-
-    <?php endif; ?>
-    <table>
+<h1>Report result</h1>
+<div id="userContainer">
+        <div class="metrics">
+            <?php if ($timeOff !== 'yes'): ?>
+                    <div class="info-square"><b>Total Worked Hours</b> <br> <?php echo $totalWorkedHoursFormatted . " " . "hours"; ?></div>
+                <?php endif; ?>
+                <?php if ($timeOff == 'yes'): ?>
+                    <h3>Total Sick Time: <?php echo $plannedDurationFormatted . " hours"; ?></h3>
+                <?php endif; ?>
+                <?php if (!empty($overtime) && $overtime == 'all'): ?>
+                    <div class="info-square"><b>Total Overtime</b> <br><?php echo $totalOvertimeFormatted . " " . "hours"; ?></div>
+                <?php endif; ?>
+        </div>
+        
+        <table>
         <tr>
             <?php if (!empty($selectedUsers) && $selectedUsers[0] != 'all'): ?>
                 <th>Employee Name</th>
@@ -290,7 +295,7 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
 
                     // Format the worked hours
                     $workedHours = sprintf("%02d:%02d", $hours, $minutes);
-                    echo $workedHours;
+                    echo $workedHours . " " . "hours";;
                 ?>
                 </td>
                 <?php
@@ -320,12 +325,13 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
                 ?>
                 <?php if (!empty($overtime) && $overtime = 'all'): ?>
                     <td><?php echo $isOvertime ? 'Yes' : 'No'; ?></td>
-                    <td><?php echo $overtimeFormatted; ?></td>
+                    <td><?php echo $overtimeFormatted . " " . "hours"; ?></td>
                 <?php endif; ?>
 
             </tr>
         <?php endforeach; ?>
     <?php endif; ?> 
     </table>
+</div>
 </body>
 </html>

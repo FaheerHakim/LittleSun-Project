@@ -13,7 +13,6 @@ $taskTypeHandler = new TaskType();
 
 include_once 'logged_in.php';
 
-// Fetch all users, locations, and task types
 $users = $userHandler->getAllUsers();
 $locations = $locationHandler->getAllLocations();
 $taskTypes = $taskTypeHandler->getAllTaskTypes();
@@ -28,8 +27,10 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
     <title>Generate Report</title>
 </head>
 <body>
+<a href="reports.php" class="go-back-button" type="button">Go Back</a>
+    <h1 class="generate-report-heading">Generate Report</h1>
+    <div class="container">
     <div class="generate-report-container">
-        <h2 class="generate-report-heading">Generate Report</h2>
         <form action="report_result.php" method="post" onsubmit="return validateForm();" class="report-form">
             <div id="error-message" class="error-message"></div>
 
@@ -45,24 +46,26 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
 
             <div class="form-group">
                 <label for="period">Period:</label>
-                <input type="radio" name="period" value="year" id="year" checked>
-                <label for="year">Year </label>
-                <select name="year_select" id="year_select" class="period-select year-select" style="display: none;">
-                    <?php for ($i = date("Y"); $i >= 2000; $i--): ?>
-                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                    <?php endfor; ?>
-                </select>
-
-                <input type="radio" name="period" value="month" id="month">
-                <label for="month">Month</label>
-                <select name="month_select" id="month_select" class="period-select month-select" style="display: none;">
-                    <?php for ($i = 1; $i <= 12; $i++): ?>
-                        <option value="<?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?>"><?php echo date("F", mktime(0, 0, 0, $i, 10)); ?></option>
-                    <?php endfor; ?>
-                </select>
-                <input type="radio" name="period" value="custom" id="custom">
-                <label for="custom">Custom Period</label>
-            </div>
+                <div class="period-container">
+                    <input type="radio" name="period" value="year" id="year" checked>
+                    <label for="year">Year </label>
+                    <select name="year_select" id="year_select" class="period-select year-select" style="display: none;">
+                        <?php for ($i = date("Y"); $i >= 2000; $i--): ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php endfor; ?>
+                    </select>
+    
+                    <input type="radio" name="period" value="month" id="month">
+                    <label for="month">Month</label>
+                    <select name="month_select" id="month_select" class="period-select month-select" style="display: none;">
+                        <?php for ($i = 1; $i <= 12; $i++): ?>
+                            <option value="<?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?>"><?php echo date("F", mktime(0, 0, 0, $i, 10)); ?></option>
+                        <?php endfor; ?>
+                    </select>
+                    <input type="radio" name="period" value="custom" id="custom">
+                    <label for="custom">Custom Period</label>
+                </div>
+                </div>
 
             <div id="custom_period" class="custom-period" style="display: none;">
                 <div class="form-group">
@@ -116,29 +119,31 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
             <button type="submit" class="submit-button">Generate Report</button>
         </form>
     </div>
+</div>
     <script>
-        function validateForm() {
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.innerHTML = '';
-            // Check users
-            const users = document.getElementById('users');
-            const usersSelected = Array.from(users.options).some(option => option.selected && option.value == 'all');
+      function validateForm() {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.innerHTML = '';
 
-            // Check location
-            const location = document.getElementById('location');
-            const locationSelected = Array.from(location.options).some(option => option.selected && option.value == 'all');
+    // Check users
+    const users = document.getElementById('users');
+    const usersSelected = Array.from(users.options).some(option => option.selected);
 
-            // Check task type
-            const taskType = document.getElementById('task_type');
-            const taskTypeSelected = Array.from(taskType.options).some(option => option.selected && option.value == 'all');
+    // Check location
+    const location = document.getElementById('location');
+    const locationSelected = Array.from(location.options).some(option => option.selected && option.value == 'all');
 
-            if (!usersSelected && !locationSelected && !taskTypeSelected) {
-                errorMessage.innerHTML = 'Please select at least one of the following: Users, Location, or Task Type.';
-                return false;
-            }
+    // Check task type
+    const taskType = document.getElementById('task_type');
+    const taskTypeSelected = Array.from(taskType.options).some(option => option.selected && option.value == 'all');
 
-            return true;
-        }
+    if (!usersSelected && !locationSelected && !taskTypeSelected) {
+        errorMessage.innerHTML = 'Please select at least one of the following: Users, Location, or Task Type.';
+        return false;
+    }
+
+    return true;
+}
 
         document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('year').addEventListener('change', function () {

@@ -23,7 +23,7 @@ $user = $_SESSION['user'];
 
 <div class="main">
     <h1><span class="title">Reports</span></h1>
-    <div onclick="location.href='report.php';" class="info-square">Generate report</div>
+    <div onclick="location.href='generate.php';" class="info-square">Generate report</div>
 </div>
 </body>
 </html>

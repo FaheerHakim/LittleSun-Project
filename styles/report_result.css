@@ -1,7 +1,17 @@
 
-body{
-    margin: 24px;
+/* Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: black;
+    color: white;
 }
+
+h1 {
+    text-align: center;
+    color: white;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -16,14 +26,17 @@ th {
 }
 
 .go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 20px;
     padding: 10px;
     background-color: #FFDD00; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
-
+    margin: 16px;
+    color: black;
 }
 
 .go-back-button:hover {
@@ -32,4 +45,37 @@ th {
 
 a {
     text-decoration: none;
+}
+#userContainer {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    min-height: 85vh; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.info-square {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 150px;
+    background-color: #FFDD00;
+    text-align: center;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: large;
+}
+
+.info-square:hover{
+    background-color: #ffe958;
+}
+
+.metrics{
+    display: flex;
 }
