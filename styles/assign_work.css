@@ -1,14 +1,27 @@
-/* Global styles */
 body {
     font-family: Arial, sans-serif;
-    margin: 0px;
-    padding: 0;
-    background-color: #f4f4f4;
+    margin: 0;
+    background-color: black;
+    color: white;
+}
+h1 {
+    text-align: center;
+}
+.assign-schedule-container{
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    height: 100vh; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
 }
 
 /* Container styles */
-.assign-schedule-container {
-    max-width: 800px;
+.assign-schedule {
+    min-width: 800px;
     margin: 30px auto;
     padding: 20px;
     background-color: #fff;
@@ -16,27 +29,21 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Heading styles */
-h1 {
-    font-size: 24px;
-    margin-top: 0;
-}
-
-/* Back button styles */
-.go-back-button  {
-    background-color: #FFDD00;
-    color: black;
-    padding: 10px 20px;
+.go-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: #FFDD00; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    margin: 16px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
    
 }
 
-/* Hover effect */
 .go-back-button:hover {
     background-color: #ffe958;
 }

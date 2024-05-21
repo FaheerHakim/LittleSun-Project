@@ -41,10 +41,10 @@ if (isset($_GET['user_id'])) {
     <script src="script/assign_task_type.js" defer></script>
 </head>
 <body>
-<div class="assign-schedule-container">
     <a href="assign_employees.php" class="go-back-button" type="button">Go Back</a>
-    <div class="assign-schedule-container">
-        <h1>Assign Work Schedule to <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></h1>
+    <h1>Assign Work Schedule to <?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></h1>
+<div class="assign-schedule-container">
+    <div class="assign-schedule">
         <?php if (empty($assignedTaskTypes)): ?>
             <p>No assigned task types found for this user.</p>
             <button onclick="location.href='schedule_manager.php'">Overview work schedule</button>
