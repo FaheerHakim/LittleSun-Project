@@ -102,9 +102,7 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
                 <label for="overtime">Overtime:</label>
                 <select name="overtime" id="overtime" class="dropdown">
                     <option value="">Select</option>
-                    <option value="all">Both</option>
                     <option value="yes">Yes</option>
-                    <option value="no">No</option>
                 </select>
             </div>
 
@@ -131,7 +129,7 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
 
     // Check location
     const location = document.getElementById('location');
-    const locationSelected = Array.from(location.options).some(option => option.selected && option.value == 'all');
+    const locationSelected = Array.from(location.options).some(option => option.selected);
 
     // Check task type
     const taskType = document.getElementById('task_type');
