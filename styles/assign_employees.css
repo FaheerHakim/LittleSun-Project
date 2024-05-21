@@ -1,35 +1,37 @@
-/* Global styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    background-color: black;
+    color: white;
 }
-
-/* Search bar container */
+h1 {
+    text-align: center;
+}
 .search-container {
     padding: 20px;
     text-align: center;
 }
 
 #searchBar {
-    width: 400px; /* Give some margin on the sides */
+    width: 200px;
     padding: 20px;
-    margin-left: 100px;
-    margin-top: 30px;
+    margin-bottom: 30px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* User container */
 #userContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    background-color: white;
+    color: black;
     padding: 20px;
+    margin-top: 20px;
+    min-height: 85vh; 
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
+
 
 /* User box */
 .user-box {
@@ -98,18 +100,28 @@ body {
 
 .go-back-button {
     position: absolute;
-    top: 40px;
+    top: 10px;
     left: 10px;
     padding: 10px;
-    background-color: #FFDD00; /* Blue button for 'Go Back' */
+    background-color: #FFDD00; 
     border: none;
-    color: black;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin: 16px;
     text-decoration: none;
+   
 }
 
 .go-back-button:hover {
     background-color: #ffe958;
+}
+
+.form-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }

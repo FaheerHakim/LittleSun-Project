@@ -78,7 +78,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     </script>
 </head>
 <body>
-<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<a href="task_type_manager.php" class="go-back-button" type="button">Go Back</a>
 <h1>Assign Task Types</h1>
 
 <div id="userContainer">
@@ -86,8 +86,11 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     <div class="form-group">
         <?php foreach ($employeeUsers as $user): ?>
             <div class="user-box">
-                <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
-                <div class="user-info">
+                    <?php
+                    $profilePicture = !empty($user['profile_picture']) ? $user['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                    ?>                    
+                    <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
+                     <div class="user-info">
                     <h2><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h2>
                     <?php 
                     $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);

@@ -40,34 +40,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profiles</title>
+    <title>Assign work</title>
     <link rel="stylesheet" href="styles/assign_employees.css">
     <script src="script/edit_manager.js" defer></script>
  
 </head>
 <body>
-
-    <!-- Search bar -->
-    <input type="text" id="searchBar" placeholder="Search for employees..." onkeyup="searchUsers()">
-
-    <!-- User container -->
+<h1>Assign work</h1>
 
     <div id="userContainer">
-        <?php foreach ($employees as $employee): ?>
-        <div class="user-box">
-            <img src="../LittleSun-Project/images/profile.jpg" alt="User Profile" class="profile-picture">
-            <div class="user-info">
-    <h2><?= htmlspecialchars($employee['first_name']) ?></h2>
-   
-</div>
-
- <a href="assign_work.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="assign-button" type="button">Assign work</a>
-        
+        <input type="text" id="searchBar" placeholder="Search for employees..." onkeyup="searchUsers()">
+            <div class="form-group">
+                <?php foreach ($employees as $employee): ?>
+                <div class="user-box">
+                        <?php
+                        $profilePicture = !empty($employee['profile_picture']) ? $employee['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                        ?>                    
+                        <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
+                        <div class="user-info">
+                        <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
+                        <a href="assign_work.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="assign-button" type="button">Assign work</a>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
     </div>
-    <?php endforeach; ?>
-    </div>
 
-    <a href="schedule_manager.php" class="go-back-button" type="button">Go Back</a>
+    <a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
 
 </body>
 

@@ -30,8 +30,11 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
         <div class="form-group">
             <?php foreach ($employees as $employee): ?>
             <div class="user-box">
-                <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
-                <div class="user-info">
+                    <?php
+                    $profilePicture = !empty($employee['profile_picture']) ? $employee['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                    ?>                    
+                    <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
+                    <div class="user-info">
                     <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
                    <!-- <ul>
                     <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
