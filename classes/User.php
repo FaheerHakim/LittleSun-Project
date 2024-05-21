@@ -50,6 +50,11 @@ class User {
 
     public function addEmployee($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
+
+         // Check if email already exists
+         if ($this->emailExists($email)) {
+            return "Email already exists";
+        }
         
         // Check if a file was uploaded and it has no errors
         if ($file["error"] == 0) {

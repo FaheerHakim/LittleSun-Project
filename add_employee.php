@@ -33,19 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Add the manager to the database
             $result = $userHandler->addEmployee($email, $password, $first_name, $last_name, $location_id, $profile_picture);
 
-            if ($result) {
-                // Manager added successfully
-                echo 'suvves'; 
+            if ($result === true) {
+                $_SESSION['message'] = "Employee added successfully.";
+                $_SESSION['message_type'] = "success";
+            } elseif ($result === "Email already exists") {
+                $_SESSION['message'] = "Email already exists.";
+                $_SESSION['message_type'] = "error";
             } else {
-                // Error adding manager
-                echo "Error adding employee.";
+                $_SESSION['message'] = "Error adding employee.";
+                $_SESSION['message_type'] = "error";
             }
-        
-    } else {
+        } else {
+            // Location not found
+            $_SESSION['message'] = "Location not found.";
+            $_SESSION['message_type'] = "error";
+        }
+        // Redirect to the message page
+        header('Location: message_employee.php');
+        exit();
+        } else {
         // Required fields are missing
-        echo "All fields are required.";
-    }
-}
+        $_SESSION['message'] = "All fields are required.";
+        $_SESSION['message_type'] = "error";
+
+        // Redirect to the message page
+        header('Location: message_employee.php');
+        exit();
+        }
 }
 ?>
 
@@ -62,15 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form action="add_employee.php" method="post" enctype="multipart/form-data">    
 <div class="form-container"> 
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-    </div>
 
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-    </div>
     
     <div class="form-group">
         <label for="first-name">First Name</label>
@@ -81,7 +87,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="last-name">Last Name</label>
         <input type="text" id="last-name" name="last_name" required>
     </div>
-    
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
     <div class="form-group">
         <label for="location">Location</label>
         <select id="location" name="location" required>
