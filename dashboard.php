@@ -34,11 +34,11 @@ $user = $_SESSION['user'];
 
      <!-- Managers navigation -->
      <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
-        <p>moet nog gewijzigd worden</p>
-        <div onclick="location.href='total_hours_worked_manager.php';" class="info-square">Total hours worked</div>
+        <h2>Quick actions</h2>
+         <div onclick="location.href='add_employee.php';" class="info-square">Add Employee</div>
         <div onclick="location.href='assign_task.php';" class="info-square">Assign task types</div>
         <div onclick="location.href='manage_time_off.php';" class="info-square">Manage time off</div>
-
+         <div onclick="location.href='schedule_manager.php';" class="info-square">Overview work schedule</div>
     <?php endif; ?>
 
      <!-- employees navigation -->
