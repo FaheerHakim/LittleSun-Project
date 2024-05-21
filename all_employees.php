@@ -36,11 +36,6 @@ $employees = $user->getEmployeeUsers();
                     <div class="user-info">
                     <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
                  
-                    <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
-                        <?php foreach ($assignedTaskTypes as $task): ?>
-                            <?= htmlspecialchars($task['task_type_name']) ?>
-                        <?php endforeach; ?>
-                  
                     <a href="edit_employee_detail.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="button view" type="button">View profile</a>
                 </div>
             </div>

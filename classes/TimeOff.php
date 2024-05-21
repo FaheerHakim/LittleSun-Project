@@ -71,15 +71,18 @@ public function getApprovedTimeOffRequestsForUser($userId, $startDate, $endDate)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
-
-
 public function executeCustomQuery($query) {
     $conn = $this->db->getConnection();
     $stmt = $conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public function getPendingRequestsCount() {
+    $conn = $this->db->getConnection();
+    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM time_off_requests WHERE status = 'pending'");
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row['count'];
 }
 
 }
