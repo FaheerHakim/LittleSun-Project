@@ -51,7 +51,7 @@ class User {
     public function addEmployee($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
         
-        // Handle file upload
+        // Check if a file was uploaded and it has no errors
         if ($file["error"] == 0) {
             $target_dir = "images/";
             $target_file = $target_dir . basename($file["name"]);
@@ -60,12 +60,14 @@ class User {
                 return false;
             }
         } else {
-            // Error uploading file
-            return false;
+            // No file uploaded, set profile picture to null
+            $target_file = null;
         }
-
-        // Insert employee with profile picture into database
+    
+        // Insert employee into database
         $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'employee', ?, ?)");
+        
+        // Bind parameters and execute query
         $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
         return $result;
     }

@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $location_name = $_POST['location']; // Assuming location name is provided from the form
-        $profile_picture = $_FILES ['profile_picture'];
+        $profile_picture = isset($_FILES['profile_picture']) ? $_FILES['profile_picture'] : null;
 
         // Database connection
         require_once __DIR__ . "/classes/User.php"; // Assuming the User class exists
@@ -35,19 +35,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($result) {
                 // Manager added successfully
-                echo "Employee added successfully.";
+                echo 'suvves'; 
             } else {
                 // Error adding manager
                 echo "Error adding employee.";
             }
-        } else {
-            // Location not found
-            echo "Location not found.";
-        }
+        
     } else {
         // Required fields are missing
         echo "All fields are required.";
     }
+}
 }
 ?>
 
