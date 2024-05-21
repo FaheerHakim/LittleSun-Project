@@ -35,14 +35,15 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
 <head>
     <meta charset="UTF-8">
     <title>Manage Time Off Requests</title>
-    <link rel="stylesheet" href="styles/manage_time_off.css">
+    <link rel="stylesheet" href="styles/manage_time.css">
 </head>
 <body>
 <h1>Manage Time Off Requests</h1>
 
+
 <div class="container">
 
-<a href="dashboard.php" class="go-back" type="button">Go Back</a>
+
 <table>
     <tr>
         <th>User</th>
@@ -81,7 +82,8 @@ $timeOffRequests = $timeOffHandler->getTimeOffRequests();
     <?php endforeach; ?>
 </table>
 </div>
-<!-- Add additional HTML or JavaScript as needed -->
+<a href="dashboard.php" class="go-back" type="button">Go Back</a>
+
 </body>
 
 </html>
