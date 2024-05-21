@@ -1,147 +1,108 @@
-/* Main container */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-   
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: black;
+    color: white;
 }
 
+h1 {
+    text-align: center;
+}
 
 .assign-task-container {
+    margin-top: 20px;
+    min-height: 85vh; 
     padding: 20px;
-    background-color: #f9f9f9; /* Light background for the container */
-}
-
-/* Heading style */
-.assign-task-container h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Individual user-task box styling */
-.user-task-box {
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto; /* Center align the boxes */
-    width: 300px; /* Consistent box width */
-    background-color: #ffffff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: box-shadow 0.3s; /* For hover effect */
-}
-
-/* Hover effect for the box */
-.user-task-box:hover {
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
-}
-
-/* Label styling */
-label {
-    display: block;
-    font-size: 16px;
-    color: #444;
-    margin-bottom: 10px;
-}
-
-/* Select styling */
-select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%; /* Full width for select box */
-    background-color: #f9f9f9;
-}
-
-/* Button styling */
-.assign-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #3498db; /* Blue color */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px; /* Add some spacing */
-}
-
-/* Hover effect for the button */
-.assign-button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-}
-
-.user-box {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    width: 250px; /* Make it a bit wider */
-    text-align: center;
-    background-color: #ffffff;
-    transition: box-shadow 0.3s; /* For hover effect */
-}
-
-label{
-    font-weight: bold;
-}
-
-.user-box p{
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.user-box:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
-}
-
-#searchBar {
-    width: 400px; /* Give some margin on the sides */
-    padding: 20px;
-    margin-left: 10px;
-    margin-top: 30px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: white;
+    color: black;
 }
 
 .go-back-button {
     display: inline-block;
-    margin-bottom: 20px;
     padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
+    background-color: #FFDD00;
+    color: black;
     text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-.go-back-button:hover {
-    background-color: #2980b9;
-}
-
-ul{
-    padding:0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-li{
-    list-style-type: none;
-    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    top: 20px;
+    left: 15px;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    width: 250px;
-    background-color: #ffffff;
-    transition: box-shadow 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    position: absolute;
 }
 
-.sub-container{
+.sub-container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.user-box {
+    width: calc(33% - 20px); /* Reduce width for smaller boxes */
+    border: 1px solid #ddd;
+    padding: 10px; /* Reduce padding for smaller boxes */
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.user-box p {
+    margin: 0 0 5px; /* Reduce margin for smaller boxes */
+    font-weight: bold;
+    font-size: 1em; /* Reduce font size */
+    margin-bottom: 6px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete-form {
+    margin: 0;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: red;
+}
+
+.delete-button i {
+    pointer-events: none;
+}
+
+.delete-button:hover {
+    color: darkred;
+}
+
+.assign-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 7px;
+}
+
+.assign-button:hover {
+    background-color: #0056b3;
+}
+
+#searchBar {
+    width: 30%;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
