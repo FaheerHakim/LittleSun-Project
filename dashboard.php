@@ -95,9 +95,9 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
             
         <?php if (!empty($employeeTodaysSchedule)): ?>
             <div class="schedule-entry">
-                <strong>Task Type:</strong> <?php echo htmlspecialchars($taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id'])['task_type_name']); ?><br>
-                <strong>Location:</strong> <?php echo htmlspecialchars($locationHandler->getLocationNameById($employeeTodaysSchedule['location_id'])['city']); ?><br>
-                <strong>Time:</strong> <?php echo htmlspecialchars($employeeTodaysSchedule['start_time']); ?> - <?php echo htmlspecialchars($employeeTodaysSchedule['end_time']); ?>
+                <?php echo htmlspecialchars($taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id'])['task_type_name']); ?><br>
+                <?php echo htmlspecialchars($locationHandler->getLocationNameById($employeeTodaysSchedule['location_id'])['city']); ?><br>
+                <?php echo htmlspecialchars($employeeTodaysSchedule['start_time']); ?> - <?php echo htmlspecialchars($employeeTodaysSchedule['end_time']); ?>
             </div>
         <?php else: ?>
             <p>No work scheduled for today.</p>

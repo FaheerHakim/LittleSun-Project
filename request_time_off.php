@@ -19,11 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['start_date']) && isset
     $endDate = $_POST['end_date'];
     $reason = $_POST['reason']; 
     $additionalNotes = $_POST['additional_notes'];
-
-
     $timeOffHandler->requestTimeOff($userId, $startDate, $endDate, $reason, $additionalNotes);
-  
-    echo "<script>alert('Time off requested successfully.'); window.location.href = 'dashboard.php';</script>";
+    $_SESSION['message'] = "Time off request sent succesfully.";
+    $_SESSION['message_type'] = "success";
+    header("Location: message-time-off-employee.php");
+    exit();
 }
 
 
