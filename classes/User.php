@@ -39,9 +39,11 @@ class User {
     
       
         if ($target_file !== null) {
+            
             $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'manager', ?, ?)");
             $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
         } else {
+            
             $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
             $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
         }
@@ -69,11 +71,11 @@ class User {
             $target_file = null;
         }
     
-     
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'employee', ?, ?)");
         
 
-        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
+        $result = $stmt->execute([$email, $hashedPassword, $first_name, $last_name, $location_id, $target_file]);
         return $result;
     }
 
