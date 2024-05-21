@@ -11,22 +11,37 @@ $taskTypeHandler = new TaskType();
 include 'logged_in.php';
 include 'permission_manager.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id'])) {
-    $userId = $_POST['user_id'];
-    $taskTypeId = $_POST['task_type_id'];
-    $userHandler->assignTaskType($userId, $taskTypeId);
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id']) && isset($_POST['action'])) {
+    ob_start(); // Start output buffering
+    $response = ['status' => 'failure', 'message' => ''];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remove_task_type']) && isset($_POST['user_id']) && isset($_POST['task_type_id'])) {
     $userId = $_POST['user_id'];
     $taskTypeId = $_POST['task_type_id'];
-    $success = $userHandler->removeTaskTypeAssignment($userId, $taskTypeId);
+    $action = $_POST['action'];
+
+    try {
+        if ($action === 'assign') {
+            $result = $userHandler->assignTaskType($userId, $taskTypeId);
+        } elseif ($action === 'remove') {
+            $result = $userHandler->removeTaskTypeAssignment($userId, $taskTypeId);
+        }
+        if ($result) {
+            $response['status'] = 'success';
+        } else {
+            $response['message'] = 'Database operation failed';
+        }
+    } catch (Exception $e) {
+        $response['message'] = 'Error: ' . $e->getMessage();
+    }
+
+    ob_end_clean(); // Clear the output buffer
+    echo json_encode($response);
+    exit();
 }
 
 $employeeUsers = $userHandler->getEmployeeUsers();
 $taskTypes = $taskTypeHandler->getTaskTypes();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,55 +49,65 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
     <title>Assign Task Types</title>
     <link rel="stylesheet" href="styles/assign_task_types.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="script/assign_task_type.js" defer></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        function updateTaskType(userId, taskTypeId, action) {
+            $.post('assign_task.php', { user_id: userId, task_type_id: taskTypeId, action: action }, function(response) {
+                console.log('Task type update response:', response);
+                try {
+                    response = JSON.parse(response);
+                    if(response.status === 'success') {
+                        console.log('Task type successfully updated.');
+                    } else {
+                        console.log('Failed to update task type:', response.message);
+                    }
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e, response);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('.task-type-checkbox').change(function() {
+                var userId = $(this).data('user-id');
+                var taskTypeId = $(this).val();
+                var action = $(this).is(':checked') ? 'assign' : 'remove';
+                updateTaskType(userId, taskTypeId, action);
+            });
+        });
+    </script>
 </head>
 <body>
- <h1>Assign Task Types to Users</h1>
+<a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
+<h1>Assign Task Types</h1>
 
-    <div class="assign-task-container">
-        <a href="dashboard.php" class="go-back-button" type="button">Go Back</a>
-       
-        <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
-        <div class="sub-container">
-            <?php foreach ($employeeUsers as $user): ?>
-                <div class="user-box">
-                    <p><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></p>
-                    <ul>
-                        <?php $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']); ?>
-                        <?php foreach ($assignedTaskTypes as $assignedTaskType): ?>
-                            <li class="task-item">
-                                <span><?php echo $assignedTaskType['task_type_name']; ?></span>
-                                <form action="assign_task.php" method="post" class="delete-form">
-                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                                    <input type="hidden" name="task_type_id" value="<?php echo $assignedTaskType['task_type_id']; ?>">
-                                    <button type="submit" name="remove_task_type" class="delete-button">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </li>
+<div id="userContainer">
+    <input type="text" id="searchBar" placeholder="Search for users..." onkeyup="searchUsers()">
+    <div class="form-group">
+        <?php foreach ($employeeUsers as $user): ?>
+            <div class="user-box">
+                <img src="https://via.placeholder.com/50" alt="User Profile" class="profile-picture">
+                <div class="user-info">
+                    <h2><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h2>
+                    <?php 
+                    $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);
+                    $assignedTaskTypeIds = array_column($assignedTaskTypes, 'task_type_id');
+                    ?>
+                    <div class="task-types">
+                        <label class="label" for="task_types">Task Types:</label>
+                        <?php foreach ($taskTypes as $taskType): ?>
+                            <div class="task-types-content">
+                                <input type="checkbox" class="task-type-checkbox" name="task_type_id[]" value="<?php echo $taskType['task_type_id']; ?>" 
+                                    <?php echo in_array($taskType['task_type_id'], $assignedTaskTypeIds) ? 'checked' : ''; ?>
+                                    data-user-id="<?php echo $user['user_id']; ?>">
+                                <label><?php echo $taskType['task_type_name']; ?></label>
+                            </div>
                         <?php endforeach; ?>
-                    </ul>
-                    <form action="assign_task.php" method="post">
-                        <label for="task_type">Add Task Type:</label>
-                        <select name="task_type_id" id="task_type">
-                            <?php 
-                            $assignedTaskTypeIds = array_column($assignedTaskTypes, 'task_type_id');
-                            foreach ($taskTypes as $taskType): 
-                                if (!in_array($taskType['task_type_id'], $assignedTaskTypeIds)): ?>
-                                    <option value="<?php echo $taskType['task_type_id']; ?>"><?php echo $taskType['task_type_name']; ?></option>
-                                <?php endif; 
-                                
-                            endforeach; 
-                            ?>
-                           
-                        </select>
-                        <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                        <button class="assign-button" type="submit">Assign Task Type</button>
-                    </form>
+                    </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
+</div>
 </body>
-
 </html>
