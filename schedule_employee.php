@@ -70,7 +70,7 @@ if ($workSchedule !== null) {
 
 
 // Fetch time off events for the logged-in user
-$timeOffEvents = $timeOffHandler->getApprovedTimeOffRequestsForUser($startDate, $endDate, $userId);
+$timeOffEvents = $timeOffHandler->getApprovedTimeOffRequestsForUser($userId, $startDate, $endDate);
 
 // Initialize an array to store time off events by date
 $timeOffByDate = [];
