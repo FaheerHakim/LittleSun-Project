@@ -2,19 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-require_once __DIR__ . "/classes/Schedule.php"; // Update to use Schedule class
+require_once __DIR__ . "/classes/Schedule.php"; 
 require_once __DIR__ . "/classes/User.php";
-require_once __DIR__ . "/classes/TimeOff.php"; // Include the TimeOff class
+require_once __DIR__ . "/classes/TimeOff.php"; 
 
-// Fetch existing users and locations from the database
 $scheduleHandler = new Schedule();
 $userHandler = new User();
-$timeOffHandler = new TimeOff(); // Instantiate the TimeOff class
+$timeOffHandler = new TimeOff(); 
 
 include 'logged_in.php';
 include 'permission_manager.php';
 
-// Add task schedule for user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['location_id']) && isset($_POST['task_type_id']) && isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['date'])) {
     $userId = $_POST['user_id'];
     $locationId = $_POST['location_id'];
@@ -23,38 +21,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
     $endTime = $_POST['end_time'];
     $date = $_POST['date'];
     
-    // Check if the user has approved time off for the selected date
+ 
     if ($timeOffHandler->hasApprovedTimeOff($userId, $date)) {
-        // Fetch time off details for the user
+      
         $timeOffDetails = $timeOffHandler->getApprovedTimeOffDetails($userId, $date);
         
-        // Check if time off details are not empty
+    
         if (!empty($timeOffDetails)) {
-            // Extract begin date and end date from the time off details
+      
             $beginDate = $timeOffDetails['start_date'];
             $endDate = $timeOffDetails['end_date'];
             
-            // Display error message with begin date and end date
+        
             echo "<script>alert('This person has an approved time off from $beginDate to $endDate. Select another time slot');</script>";
         } else {
-            // Define error message
+        
             $errorMessage = "Time off details not found.";
         }
     } else {
-        // Assign task schedule to user
+   
         $success = $scheduleHandler->assignTaskSchedule($userId, $locationId, $taskTypeId, $startTime, $endTime, $date);
 
         if ($success) {
-            // Task schedule assigned successfully
-            // You can redirect the user or display a success message
+           
         } else {
-            // There was an error assigning the task schedule
-            // You can display an error message or handle the situation accordingly
+           
         }
     }
 }
 
-// Get users and locations
 $employeeUsers = $scheduleHandler->getEmployeeUsers();
 $locations = $scheduleHandler->getLocations();
 
@@ -74,23 +69,22 @@ $locations = $scheduleHandler->getLocations();
     <div class="sub-container">
         <?php foreach ($employeeUsers as $user): ?>
             <?php
-    // Get assigned task types for the user
+
     $assignedTaskTypes = $userHandler->getAssignedTaskTypes($user['user_id']);
-    // Filter out users who do not have any assigned task types
+ 
     if (empty($assignedTaskTypes)) {
-        continue; // Skip this user and proceed to the next iteration
+        continue; 
     }
     ?>
             <div class="user-box">
                 <p>User: <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></p>
                 
                 <?php
-                // Get assigned task types for the user
-                // Filter out assigned task types that already have a work schedule
+               
                 $availableTaskTypes = array_filter($assignedTaskTypes, function ($taskType) use ($user, $scheduleHandler) {
                     return !$scheduleHandler->hasWorkSchedule($user['user_id'], $taskType['task_type_id']);
                 });
-                // Display the form if there are available task types, otherwise display a message
+  
                 if (!empty($availableTaskTypes)): ?>
                     <?php if (isset($errorMessage)): ?>
                         <p><?php echo $errorMessage; ?></p>

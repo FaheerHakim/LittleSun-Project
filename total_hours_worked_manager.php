@@ -10,7 +10,7 @@ $workHoursHandler = new WorkHours();
 
 include_once 'logged_in.php';
 
-// Fetch all user IDs
+
 $userIds = $workHoursHandler->getAllUserIds();
 
 

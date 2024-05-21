@@ -1,5 +1,5 @@
 <?php
-// Start session and include necessary files
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -10,7 +10,7 @@ require_once __DIR__ . "/classes/Location.php";
 require_once __DIR__ . "/classes/TaskType.php";
 require_once __DIR__ . "/classes/TimeOff.php";
 
-// Check if the user is logged in and has the required permissions
+
 include 'logged_in.php';
 include 'permission_manager.php';
 
@@ -24,7 +24,7 @@ $viewType = isset($_GET['view']) ? $_GET['view'] : 'monthly';
 $currentDate = date("Y-m-d");
 $startDate = $endDate = null;
 
-// Set default dates based on the view type
+
 switch ($viewType) {
     case 'daily':
         $startDate = $endDate = $currentDate;
@@ -40,23 +40,23 @@ switch ($viewType) {
         break;
 }
 
-// Check if a different period is selected
+
 if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
     $startDate = $_GET['start_date'];
     $endDate = $_GET['end_date'];
     if (strtotime($startDate) === false || strtotime($endDate) === false) {
-        // Invalid date formats, fallback to the default period
+     
         $startDate = $endDate = $currentDate;
     }
 }
 
 $allLocations = $locationHandler->getAllLocations();
 
-// Initialize an associative array to store schedule data by location
+
 $scheduleByLocation = array_fill_keys(array_column($allLocations, 'location_id'), []);
 $selectedLocation = isset($_GET['location']) ? $_GET['location'] : 'all';
 
-// Fetch work schedule for the selected period
+
 $workScheduleByLocation = [];
 foreach ($allLocations as $location) {
     $locationId = $location['location_id'];
@@ -67,21 +67,20 @@ foreach ($allLocations as $location) {
             'user_id' => $schedule['user_id'],
             'user' => $userHandler->getUserNameById($schedule['user_id']),
             'task_type' => $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name'],
-            'start_time' => date("H:i", strtotime($schedule['start_time'])), // Format start_time
-            'end_time' => date("H:i", strtotime($schedule['end_time'])) // Format end_time
+            'start_time' => date("H:i", strtotime($schedule['start_time'])), 
+            'end_time' => date("H:i", strtotime($schedule['end_time'])) 
         ];
     }
 }
 
 $timeOffEvents = $timeOffHandler->getApprovedTimeOffRequests($startDate, $endDate);
 
-// Initialize an array to store time off events by date
+
 $timeOffByDate = [];
 foreach ($timeOffEvents as $timeOff) {
     $timeOffStartDate = date("Y-m-d", strtotime($timeOff['start_date']));
     $timeOffEndDate = date("Y-m-d", strtotime($timeOff['end_date']));
     
-    // Loop through each date between start and end date of time-off request
     for ($date = $timeOffStartDate; $date <= $timeOffEndDate; $date = date('Y-m-d', strtotime($date . ' +1 day'))) {
         $timeOffByDate[$date][] = [
             'user_id' => $timeOff['user_id'],
@@ -89,10 +88,10 @@ foreach ($timeOffEvents as $timeOff) {
             'reason' => $timeOff['reason']
         ];
 
-        // Check if the user was scheduled on this day
+       
         $scheduledWorkDay = $scheduleHandler->getWorkScheduleForUserAndDate($timeOff['user_id'], $date);
         if ($scheduledWorkDay) {
-            // If scheduled, add work schedule details to time-off event
+          
             $timeOffByDate[$date][0]['task_type'] = $taskTypeHandler->getTaskTypeNameById($scheduledWorkDay['task_type_id'])['task_type_name'];
             $timeOffByDate[$date][0]['location'] = $locationHandler->getLocationNameById($scheduledWorkDay['location_id']);
             $timeOffByDate[$date][0]['start_time'] = $scheduledWorkDay['start_time'];
@@ -101,7 +100,7 @@ foreach ($timeOffEvents as $timeOff) {
     }
 }
 
-// Helper functions for navigation links
+
 function getPreviousPeriod($viewType, $startDate) {
     switch ($viewType) {
         case 'daily':
@@ -243,7 +242,7 @@ function getNextPeriod($viewType, $startDate) {
             <div class="header">Sun</div>
 
             <?php
-            // Fill the first row with empty cells if the month doesn't start on Monday
+            
             $firstDayOfWeek = date("N", strtotime($startDate));
             for ($i = 1; $i < $firstDayOfWeek; $i++) {
                 echo '<div class="day empty"></div>';
@@ -282,7 +281,7 @@ function getNextPeriod($viewType, $startDate) {
                         $startTime = new DateTime($timeOffEvent['start_time']);
                         $endTime = new DateTime($timeOffEvent['end_time']);
 
-                        // Check if work schedule details are available
+                     
                         if (isset($timeOffEvent['task_type'])) {
                             echo $timeOffEvent['task_type'] . '<br>';
                             echo $timeOffEvent['location']['city'] . '<br>';
@@ -294,7 +293,7 @@ function getNextPeriod($viewType, $startDate) {
                 echo '</div>';
             }
 
-            // Fill the last row with empty cells if the month doesn't end on Sunday
+           
             $lastDayOfWeek = date("N", strtotime($endDate));
             for ($i = $lastDayOfWeek; $i < 7; $i++) {
                 echo '<div class="day empty"></div>';

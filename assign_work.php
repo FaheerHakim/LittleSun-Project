@@ -4,12 +4,12 @@ ini_set('display_errors', 1);
 session_start();
 require_once __DIR__ . "/classes/Schedule.php";
 require_once __DIR__ . "/classes/User.php";
-require_once __DIR__ . "/classes/TaskType.php"; // Include the TaskType class
+require_once __DIR__ . "/classes/TaskType.php"; 
 require_once __DIR__ . "/classes/TimeOff.php";
 
 $scheduleHandler = new Schedule();
 $userHandler = new User();
-$taskTypeHandler = new TaskType(); // Instantiate the TaskType class
+$taskTypeHandler = new TaskType(); 
 $timeOffHandler = new TimeOff();
 
 include 'logged_in.php';
@@ -17,7 +17,7 @@ include 'permission_manager.php';
 
 $employeeUsers = $scheduleHandler->getEmployeeUsers();
 $locations = $scheduleHandler->getLocations();
-$allTaskTypes = $taskTypeHandler->getTaskTypes(); // Get all task types
+$allTaskTypes = $taskTypeHandler->getTaskTypes(); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id']) && isset($_POST['location_id']) && isset($_POST['date']) && isset($_POST['start_time']) && isset($_POST['end_time'])) {
     $userId = $_POST['user_id'];
@@ -27,19 +27,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
     $startTime = $_POST['start_time'];
     $endTime = $_POST['end_time'];
 
-    // Debugging information
+  
     error_log("Assigning schedule: UserID=$userId, TaskTypeID=$taskTypeId, LocationID=$locationId, Date=$date, StartTime=$startTime, EndTime=$endTime");
 
     $result = $scheduleHandler->assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime);
 
     if ($result) {
-        // Set success message in session and redirect
+       
         $_SESSION['message'] = 'Work schedule assigned successfully.';
         $_SESSION['message_type'] = 'success';
         header("Location: message_work_schedule.php");
         exit();
     } else {
-        // Set error message in session and redirect
+     
         $_SESSION['message'] = 'Failed to assign work schedule.';
         $_SESSION['message_type'] = 'error';
         header("Location: message_work_schedule.php");
@@ -60,7 +60,7 @@ if (isset($_GET['user_id'])) {
         $assignedTaskTypes = $userHandler->getAssignedTaskTypes($userId);
         $assignedTaskTypeIds = array_column($assignedTaskTypes, 'task_type_id');
         
-        // Filter out task types that are already assigned work
+       
         $availableTaskTypes = array_filter($assignedTaskTypes, function($taskType) use ($userId, $scheduleHandler) {
             return !$scheduleHandler->hasWorkSchedule($userId, $taskType['task_type_id']);
         });

@@ -20,28 +20,30 @@ class User {
     public function addManager($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
 
-        // Check if email already exists
+    
         if ($this->emailExists($email)) {
             return "Email already exists";
         }
 
         $target_file = null;
     
-        // Handle file upload if a file was provided
+   
         if ($file !== null && $file["error"] == 0) {
             $target_dir = "images/";
             $target_file = $target_dir . basename($file["name"]);
             if (!move_uploaded_file($file["tmp_name"], $target_file)) {
-                // Error uploading file
+              
                 return false;
             }
         }
     
-        // Insert manager with or without profile picture into database
+      
         if ($target_file !== null) {
+            
             $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'manager', ?, ?)");
             $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
         } else {
+            
             $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id) VALUES (?, ?, ?, ?, 'manager', ?)");
             $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id]);
         }
@@ -51,29 +53,29 @@ class User {
     public function addEmployee($email, $password, $first_name, $last_name, $location_id, $file) {
         $conn = $this->db->getConnection();
 
-         // Check if email already exists
+    
          if ($this->emailExists($email)) {
             return "Email already exists";
         }
         
-        // Check if a file was uploaded and it has no errors
+        
         if ($file["error"] == 0) {
             $target_dir = "images/";
             $target_file = $target_dir . basename($file["name"]);
             if (!move_uploaded_file($file["tmp_name"], $target_file)) {
-                // Error uploading file
+              
                 return false;
             }
         } else {
-            // No file uploaded, set profile picture to null
+           
             $target_file = null;
         }
     
-        // Insert employee into database
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $stmt = $conn->prepare("INSERT INTO users (email, password, first_name, last_name, type_user, location_id, profile_picture) VALUES (?, ?, ?, ?, 'employee', ?, ?)");
         
-        // Bind parameters and execute query
-        $result = $stmt->execute([$email, $password, $first_name, $last_name, $location_id, $target_file]);
+
+        $result = $stmt->execute([$email, $hashedPassword, $first_name, $last_name, $location_id, $target_file]);
         return $result;
     }
 
@@ -84,7 +86,7 @@ class User {
         return $result;
     }
 
-    // Get assigned task types for a user
+
     public function getAssignedTaskTypes($userId) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT task_types.* FROM task_types INNER JOIN user_task_types ON task_types.task_type_id = user_task_types.task_type_id WHERE user_task_types.user_id = ?");
@@ -120,7 +122,7 @@ class User {
 
 
     public function updateUserPassword($userId, $newPassword) {
-        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT); // Hash the password
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT); // Hash password
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE user_id = ?");
         $stmt->execute([$hashedPassword, $userId]);
@@ -139,10 +141,10 @@ class User {
             $conn = $this->db->getConnection();
             $stmt = $conn->prepare("DELETE FROM user_task_types WHERE user_id = ? AND task_type_id = ?");
             $stmt->execute([$userId, $taskTypeId]);
-            return true; // Assignment removed successfully
+            return true; 
         } catch (PDOException $e) {
-            // Handle the error (e.g., log it, display a message, etc.)
-            return false; // Failed to remove assignment
+            
+            return false; 
         }
     }
 

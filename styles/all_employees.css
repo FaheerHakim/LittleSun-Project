@@ -22,7 +22,7 @@ h1 {
     border-radius: 5px;
 }
 
-/* User container */
+
 #userContainer {
     background-color: white;
     color: black;
@@ -34,20 +34,19 @@ h1 {
     flex-direction: column;
 }
 
-/* User box */
-/* User box */
+
 .user-box {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
-    width: 250px; /* Make it a bit wider */
+    width: 250px;
     text-align: center;
     background-color: #ffffff;
-    transition: box-shadow 0.3s; /* For hover effect */
+    transition: box-shadow 0.3s; 
 }
 .user-box:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
 }
 
 .profile-picture {
@@ -79,7 +78,7 @@ h1 {
 .user-info li {
     font-size: 14px;
     color: #444;
-    text-align: left; /* Align text in list items */
+    text-align: left; 
 }
 
 .go-back-button {

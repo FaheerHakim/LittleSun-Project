@@ -19,7 +19,7 @@ h1 {
 
 }
 
-/* Container styles */
+
 .assign-schedule {
     min-width: 800px;
     margin: 30px auto;
@@ -48,7 +48,7 @@ h1 {
     background-color: #ffe958;
 }
 
-/* Input styles */
+
 input[type="text"],
 input[type="date"],
 input[type="time"] {
@@ -60,7 +60,7 @@ input[type="time"] {
     box-sizing: border-box;
 }
 
-/* Select styles */
+
 select {
     width: 100%;
     padding: 10px;
@@ -70,7 +70,7 @@ select {
     box-sizing: border-box;
 }
 
-/* Form label styles */
+
 label {
     display: block;
     font-weight: bold;
@@ -90,7 +90,7 @@ label {
    
 }
 
-/* Hover effect */
+
 .assign-button:hover, .assign-task:hover {
     background-color: #ffe958;
 }

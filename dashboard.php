@@ -15,15 +15,15 @@ $user = $_SESSION['user'];
     
 </head>
 <body>
-<!-- navigation -->    
+
 <?php include 'navigation.php'; ?>
 
-<!-- dashboard -->    
+  
 
 <div class="main">
     <h1><span class="title"> Dashboard </span></h1>
     
-     <!-- Admin navigation -->
+    
     <?php if($user['type_user'] != 'manager' && $user['type_user'] != 'employee'): ?>  
         <h2>Quick actions</h2>
         <div onclick="location.href='add_location.php';" class="info-square">Add & edit locations</div>
@@ -32,7 +32,7 @@ $user = $_SESSION['user'];
     <?php endif; ?>
         
 
-     <!-- Managers navigation -->
+  
      <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
         <h2>Quick actions</h2>
          <div onclick="location.href='add_employee.php';" class="info-square">Add Employee</div>
@@ -41,7 +41,6 @@ $user = $_SESSION['user'];
          <div onclick="location.href='schedule_manager.php';" class="info-square">Overview work schedule</div>
     <?php endif; ?>
 
-     <!-- employees navigation -->
     <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'manager'): ?>
         <h2>Quick actions</h2>
         <div onclick="location.href='clock_in_out.php';" class="info-square">Clock in & out</div>

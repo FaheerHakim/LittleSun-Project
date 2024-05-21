@@ -22,16 +22,16 @@ function performEdit() {
 }
 
 function editTaskType(taskTypeId) {
-    // Get the updated task type name
+ 
     var updatedTaskTypeName = document.getElementById('task_type_' + taskTypeId).value;
 
-    // Send the updated task type name and ID to the server
+ 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "add_task_types.php", true); // Assuming your PHP script is add_task_types.php
+    xhr.open("POST", "add_task_types.php", true); 
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // Handle the response from the server if needed
+           
             console.log(xhr.responseText);
         }
     };

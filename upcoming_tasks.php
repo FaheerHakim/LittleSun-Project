@@ -5,17 +5,17 @@ session_start();
 require_once __DIR__ . "/classes/User.php";
 require_once __DIR__ . "/classes/TaskType.php";
 
-// Fetch existing users and task types from the database
+
 $userHandler = new User();
 $taskTypeHandler = new TaskType();
 
 require_once 'logged_in.php';
 require_once 'permission_employee.php';
 
-// Get the logged-in user's ID
+
 $loggedInUserId = $_SESSION['user']['user_id'];
 
-// Get the assigned task types for the logged-in user
+
 $assignedTaskTypes = $userHandler->getAssignedTaskTypes($loggedInUserId);
 ?>
 

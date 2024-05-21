@@ -48,12 +48,12 @@ form {
     display: block;
     width: 100px;
     height: 100px;
-    border-radius: 50%; /* Circular shape */
+    border-radius: 50%; 
     border: 2px solid #3498db;
     background-color: white;
-    background-size: cover; /* Cover to maintain aspect ratio */
+    background-size: cover; 
     background-position: center;
-    margin: 0 auto; /* Center it horizontally */
+    margin: 0 auto;
 }
 
 .add-button {
@@ -146,7 +146,7 @@ img{
    
 }
 
-/* Hover effect */
+
 .edit-button:hover {
     background-color: #ffe958;
 }

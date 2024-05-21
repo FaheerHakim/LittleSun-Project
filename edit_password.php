@@ -4,8 +4,8 @@ ini_set('display_errors', 1);
 session_start();
 
 require_once 'classes/User.php';
-include 'logged_in.php'; // Check if user is logged in
-include 'permission_admin.php'; // Check if user has admin permissions
+include 'logged_in.php'; 
+include 'permission_admin.php'; 
 
 $user = new User();
 
@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="edit_manager.php" class="go-back-button" type="button">Go Back</a>
 </div>
 
-<!-- The Modal -->
 <div id="confirm-modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>

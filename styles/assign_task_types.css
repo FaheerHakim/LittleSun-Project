@@ -45,9 +45,9 @@ h1 {
 }
 
 .user-box p {
-    margin: 0 0 5px; /* Reduce margin for smaller boxes */
+    margin: 0 0 5px; 
     font-weight: bold;
-    font-size: 1em; /* Reduce font size */
+    font-size: 1em; 
     margin-bottom: 6px;
 }
 
@@ -141,7 +141,7 @@ ul {
 .user-info li {
     font-size: 14px;
     color: #444;
-    text-align: left; /* Align text in list items */
+    text-align: left;
 }
 
 .task-item{
