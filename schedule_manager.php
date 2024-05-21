@@ -137,9 +137,9 @@ function getNextPeriod($viewType, $startDate) {
    
 
 <div class="container">
-
     <a href="work_schedule_manager.php" class="go-back-button" type="button">Go Back</a>
-    <a href="assign_employees.php" class="go-back-button" type="button">Assign Work </a>
+
+    <a href="assign_employees.php" class="assign-button" type="button">Assign Work </a>
 
 
     <div class="location-dropdown">
@@ -298,5 +298,27 @@ function getNextPeriod($viewType, $startDate) {
         </div>
     <?php endif; ?>
 </div>
+<style>
+    .assign-button {
+    position: absolute;
+    top: 10px;
+    left: 200px;
+    padding: 10px;
+    background-color: #FFDD00; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.assign-button:hover {
+    background-color: #ffe958;
+}
+
+
+</style>
 </body>
 </html>
