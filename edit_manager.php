@@ -33,7 +33,7 @@ $managers = $user->getManagerUsers(); // Get the employee users
                 <div class="user-box">
                     <?php
                         // Retrieve the profile picture URL for the manager
-                        $profilePicture = !empty($manager['profile_picture']) ? $manager['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                        $profilePicture = !empty($manager['profile_picture']) ? $manager['profile_picture'] : "../LittleSun-Project/images/profile.jpeg"; // Default profile picture URL
                         ?>
                         <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">
                     <div class="user-info">

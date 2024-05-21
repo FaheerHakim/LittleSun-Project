@@ -10,7 +10,19 @@ class Schedule {
 
     public function assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime) {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, task_type_id, location_id,  date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
+        
+        // Check if the schedule already exists
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM work_schedule WHERE user_id = ? AND task_type_id = ? AND date = ? AND start_time = ? AND end_time = ?");
+        $stmt->execute([$userId, $taskTypeId, $date, $startTime, $endTime]);
+        $count = $stmt->fetchColumn();
+        
+        if ($count > 0) {
+            // Schedule already exists
+            return false;
+        }
+        
+        // Insert new schedule if it does not exist
+        $stmt = $conn->prepare("INSERT INTO work_schedule (user_id, task_type_id, location_id, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$userId, $taskTypeId, $locationId, $date, $startTime, $endTime]);
     }
 
