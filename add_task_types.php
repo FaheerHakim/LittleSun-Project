@@ -7,11 +7,11 @@ require_once __DIR__ . "/classes/TaskType.php";
 include 'logged_in.php';
 
 include 'permission_admin.php';
-// Add task type
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_task_type']) && !empty($_POST['add_task_type'])) {
-    // Validate input
-    $typeName = $_POST['add_task_type']; // You may want to perform further validation
-    // Add task type
+
+    $typeName = $_POST['add_task_type']; 
+ 
     $taskTypeHandler = new TaskType();
     $taskTypeHandler->addTaskType($typeName);
     $_SESSION['message'] = "Location added successfully.";
@@ -20,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_task_type']) && !e
     exit();
 }
 
-// Delete task type
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_task_type'])) {
     $typeId = $_POST['delete_task_type'];
-    // Database connection
+
     $taskTypeHandler = new TaskType();
-    // Delete task type
+
     $taskTypeHandler->deleteTaskType($typeId);
  
 }
@@ -34,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_task_type'])) {
     $typeId = $_POST['task_type_id'];
     $typeName = $_POST['task_type_name'];
     
-    // Database connection
+
     $taskTypeHandler = new TaskType();
     
-    // Update task type
+ 
     $taskTypeHandler->updateTaskType($typeId, $typeName);
     
     exit();
 }
 
-// Get existing task types
+
 $taskTypeHandler = new TaskType();
 $taskTypes = $taskTypeHandler->getTaskTypes();
 ?>

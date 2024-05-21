@@ -11,7 +11,7 @@ include 'logged_in.php';
 include 'permission_admin.php';
 
 $user = new User();
-$managers = $user->getManagerUsers(); // Get the employee users
+$managers = $user->getManagerUsers();
 
 
 
@@ -32,8 +32,8 @@ $managers = $user->getManagerUsers(); // Get the employee users
             <?php foreach ($managers as $manager): ?>
                 <div class="user-box">
                     <?php
-                        // Retrieve the profile picture URL for the manager
-                        $profilePicture = !empty($manager['profile_picture']) ? $manager['profile_picture'] : "../LittleSun-Project/images/profile.jpeg"; // Default profile picture URL
+                        
+                        $profilePicture = !empty($manager['profile_picture']) ? $manager['profile_picture'] : "../LittleSun-Project/images/profile.jpeg"; 
                         ?>
                         <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">
                     <div class="user-info">

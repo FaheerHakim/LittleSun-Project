@@ -32,11 +32,11 @@ $query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_typ
           INNER JOIN work_schedule ON work_hours.user_id = work_schedule.user_id 
           WHERE 1";
 
-// Your existing code to filter by selected users, period, location, and task type goes here
+
 
 if (!empty($timeOff) && $timeOff != 'all') {
     if ($timeOff == 'yes') {
-        // Include only time off days
+      
         $query .= " AND EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
@@ -44,7 +44,7 @@ if (!empty($timeOff) && $timeOff != 'all') {
                         AND DATE(work_hours.start_time) BETWEEN time_off_requests.start_date AND time_off_requests.end_date
                     )";
     } elseif ($timeOff == 'no') {
-        // Exclude time off days
+       
         $query .= " AND NOT EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
@@ -142,7 +142,7 @@ $totalTimeOffs = count($timeOffData);
         <?php if ($timeOff == 'yes'): ?>
             <?php foreach ($timeOffData as $row): ?>
                 <?php
-        // Get the user details based on user_id
+      
         $user = $userHandler->getUserById($row['user_id']);
         ?>
         <td><?php echo isset($user['first_name']) ? $user['first_name'] : 'Unknown'; ?> <?php echo isset($user['last_name']) ? $user['last_name'] : ''; ?></td>
@@ -152,7 +152,7 @@ $totalTimeOffs = count($timeOffData);
             <?php
             echo $row['reason'];
             if ($row['reason'] === 'Other') {
-                // Display additional notes if the reason is 'other'
+               
                 echo "<br>Additional Notes: " . $row['additional_notes'];
             }
             ?>
@@ -236,7 +236,7 @@ $totalTimeOffs = count($timeOffData);
                     if ($timeOff == 'yes') {
                         echo $row['first_name'] . ' ' . $row['last_name'];
                     } else {
-                        // Display employee name based on your work hours data
+                    
                     }
                     ?>
                 </td>

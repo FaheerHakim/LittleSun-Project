@@ -27,7 +27,7 @@ class WorkHours {
         $stmt = $conn->prepare("UPDATE work_hours SET end_time = ? WHERE user_id = ? AND end_time IS NULL");
         $stmt->execute([$endTime, $userId]);
     
-        // Retrieve the planned start and end times from the schedule
+        
         $stmt = $conn->prepare("SELECT start_time AS planned_start_time, end_time AS planned_end_time
                                 FROM work_schedule 
                                 WHERE user_id = ? AND DATE(start_time) = DATE(?)");
@@ -35,18 +35,18 @@ class WorkHours {
         $scheduleData = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if (!$scheduleData) {
-            // Handle error: Schedule data not found for the user on the specified date
+            
             return;
         }
     
         $plannedStartTime = new DateTime($scheduleData['planned_start_time']);
         $plannedEndTime = new DateTime($scheduleData['planned_end_time']);
     
-        // Calculate the planned work duration
+       
         $plannedWorkSeconds = $plannedEndTime->getTimestamp() - $plannedStartTime->getTimestamp();
-        $plannedWorkHours = $plannedWorkSeconds / 3600; // Convert seconds to hours
+        $plannedWorkHours = $plannedWorkSeconds / 3600; 
     
-        // Retrieve the actual work hours for the day
+       
         $startOfDay = date("Y-m-d 00:00:00", strtotime($endTime));
         $endOfDay = date("Y-m-d 23:59:59", strtotime($endTime));
         $stmt = $conn->prepare("SELECT SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) AS total_seconds 
@@ -55,19 +55,19 @@ class WorkHours {
         $stmt->execute([$userId, $startOfDay, $endOfDay]);
         $totalSecondsWorked = $stmt->fetchColumn();
     
-        // Convert actual work hours to seconds
-        $actualWorkHours = $totalSecondsWorked / 3600; // Convert seconds to hours
+   
+        $actualWorkHours = $totalSecondsWorked / 3600; 
     
-        // Calculate overtime duration
+ 
         $overtimeDuration = max($actualWorkHours - $plannedWorkHours, 0);
     
-        // Insert overtime data into the work_hours table
+        
         if ($overtimeDuration > 0) {
             try {
                 $stmt = $conn->prepare("INSERT INTO work_hours (user_id, start_time, end_time, overtime) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$userId, $endTime, $endTime, $overtimeDuration]);
             } catch (PDOException $e) {
-                // Log error
+             
                 error_log('Error inserting overtime data: ' . $e->getMessage());
             }
         }
@@ -130,7 +130,7 @@ class WorkHours {
     
         $params = [];
     
-        // Add filters to the query
+     
         if ($startDate && $endDate) {
             $query .= " AND DATE(start_time) >= ? AND DATE(end_time) <= ?";
             $params[] = $startDate;
@@ -148,11 +148,10 @@ class WorkHours {
             $query .= " AND overtime = 0";
         }
     
-        // Prepare and execute the query
+      
         $stmt = $conn->prepare($query);
         $stmt->execute($params);
     
-        // Fetch and return the filtered work hours data
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

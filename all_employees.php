@@ -10,8 +10,7 @@ include 'logged_in.php';
 include 'permission_manager.php';
 
 $user = new User();
-$employees = $user->getEmployeeUsers(); // Get the employee users
-
+$employees = $user->getEmployeeUsers(); 
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -36,12 +35,12 @@ $employees = $user->getEmployeeUsers(); // Get the employee users
                     <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
                     <div class="user-info">
                     <h2><?= htmlspecialchars($employee['first_name'] . " " . $employee['last_name']) ?></h2>
-                   <!-- <ul>
+                 
                     <?php $assignedTaskTypes = $user->getAssignedTaskTypes($employee['user_id']); ?>
                         <?php foreach ($assignedTaskTypes as $task): ?>
-                            <li><?= htmlspecialchars($task['task_type_name']) ?></li>
+                            <?= htmlspecialchars($task['task_type_name']) ?>
                         <?php endforeach; ?>
-                    </ul>-->
+                  
                     <a href="edit_employee_detail.php?user_id=<?= htmlspecialchars($employee['user_id']) ?>" class="button view" type="button">View profile</a>
                 </div>
             </div>

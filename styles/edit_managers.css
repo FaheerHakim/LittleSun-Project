@@ -23,7 +23,7 @@ h1 {
     border-radius: 5px;
 }
 
-/* User container */
+
 #userContainer {
     background-color: white;
     color: black;
@@ -44,7 +44,7 @@ h1 {
     gap: 12px;
 }
 
-/* User box */
+
 .user-box {
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -115,7 +115,7 @@ h1 {
     background-color: rgb(168, 168, 168);
 }
 
-/* Delete button */
+
 .delete-button {
     display: inline-block;
     padding: 10px 20px;

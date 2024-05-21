@@ -10,12 +10,11 @@ $workHoursHandler = new WorkHours();
 
 include_once 'logged_in.php';
 
-// Handle form submission
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $employeeId = $_POST['user_id'];
     $selectedMonth = $_POST['selected_month'];
 
-    // Fetch work hours data for the selected employee and month
     $workHoursData = [];
     $userData = $userHandler->getUserById($employeeId);
     $userWorkHours = $workHoursHandler->getWorkHoursForMonth($employeeId, $selectedMonth);
@@ -26,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
 }
 
-// Fetch all employees for the dropdown
+
 $employees = $userHandler->getEmployeeUsers();
 
 $totalWorkedHours = 0;

@@ -14,10 +14,10 @@ include 'permission_manager.php';
 
 $scheduleHandler = new Schedule();
 $user = new User();
-$employees = $user->getEmployeeUsers(); // Get the employee users
+$employees = $user->getEmployeeUsers(); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get form data
+
     $userId = $_POST['user_id'];
     $taskTypeId = $_POST['task_type_id'];
     $locationId = $_POST['location_id'];
@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $startTime = $_POST['start_time'];
     $endTime = $_POST['end_time'];
 
-    // Validate the data
+
     if (empty($userId) || empty($taskTypeId) || empty($locationId) || empty($date) || empty($startTime) || empty($endTime)) {
         echo "All fields are required.";
         exit;
     }
 
-    // Insert data into the database
+  
     $result = $scheduleHandler->assignTaskSchedule($userId, $taskTypeId, $locationId, $date, $startTime, $endTime);
     
 }
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php foreach ($employees as $employee): ?>
                 <div class="user-box">
                         <?php
-                        $profilePicture = !empty($employee['profile_picture']) ? $employee['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                        $profilePicture = !empty($employee['profile_picture']) ? $employee['profile_picture'] : "../LittleSun-Project/images/profile.jpg";
                         ?>                    
                         <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
                         <div class="user-info">

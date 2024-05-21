@@ -9,17 +9,17 @@ include 'logged_in.php';
 
 include 'permission_manager.php';
 
-$user = new User(); // Instantiate the User class
+$user = new User(); 
 
-// Instantiate TimeOff class
+
 $timeOffHandler = new TimeOff();
 
-// Approve or decline time off request
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && isset($_POST['request_id'])) {
     $requestId = $_POST['request_id'];
     $action = $_POST['action'];
     
-    // Perform action based on user's choice
+
     if ($action === 'approve') {
         $timeOffHandler->approveTimeOffRequest($requestId);
     } elseif ($action === 'decline') {
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && isset($_P
     }
 }
 
-// Get time off requests
+
 $timeOffRequests = $timeOffHandler->getTimeOffRequests();
 
 ?><!DOCTYPE html>

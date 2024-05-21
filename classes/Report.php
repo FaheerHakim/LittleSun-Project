@@ -14,7 +14,6 @@ class Report {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Method to fetch users for filter options
     public function getUsers() {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT * FROM users");
@@ -22,7 +21,7 @@ class Report {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Method to fetch task types for filter options
+
     public function getTaskTypes() {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT * FROM task_types");

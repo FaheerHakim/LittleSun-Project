@@ -7,18 +7,18 @@ session_start();
 include 'logged_in.php';
 include 'permission_employee.php';
 
-require_once __DIR__ . "/classes/WorkHours.php"; // Include the WorkHours class
+require_once __DIR__ . "/classes/WorkHours.php"; 
 
-// Create an instance of the WorkHours class
+
 $workHoursHandler = new WorkHours();
 
-// Get the user ID from the session (assuming the user is logged in)
+
 $user = $_SESSION['user'];
-$userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key of the user array
+$userId = $user['user_id'];
 
 date_default_timezone_set('Europe/Brussels');
 if (isset($_POST['clock_in'])) {
-    // Clock in the user for the day
+  
     $currentTime = date("Y-m-d H:i:s");
     $workHoursHandler->clockIn($userId, $currentTime);
     $_SESSION['message'] = "You have successfully clocked in for today.";
@@ -26,9 +26,9 @@ if (isset($_POST['clock_in'])) {
 exit();
 }
 
-// Check if the clock-out button is clicked
+
 if (isset($_POST['clock_out'])) {
-    // Clock out the user for the day
+ 
     $currentTime = date("Y-m-d H:i:s");
     $workHoursHandler->clockOut($userId, $currentTime);
     $_SESSION['message'] = "You have successfully clocked out for today.";
@@ -37,10 +37,10 @@ if (isset($_POST['clock_out'])) {
 }
 
 $isClockedIn = $workHoursHandler->isClockedIn($userId);
-// Retrieve the message from the session
+
 $message = isset($_SESSION['message']) ? $_SESSION['message'] : '';
 
-// Clear the message from the session
+
 unset($_SESSION['message']);
 ?>
 <!DOCTYPE html>

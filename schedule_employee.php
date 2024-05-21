@@ -1,5 +1,5 @@
 <?php
-// Start session and include necessary files
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -10,12 +10,12 @@ require_once __DIR__ . "/classes/Location.php";
 require_once __DIR__ . "/classes/TaskType.php";
 require_once __DIR__ . "/classes/TimeOff.php";
 
-// Check if the user is logged in and has the required permissions
+
 include 'logged_in.php';
 include 'permission_employee.php';
 
 $user = $_SESSION['user'];
-$userId = $user['user_id']; // Assuming user_id is stored in the 'user_id' key of the user array
+$userId = $user['user_id'];
 
 $scheduleHandler = new Schedule();
 $userHandler = new User();
@@ -50,37 +50,34 @@ switch ($viewType) {
         break;
 }
 
-// Initialize an associative array to store schedule data
-$scheduleByDate = [];
-// Initialize an associative array to store schedule data
 
-// Check if $workSchedule is not null before iterating over it
+$scheduleByDate = [];
+
 if ($workSchedule !== null) {
     foreach ($workSchedule as $schedule) {
         $date = date("Y-m-d", strtotime($schedule['date']));
         $scheduleByDate[$date][] = [
             'task_type' => $taskTypeHandler->getTaskTypeNameById($schedule['task_type_id'])['task_type_name'],
             'location' => $locationHandler->getLocationById($schedule['location_id'])['city'],
-            'start_time' => date("H:i", strtotime($schedule['start_time'])), // Format start_time
-            'end_time' => date("H:i", strtotime($schedule['end_time'])) // Format end_time
+            'start_time' => date("H:i", strtotime($schedule['start_time'])), 
+            'end_time' => date("H:i", strtotime($schedule['end_time'])) 
         ];
     }
 }
 
 
 
-// Fetch time off events for the logged-in user
 $timeOffEvents = $timeOffHandler->getApprovedTimeOffRequestsForUser($userId, $startDate, $endDate);
 
-// Initialize an array to store time off events by date
+
 $timeOffByDate = [];
 foreach ($timeOffEvents as $timeOff) {
     $timeOffStartDate = date("Y-m-d", strtotime($timeOff['start_date']));
     $timeOffEndDate = date("Y-m-d", strtotime($timeOff['end_date']));
 
-    // Loop through each date between start and end date
+ 
     for ($date = $timeOffStartDate; $date <= $timeOffEndDate; $date = date('Y-m-d', strtotime($date . ' +1 day'))) {
-        // Check if the date falls within the range of the view
+      
         if ($date >= $startDate && $date <= $endDate) {
             $timeOffByDate[$date][] = [
                 'reason' => $timeOff['reason']
@@ -89,7 +86,6 @@ foreach ($timeOffEvents as $timeOff) {
     }
 }
 
-// Helper functions for navigation links
 function getPreviousPeriod($viewType, $startDate)
 {
     switch ($viewType) {
@@ -203,7 +199,7 @@ function getNextPeriod($viewType, $startDate)
 
     <?php else: ?>
     <div class="calendar">
-        <!-- Header for days of the week -->
+      
         <div class="header">Mon</div>
         <div class="header">Tue</div>
         <div class="header">Wed</div>
@@ -213,18 +209,18 @@ function getNextPeriod($viewType, $startDate)
         <div class="header">Sun</div>
 
         <?php
-        // Fill the first row with empty cells if the month doesn't start on Monday
+     
         $firstDayOfWeek = date("N", strtotime($startDate));
         for ($i = 1; $i < $firstDayOfWeek; $i++) {
             echo '<div class="day empty"></div>';
         }
 
-        // Loop through each day of the month
+      
         $daysInMonth = date("t", strtotime($startDate));
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = date("Y-m-d", strtotime($startDate . " +".($day-1)." days"));
 
-            // Output the day number and schedule events for this day
+            
             echo '<div class="day">';
             echo '<strong>' . $day . '</strong>';
 
@@ -241,7 +237,7 @@ function getNextPeriod($viewType, $startDate)
             echo '</div>';
         }
 
-        // Fill the last row with empty cells if the month doesn't end on Sunday
+  
         $lastDayOfWeek = date("N", strtotime($endDate));
         for ($i = $lastDayOfWeek; $i < 7; $i++) {
             echo '<div class="day empty"></div>';

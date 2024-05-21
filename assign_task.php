@@ -12,7 +12,7 @@ include 'logged_in.php';
 include 'permission_manager.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['task_type_id']) && isset($_POST['action'])) {
-    ob_start(); // Start output buffering
+    ob_start(); 
     $response = ['status' => 'failure', 'message' => ''];
 
     $userId = $_POST['user_id'];
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_
         $response['message'] = 'Error: ' . $e->getMessage();
     }
 
-    ob_end_clean(); // Clear the output buffer
+    ob_end_clean(); 
     echo json_encode($response);
     exit();
 }
@@ -87,7 +87,7 @@ $taskTypes = $taskTypeHandler->getTaskTypes();
         <?php foreach ($employeeUsers as $user): ?>
             <div class="user-box">
                     <?php
-                    $profilePicture = !empty($user['profile_picture']) ? $user['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; // Default profile picture URL
+                    $profilePicture = !empty($user['profile_picture']) ? $user['profile_picture'] : "../LittleSun-Project/images/profile.jpg"; 
                     ?>                    
                     <img src="<?= htmlspecialchars($profilePicture) ?>" alt="User Profile" class="profile-picture">                        
                      <div class="user-info">

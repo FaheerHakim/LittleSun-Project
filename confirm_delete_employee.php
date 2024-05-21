@@ -6,7 +6,7 @@ require_once __DIR__ . "/classes/User.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
 } else {
-    // Handle the case where user ID is not provided
+    
     header("Location: edit_employee.php");
     exit();
 }

@@ -9,13 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_manager'])) {
     $user = new User();
     $user->deleteUser($user_id);
 
-    // Redirect to the edit_manager.php page after deletion
+    
     header("Location: edit_manager.php");
     exit();
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
 } else {
-    // Handle the case where user ID is not provided
+ 
     header("Location: edit_manager.php");
     exit();
 }

@@ -16,10 +16,9 @@ $user = $_SESSION['user'];
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
 <body>
-<!-- navigation -->    
+  
 <?php include 'navigation.php'; ?>
 
-<!-- dashboard -->    
 
 <div class="main">
     <h1><span class="title"> Request time-off</span></h1>

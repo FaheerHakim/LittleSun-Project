@@ -1,4 +1,4 @@
-/* Main container */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
@@ -9,34 +9,34 @@ body {
 
 .assign-task-container {
     padding: 20px;
-    background-color: #f9f9f9; /* Light background for the container */
+    background-color: #f9f9f9; 
 }
 
-/* Heading style */
+
 .assign-task-container h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
 }
 
-/* Individual user-task box styling */
+
 .user-task-box {
     border: 2px solid #ddd;
     border-radius: 10px;
     padding: 20px;
-    margin: 20px auto; /* Center align the boxes */
-    width: 300px; /* Consistent box width */
+    margin: 20px auto; 
+    width: 300px; 
     background-color: #ffffff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: box-shadow 0.3s; /* For hover effect */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s;
 }
 
-/* Hover effect for the box */
+
 .user-task-box:hover {
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); 
 }
 
-/* Label styling */
+
 label {
     display: block;
     font-size: 16px;
@@ -44,32 +44,30 @@ label {
     margin-bottom: 10px;
 }
 
-/* Select styling */
 select {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%; /* Full width for select box */
+    width: 100%; 
     background-color: #f9f9f9;
 }
 
-/* Button styling */
 .assign-button {
     padding: 10px 20px;
     font-size: 16px;
     color: #ffffff;
-    background-color: #3498db; /* Blue color */
+    background-color: #3498db; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 10px; /* Add some spacing */
+    margin-top: 10px; 
 }
 
-/* Hover effect for the button */
+
 .assign-button:hover {
-    background-color: #2980b9; /* Darker blue on hover */
+    background-color: #2980b9; 
 }
 
 .user-box {
@@ -77,10 +75,10 @@ select {
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
-    width: 250px; /* Make it a bit wider */
+    width: 250px; 
     text-align: center;
     background-color: #ffffff;
-    transition: box-shadow 0.3s; /* For hover effect */
+    transition: box-shadow 0.3s; 
 }
 
 label{
@@ -93,11 +91,11 @@ label{
 }
 
 .user-box:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle hover effect */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
 }
 
 #searchBar {
-    width: 400px; /* Give some margin on the sides */
+    width: 400px; 
     padding: 20px;
     margin-left: 10px;
     margin-top: 30px;

@@ -13,7 +13,7 @@ $taskTypeHandler = new TaskType();
 
 include_once 'logged_in.php';
 
-// Fetch all users, locations, and task types
+
 $users = $userHandler->getAllUsers();
 $locations = $locationHandler->getAllLocations();
 $taskTypes = $taskTypeHandler->getAllTaskTypes();
@@ -120,15 +120,15 @@ $taskTypes = $taskTypeHandler->getAllTaskTypes();
         function validateForm() {
             const errorMessage = document.getElementById('error-message');
             errorMessage.innerHTML = '';
-            // Check users
+          
             const users = document.getElementById('users');
             const usersSelected = Array.from(users.options).some(option => option.selected && option.value == 'all');
 
-            // Check location
+       
             const location = document.getElementById('location');
             const locationSelected = Array.from(location.options).some(option => option.selected && option.value == 'all');
 
-            // Check task type
+          
             const taskType = document.getElementById('task_type');
             const taskTypeSelected = Array.from(taskType.options).some(option => option.selected && option.value == 'all');
 

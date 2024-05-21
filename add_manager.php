@@ -8,60 +8,59 @@ include 'logged_in.php';
 include 'permission_admin.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if all required fields are filled
+   
     if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['location'] )) {
-        // Sanitize input data
+   
         $email = $_POST['email'];
-        $password = $_POST['password']; // You may want to hash the password for security
+        $password = $_POST['password']; 
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
-        $location_name = $_POST['location']; // Assuming location name is provided from the form
+        $location_name = $_POST['location']; 
         $profile_picture = null;
         if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
             $profile_picture = $_FILES['profile_picture'];
         }
 
-        // Database connection
-        require_once __DIR__ . "/classes/User.php"; // Assuming the User class exists
-        require_once __DIR__ . "/classes/Location.php"; // Assuming the Location class exists
+        require_once __DIR__ . "/classes/User.php";
+        require_once __DIR__ . "/classes/Location.php"; 
         $userHandler = new User();
         $locationHandler = new Location();
 
-        // Get the location_id based on the location name
+        
         $location_id = $locationHandler->getLocationIdByName($location_name);
 
         if ($location_id) {
-            // Add the manager to the database
+          
             $result = $userHandler->addManager($email, $password, $first_name, $last_name, $location_id, $profile_picture);
 
             if ($result === true) {
-                // Manager added successfully
+                
                 $_SESSION['message'] = "Manager added successfully.";
                 $_SESSION['message_type'] = "success";
             } elseif ($result === "Email already exists") {
-                // Email already exists error
+            
                 $_SESSION['message'] = "Email already exists.";
                 $_SESSION['message_type'] = "error";
             } else {
-                // Error adding manager
+           
                 $_SESSION['message'] = "Error adding manager.";
                 $_SESSION['message_type'] = "error";
             }
         } else {
-            // Location not found
+         
             $_SESSION['message'] = "Location not found.";
             $_SESSION['message_type'] = "error";
         }
 
-        // Redirect to the message page
+   
         header('Location: message.php');
         exit();
     } else {
-        // Required fields are missing
+      
         $_SESSION['message'] = "All fields are required.";
         $_SESSION['message_type'] = "error";
 
-        // Redirect to the message page
+    
         header('Location: message.php');
         exit();
     }
@@ -107,12 +106,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <select id="location" name="location" required>
             <option value="">Select location</option>
             <?php
-            // Include Location class and get existing locations
+         
             require_once __DIR__ . "/classes/Location.php";
             $locationHandler = new Location();
             $existingLocations = $locationHandler->getExistingLocations();
 
-            // Loop through existing locations to populate options
+       
             foreach ($existingLocations as $location) {
                 echo "<option value=\"$location\">$location</option>";
             }

@@ -6,6 +6,6 @@ class Admin extends User {
         parent::__construct();
     }
 
-    // Additional admin functionalities can be added here
+    
 }
 ?>

@@ -35,7 +35,7 @@ $query = "SELECT work_hours.*, work_schedule.location_id, work_schedule.task_typ
 
 if (!empty($timeOff) && $timeOff != 'all') {
     if ($timeOff == 'yes') {
-        // Include only time off days
+
         $query .= " AND EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
@@ -43,7 +43,7 @@ if (!empty($timeOff) && $timeOff != 'all') {
                         AND DATE(work_hours.start_time) BETWEEN time_off_requests.start_date AND time_off_requests.end_date
                     )";
     } elseif ($timeOff == 'no') {
-        // Exclude time off days
+  
         $query .= " AND NOT EXISTS (
                         SELECT 1 
                         FROM time_off_requests 
@@ -89,24 +89,23 @@ $timeOffData = $timeOffHandler->executeCustomQuery($timeOffQuery);
 
 $totalWorkedHours = 0;
 
-$totalOvertimeMinutes = 0; // To accumulate total overtime
+$totalOvertimeMinutes = 0; 
 
-// Loop through each row of the report data
+
 foreach ($reportData as $row) {
-    // Calculate the worked hours for the current shift
+    
     $startTime = new DateTime($row['start_time']);
     $endTime = new DateTime($row['end_time']);
 
-    // Calculate the difference in seconds
+  
     $secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
 
-    // Round up minutes based on seconds
+   
     $minutes = ceil($secondsDiff / 60);
 
-    // Accumulate the total worked hours
+   
     $totalWorkedHours += $minutes;
 
-    // Calculate overtime
     $plannedStartTime = new DateTime($row['planned_start_time']);
     $plannedEndTime = new DateTime($row['planned_end_time']);
     $plannedStartTime->setTime($plannedStartTime->format('H'), $plannedStartTime->format('i'));
@@ -124,16 +123,16 @@ foreach ($reportData as $row) {
 
     if ($overtimeDuration > 0) {
         $overtimeMinutes = ceil($overtimeDuration / 60);
-        $totalOvertimeMinutes += $overtimeMinutes; // Accumulate total overtime minutes
+        $totalOvertimeMinutes += $overtimeMinutes; 
     }
 }
 
-// Convert the total worked hours to hours and minutes format
+
 $totalHours = floor($totalWorkedHours / 60);
 $totalMinutes = $totalWorkedHours % 60;
 $totalWorkedHoursFormatted = sprintf("%02d:%02d", $totalHours, $totalMinutes);
 
-// Convert the total overtime to hours and minutes format
+
 $totalOvertimeHours = floor($totalOvertimeMinutes / 60);
 $totalOvertimeMinutes %= 60;
 $totalOvertimeFormatted = sprintf("%02d:%02d", $totalOvertimeHours, $totalOvertimeMinutes);
@@ -148,7 +147,7 @@ foreach ($timeOffData as $row) {
     $plannedDuration->format('%H:%I');
 }
 
-// Convert total sick time to hours and minutes format
+
 
 $plannedDurationFormatted = $plannedDuration->format('%H:%I');
 ?>
@@ -204,7 +203,7 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
             <?php if ($timeOff == 'yes'): ?>
             <?php foreach ($timeOffData as $row): ?>
                 <?php
-        // Get the user details based on user_id
+       
         $user = $userHandler->getUserById($row['user_id']);
         ?>
         <td><?php echo isset($user['first_name']) ? $user['first_name'] : 'Unknown'; ?> <?php echo isset($user['last_name']) ? $user['last_name'] : ''; ?></td>
@@ -212,7 +211,7 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
             <?php
             echo $row['reason'];
             if ($row['reason'] === 'Other') {
-                // Display additional notes if the reason is 'other'
+               
                 echo "<br>Additional Notes: " . $row['additional_notes'];
             }
             ?>
@@ -221,21 +220,21 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
         <td><?php echo $row['end_date']; ?></td>
       
         <?php
-        // Check if the user has a scheduled work date on the days they took time off
+       
         $workSchedule = $workHoursHandler->getWorkScheduleForUserAndDate($row['user_id'], $row['start_date']);
         if ($workSchedule) {
-            // Display the start and end time of the user's work schedule
+           
             ?>
             <td><?php echo $workSchedule['start_time']; ?></td>
             <td><?php echo $workSchedule['end_time']; ?></td>
         <?php 
         } else {
-            // No scheduled work date found, display empty cells
+           
             ?>
         <?php } ?>
         <td>
         <?php
-        // Calculate the planned time for the shift
+     
         $plannedStartTime = new DateTime($workSchedule['start_time']);
         $plannedEndTime = new DateTime($workSchedule['end_time']);
         $plannedDuration = $plannedEndTime->diff($plannedStartTime);
@@ -267,7 +266,7 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
                 <td>
                     <?php
                     $taskType = $taskTypeHandler->getTaskTypeNameById($row['task_type_id']);
-                    echo $taskType ? $taskType['task_type_name'] : 'Unknown'; // Assuming 'task_type_name' is the column for the task type name
+                    echo $taskType ? $taskType['task_type_name'] : 'Unknown'; 
                     ?>
                 </td>
                 <?php endif; ?>
@@ -278,17 +277,17 @@ $plannedDurationFormatted = $plannedDuration->format('%H:%I');
                     $startTime = new DateTime($row['start_time']);
                     $endTime = new DateTime($row['end_time']);
 
-                    // Calculate the difference in seconds
+                   
                     $secondsDiff = $endTime->getTimestamp() - $startTime->getTimestamp();
 
-                    // Round up minutes based on seconds
+                   
                     $minutes = ceil($secondsDiff / 60);
 
-                    // Format hours and minutes
+                
                     $hours = floor($minutes / 60);
                     $minutes %= 60;
 
-                    // Format the worked hours
+             
                     $workedHours = sprintf("%02d:%02d", $hours, $minutes);
                     echo $workedHours;
                 ?>

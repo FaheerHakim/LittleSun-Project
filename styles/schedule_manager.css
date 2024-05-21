@@ -1,5 +1,5 @@
 
-/* Body Styles */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -36,7 +36,7 @@ a {
     text-decoration: none;
 }
 
-/* View Navigation */
+
 .view-navigation {
     margin-bottom: 20px;
     justify-content: center;
@@ -57,7 +57,6 @@ a {
     background-color: #a7a7a7;
 }
 
-/* Navigation Styles */
 .navigation {
     display: flex;
     justify-content: space-between;
@@ -78,7 +77,7 @@ a {
     background-color: #ff8d40;
 }
 
-/* Day Styles */
+
 .day {
     border: 1px solid #ddd;
     background-color: white;
@@ -96,7 +95,7 @@ a {
     align-content: center;
 }
 
-/* Event Styles */
+
 .event {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -108,13 +107,12 @@ a {
     font-weight: bold;
 }
 
-/* Time Off Styles */
 .event.time-off {
     background-color: #ffc107;
     border-color: #ffc107;
 }
 
-/* Calendar Styles */
+
 .calendar, .week {
     display: grid;
 }

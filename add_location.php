@@ -8,15 +8,15 @@ include 'logged_in.php';
 
 include 'permission_admin.php';
 
-// Add location
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !empty($_POST['new_location'])) {
-    // Validate input
+
     $locationName = $_POST['new_location'];
     
-    // Database connection
+  
     $locationHandler = new Location();
     
-    // Add location
+
     $locationHandler->addLocation($locationName);
     $_SESSION['message'] = "Location added successfully.";
     $_SESSION['message_type'] = "success";
@@ -24,30 +24,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_location']) && !em
     exit();
 }
 
-// Delete location
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_location'])) {
     $locationId = $_POST['delete_location'];
     
-    // Database connection
+   
     $locationHandler = new Location();
     
-    // Delete location
+    
     $locationHandler->deleteLocation($locationId);
 }
-// Update location
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_location'])) {
     $locationId = $_POST['location_id'];
     $locationName = $_POST['location_name'];
     
-    // Database connection
+ 
     $locationHandler = new Location();
     
-    // Update location
+
     $locationHandler->updateLocation($locationId, $locationName);
   
     exit();
 }
-// Get existing locations
+
 $locationHandler = new Location();
 $existingLocations = $locationHandler->getExistingLocations();
 ?>
