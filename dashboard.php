@@ -36,7 +36,7 @@ $user = $_SESSION['user'];
      <?php if($user['type_user'] != 'admin' && $user['type_user'] != 'employee'): ?>
         <p>moet nog gewijzigd worden</p>
         <div onclick="location.href='total_hours_worked_manager.php';" class="info-square">Total hours worked</div>
-        <div onclick="location.href='assign_task_types.php';" class="info-square">Assign task types</div>
+        <div onclick="location.href='assign_task.php';" class="info-square">Assign task types</div>
         <div onclick="location.href='manage_time_off.php';" class="info-square">Manage time off</div>
 
     <?php endif; ?>
