@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles/edit_manager_detail.css">
-    <script src="script/edit_manager.js" defer></script>
+    <script src="script/edit_employee.js" defer></script>
     <title>View profile</title>
 </head>
 <body>
@@ -80,11 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
             </div>
         </div>
     </form>
-    <form id="delete_location_<?php echo $user_id; ?>" action="confirm_delete_manager.php" method="post" style="display: none;">
+    <form id="delete_employee_<?php echo $user_id; ?>" action="confirm_delete_employee.php" method="post" style="display: none;">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
     </form>
 
-    <a href="edit_manager.php" class="go-back-button" type="button">Go Back</a>
+    <a href="all_employees.php" class="go-back-button" type="button">Go Back</a>
 </div>
 
 </body>
