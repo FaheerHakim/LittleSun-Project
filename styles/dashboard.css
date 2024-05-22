@@ -110,3 +110,33 @@ body {
 h2{
     margin: 10px;
 }
+#todays-schedule, #employee-todays-schedule {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+.schedule-entry {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+.schedule-entry:last-child {
+    border-bottom: none;
+}
+.schedule-entry strong {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+p {
+    color: #555;
+}
+
+.taskbox {
+      margin: 10px;
+padding: 5px;
+background-color: #e0f7fa;
+border-left: 4px solid #00796b;
+}
