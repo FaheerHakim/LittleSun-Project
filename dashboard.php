@@ -74,7 +74,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
                         <strong><?php echo htmlspecialchars($userName); ?></strong><br>
                         <?php echo htmlspecialchars($taskType); ?><br>
                         <?php echo htmlspecialchars($location); ?><br>
-                        <?php echo htmlspecialchars($schedule['start_time'] ?? 'Unknown start time'); ?> - <?php echo htmlspecialchars($schedule['end_time'] ?? 'Unknown end time'); ?>
+                        <?php echo htmlspecialchars(date("H:i", strtotime($schedule['start_time'] ?? 'Unknown start time'))); ?> - <?php echo htmlspecialchars(date("H:i", strtotime($schedule['end_time'] ?? 'Unknown end time'))); ?>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -82,7 +82,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
             <?php endif; ?>
 
             <?php if (!empty($timeOffEvents)): ?>
-                <h2>Today's Time Off</h2>
+                <p>Time Off</p>
                 <?php foreach ($timeOffEvents as $timeOffEvent): ?>
                     <?php
                         $userName = $userHandler->getUserNameById($timeOffEvent['user_id']) ?? 'Unknown user';
@@ -110,9 +110,9 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
         <div onclick="location.href='clock_in_out.php';" class="info-square">Clock in & out</div>
         <div onclick="location.href='request_time_off.php';" class="info-square">Request time off</div>
         <div onclick="location.href='schedule_employee.php';" class="info-square">Work schedule</div>
-        <h2>Today's work schedule</h2>
         <p><?php echo date("l, F j, Y"); ?></p>
         <div id="employee-todays-schedule">
+        <h2>Today's work schedule</h2> 
             
         <?php if (!empty($employeeTodaysSchedule)): ?>
             <div class="schedule-entry">
@@ -122,7 +122,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
                 ?>
                 <?php echo htmlspecialchars($taskType['task_type_name']); ?><br>
                 <?php echo htmlspecialchars($location['city']); ?><br>
-                <?php echo htmlspecialchars($employeeTodaysSchedule['start_time']); ?> - <?php echo htmlspecialchars($employeeTodaysSchedule['end_time']); ?>
+                <?php echo htmlspecialchars(date("H:i", strtotime($employeeTodaysSchedule['start_time']))); ?> - <?php echo htmlspecialchars(date("H:i", strtotime($employeeTodaysSchedule['end_time']))); ?>
             </div>
         <?php else: ?>
             <p>No work scheduled for today.</p>
@@ -130,7 +130,7 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
         </div>
 
         <?php if (!empty($timeOffEvents)): ?>
-            <h2>Today's Time Off</h2>
+            <p>Time Off</p>
             <?php foreach ($timeOffEvents as $timeOffEvent): ?>
                 <?php
                     $userName = $userHandler->getUserNameById($timeOffEvent['user_id']) ?? 'Unknown user';
