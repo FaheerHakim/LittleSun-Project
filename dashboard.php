@@ -120,9 +120,11 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
                     $taskType = $taskTypeHandler->getTaskTypeNameById($employeeTodaysSchedule['task_type_id']) ?? ['task_type_name' => 'Unknown task type'];
                     $location = $locationHandler->getLocationNameById($employeeTodaysSchedule['location_id']) ?? ['city' => 'Unknown location'];
                 ?>
+                <div class="taskbox"> 
                 <?php echo htmlspecialchars($taskType['task_type_name']); ?><br>
                 <?php echo htmlspecialchars($location['city']); ?><br>
                 <?php echo htmlspecialchars(date("H:i", strtotime($employeeTodaysSchedule['start_time']))); ?> - <?php echo htmlspecialchars(date("H:i", strtotime($employeeTodaysSchedule['end_time']))); ?>
+                </div>
             </div>
         <?php else: ?>
             <p>No work scheduled for today.</p>
@@ -139,12 +141,14 @@ $employeeTodaysSchedule = $scheduleHandler->getWorkScheduleForUserAndDate($userI
                 <div class="schedule-entry time-off">
                     <strong><?php echo htmlspecialchars($userName); ?></strong><br>
                     Time Off: <?php echo htmlspecialchars($reason); ?><br>
+                    <div class="taskbox"> 
                     <?php if (isset($timeOffEvent['task_type'])): ?>
                         <?php echo htmlspecialchars($timeOffEvent['task_type']); ?><br>
                         <?php echo htmlspecialchars($timeOffEvent['location']['city']); ?><br>
                         <?php echo htmlspecialchars($timeOffEvent['start_time'] ?? 'N/A'); ?>
                         -
                         <?php echo htmlspecialchars($timeOffEvent['end_time'] ?? 'N/A'); ?>
+                        </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
